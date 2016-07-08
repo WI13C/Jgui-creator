@@ -52,3 +52,7 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# OS X
+**/.DS_Store
+

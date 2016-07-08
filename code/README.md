@@ -32,6 +32,11 @@ TODO
 ##In Eclipse importieren
 Eclipse -> Import -> Existing Maven Projects -> Code Ordner auswählen und alle pom.xml auswählen.
 
+##Maven in der Kommandozeile
+[Laden](https://maven.apache.org/download.cgi)
+[Installieren](https://maven.apache.org/install.html)
+[Nutzen](https://maven.apache.org/run.html)
+
 ##Projekt bauen
 `mvn clean install' im code Ordner ausführen.
 Die fertige Jar Datei befindet sich dann unter framework/target/

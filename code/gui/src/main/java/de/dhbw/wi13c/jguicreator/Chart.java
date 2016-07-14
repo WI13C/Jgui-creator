@@ -1,15 +1,28 @@
 package de.dhbw.wi13c.jguicreator;
 
+import javax.swing.border.TitledBorder;
+
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
 public abstract class Chart extends GUIKomponente
 {
+	private String description;
 
-	protected Chart()
+	public String getDescription()
 	{
-	
+		return description;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
+		this.setBorder(new TitledBorder(description + ": "));
+	}
+
+	protected Chart(String description)
+	{	
 		super();
-		// TODO Auto-generated constructor stub
+		this.setDescription(description);
 	}
 
 }

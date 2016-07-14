@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public abstract class GUIKomponente extends JPanel
 {
-	GUIKomponente()
+	protected GUIKomponente()
 	{
 		setPreferredSize(new Dimension(200, 200));
 		setOpaque(true);

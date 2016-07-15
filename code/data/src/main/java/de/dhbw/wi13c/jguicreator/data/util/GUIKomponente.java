@@ -7,11 +7,16 @@ import javax.swing.JPanel;
 
 public abstract class GUIKomponente extends JPanel
 {
-	GUIKomponente()
+	protected GUIKomponente()
 	{
-		setPreferredSize(new Dimension(200, 200));
-		setOpaque(true);
-		setBackground(Color.RED);
-		setVisible(true);
+		this(350, 40);
+	}
+
+	protected GUIKomponente(int pWidth, int pHeigth)
+	{
+		this.setPreferredSize(new Dimension(pWidth, pHeigth));
+		this.setBackground(Color.WHITE);
+		this.setOpaque(true);
+		this.setVisible(true);
 	}
 }

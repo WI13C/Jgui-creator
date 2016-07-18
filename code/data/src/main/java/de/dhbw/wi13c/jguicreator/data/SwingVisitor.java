@@ -1,6 +1,5 @@
 package de.dhbw.wi13c.jguicreator.data;
 
-import javafx.scene.control.TextField;
 
 public class SwingVisitor extends GuiVisitor
 {
@@ -15,6 +14,27 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(DomainObject dependentObject)
 	{
 		System.out.println("Abhängiges Object");
+	}
+
+	@Override
+	public void visit(Datepicker datepicker)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(ComboBox comboBox)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Chart chart)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

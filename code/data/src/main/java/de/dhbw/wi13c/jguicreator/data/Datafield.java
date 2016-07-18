@@ -27,6 +27,61 @@ public class Datafield<T>
 	 */
 	private T value;
 	
+	public Field getField()
+	{
+		return field;
+	}
+
+	public void setField(Field field)
+	{
+		this.field = field;
+	}
+
+	public Object getInstance()
+	{
+		return instance;
+	}
+
+	public void setInstance(Object instance)
+	{
+		this.instance = instance;
+	}
+
+	public boolean isReadOnly()
+	{
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly)
+	{
+		this.readOnly = readOnly;
+	}
+
+	public T getValue()
+	{
+		return value;
+	}
+
+	public void setValue(T value)
+	{
+		this.value = value;
+	}
+
+	public DatafieldType getType()
+	{
+		return type;
+	}
+
+	public void setType(DatafieldType type)
+	{
+		this.type = type;
+	}
+
+	public Set<Validator> getValidators()
+	{
+		return validators;
+	}
+
 	/**
 	 * Type indicating which Gui Component will be used
 	 */

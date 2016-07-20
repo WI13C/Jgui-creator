@@ -2,8 +2,8 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -38,7 +38,7 @@ public class TextFieldMitLabel extends GUIKomponente
 	{
 		super();
 		settings = pSettings;
-		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
+		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), 40);
 		setPanelSize(size);
 
@@ -50,6 +50,7 @@ public class TextFieldMitLabel extends GUIKomponente
 		checkLabelValue();
 		label = new JLabel(labelValue);
 		label.setFont(font);
+		label.setBorder(BorderFactory.createEmptyBorder(3, 15, 5, 10));
 		this.add(label, BorderLayout.WEST);
 		field = new JTextField(50);
 		field.setFont(font);

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 public class PieChart extends Chart
 {
+	
 	public PieChart(String description){
 		super(description);
 	}

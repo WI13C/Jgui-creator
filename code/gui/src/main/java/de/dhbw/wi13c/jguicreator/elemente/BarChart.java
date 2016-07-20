@@ -8,6 +8,7 @@ import javax.swing.border.TitledBorder;
 
 public class BarChart extends Chart
 {
+	
 	private Map<String, ? extends Number> values;
 
 	private double maxValue;

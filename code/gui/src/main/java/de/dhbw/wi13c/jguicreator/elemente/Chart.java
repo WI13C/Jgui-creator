@@ -8,6 +8,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
 public abstract class Chart extends GUIKomponente
 {
+	
 	private String description;
 
 	protected Chart(String description)

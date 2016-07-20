@@ -4,7 +4,7 @@ import de.dhbw.wi13c.jguicreator.data.Form;
 
 public interface Parser
 {
-	
+
 	/**
 	 * This method will parse the given Object to the own Datatype defined in the data module.
 	 * 
@@ -30,5 +30,19 @@ public interface Parser
 	 * @return {@link Form}
 	 */
 	public Form parseObject(Object object);
+
+	public static Parser getDefaultParser()
+	{
+		return new Parser()
+		{
+			
+			@Override
+			public Form parseObject(Object object)
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+	}
 
 }

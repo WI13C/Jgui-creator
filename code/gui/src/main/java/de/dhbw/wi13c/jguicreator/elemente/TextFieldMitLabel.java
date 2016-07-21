@@ -39,7 +39,7 @@ public class TextFieldMitLabel extends GUIKomponente
 		super();
 		settings = pSettings;
 		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), 40);
+		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
 		initFont(15);
@@ -50,7 +50,7 @@ public class TextFieldMitLabel extends GUIKomponente
 		checkLabelValue();
 		label = new JLabel(labelValue);
 		label.setFont(font);
-		label.setBorder(BorderFactory.createEmptyBorder(3, 15, 5, 10));
+		label.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		this.add(label, BorderLayout.WEST);
 		field = new JTextField(50);
 		field.setFont(font);

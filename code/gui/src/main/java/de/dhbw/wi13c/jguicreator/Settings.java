@@ -3,8 +3,6 @@ package de.dhbw.wi13c.jguicreator;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.control.SelectionMode;
-
 public class Settings
 {
 	private static final int DEFAULTWINDOWHEIGHT = 500;

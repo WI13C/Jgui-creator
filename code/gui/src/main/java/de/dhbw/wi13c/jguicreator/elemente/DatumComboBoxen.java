@@ -33,9 +33,9 @@ public class DatumComboBoxen extends GUIKomponente
 
 	private Settings settings;
 
-	private String days[] = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+	private String[] days = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
-	private String months[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+	private String[] months = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
 
 	private String years[];
 
@@ -59,7 +59,7 @@ public class DatumComboBoxen extends GUIKomponente
 
 		settings = pSettings;
 		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), 40);
+		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
 		initFont(15);
@@ -69,12 +69,12 @@ public class DatumComboBoxen extends GUIKomponente
 		checkLabelValue();
 		label = new JLabel(labelValue);
 		label.setFont(font);
-		label.setBorder(BorderFactory.createEmptyBorder(3, 15, 5, 10));
+		label.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		this.add(label, BorderLayout.WEST);
 
-		comboDayField = new JComboBox<String>(days);
-		comboMonthField = new JComboBox<String>(months);
-		comboYearField = new JComboBox<String>(years);
+		comboDayField = new JComboBox<>(days);
+		comboMonthField = new JComboBox<>(months);
+		comboYearField = new JComboBox<>(years);
 
 		comboDayField.setFont(font);
 		comboMonthField.setFont(font);
@@ -88,9 +88,9 @@ public class DatumComboBoxen extends GUIKomponente
 		comboMonthField.setSelectedItem(comboMonthValue);
 		comboYearField.setSelectedItem(comboYearValue);
 
-		comboDayField.setBorder(BorderFactory.createEmptyBorder(3, 15, 5, 15));
-		comboMonthField.setBorder(BorderFactory.createEmptyBorder(3, 15, 5, 15));
-		comboYearField.setBorder(BorderFactory.createEmptyBorder(3, 15, 5, 15));
+		comboDayField.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.01)));
+		comboMonthField.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.01), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.01)));
+		comboYearField.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.01), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 
 		if(pFinal)
 		{
@@ -115,7 +115,7 @@ public class DatumComboBoxen extends GUIKomponente
 		int end = year * 2;
 		for(int i = end - 1; i >= 0; i--)
 		{
-			years[i] = i + "";
+			years[i] = Integer.toString(i);
 		}
 	}
 

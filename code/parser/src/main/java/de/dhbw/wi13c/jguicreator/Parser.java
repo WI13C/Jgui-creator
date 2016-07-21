@@ -1,5 +1,6 @@
 package de.dhbw.wi13c.jguicreator;
 
+import de.dhbw.wi13c.jguicreator.data.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.Form;
 
 public interface Parser
@@ -29,20 +30,11 @@ public interface Parser
 	 * @param object 
 	 * @return {@link Form}
 	 */
-	public Form parseObject(Object object);
+	public DomainObject parseObject(Object object);
 
 	public static Parser getDefaultParser()
 	{
-		return new Parser()
-		{
-			
-			@Override
-			public Form parseObject(Object object)
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
+		return new DomainObjectParser();
 	}
 
 }

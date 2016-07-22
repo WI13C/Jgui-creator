@@ -1,7 +1,7 @@
 package de.dhbw.wi13c.jguicreator.impl;
 
 import de.dhbw.wi13c.jguicreator.Parser;
-import de.dhbw.wi13c.jguicreator.data.DomainObject;
+import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 
 public class GuiCreatorImpl<T> implements GuiCreator<T> {

@@ -1,6 +1,9 @@
-package de.dhbw.wi13c.jguicreator.data;
+package de.dhbw.wi13c.jguicreator.data.uielements;
 
-public class DomainObject extends UiElement
+import de.dhbw.wi13c.jguicreator.data.Dataset;
+import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
+
+public class DomainObject extends UiElementData
 {
 	private Dataset dataset;
 

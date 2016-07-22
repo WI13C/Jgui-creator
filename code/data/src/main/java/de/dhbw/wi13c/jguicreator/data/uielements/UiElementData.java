@@ -1,6 +1,9 @@
-package de.dhbw.wi13c.jguicreator.data;
+package de.dhbw.wi13c.jguicreator.data.uielements;
 
-public abstract class UiElement
+import de.dhbw.wi13c.jguicreator.data.Datafield;
+import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
+
+public abstract class UiElementData
 {
 	private Datafield datafield;
 	

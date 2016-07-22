@@ -1,7 +1,7 @@
 package de.dhbw.wi13c.jguicreator;
 
-import de.dhbw.wi13c.jguicreator.data.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.Form;
+import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 
 public interface Parser
 {

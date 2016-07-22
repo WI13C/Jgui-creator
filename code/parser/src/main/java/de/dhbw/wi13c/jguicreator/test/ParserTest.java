@@ -1,4 +1,4 @@
-package de.dhbw.wi13c.jguicreator;
+package de.dhbw.wi13c.jguicreator.test;
 
 import static org.junit.Assert.*;
 

@@ -3,16 +3,18 @@ package de.dhbw.wi13c.jguicreator.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
+
 public class Dataset
 {
-	private List<UiElement> elements = new ArrayList<>();
+	private List<UiElementData> elements = new ArrayList<>();
 
-	public List<UiElement> getElements()
+	public List<UiElementData> getElements()
 	{
 		return elements;
 	}
 
-	public void setElements(List<UiElement> elements)
+	public void setElements(List<UiElementData> elements)
 	{
 		this.elements = elements;
 	}

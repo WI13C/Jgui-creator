@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
+import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
+
 public class Person {
 
 	@NotNull

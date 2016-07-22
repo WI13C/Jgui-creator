@@ -7,7 +7,12 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 
-
+/**
+ * Base class for classes which generate GUIs by using the 
+ * <a href='https://de.wikipedia.org/wiki/Besucher_(Entwurfsmuster)'>visitor pattern</a>
+ * @author Eric Schuh
+ *
+ */
 public abstract class GuiVisitor
 {
 	public abstract void visit(TextfieldData textfield);

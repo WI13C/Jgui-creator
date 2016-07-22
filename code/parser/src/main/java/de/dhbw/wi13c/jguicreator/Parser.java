@@ -28,7 +28,7 @@ public interface Parser
 	 * 
 	 * 
 	 * @param object 
-	 * @return {@link Form}
+	 * @return {@link DomainObject}
 	 */
 	public DomainObject parseObject(Object object);
 

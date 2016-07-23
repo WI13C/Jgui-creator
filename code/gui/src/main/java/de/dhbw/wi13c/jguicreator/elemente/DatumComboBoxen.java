@@ -3,6 +3,7 @@ package de.dhbw.wi13c.jguicreator.elemente;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -42,6 +43,11 @@ public class DatumComboBoxen extends GUIKomponente
 	public DatumComboBoxen()
 	{
 		this("", "1", "1", "2000", false, new Settings());
+	}
+
+	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, Settings pSettings)
+	{
+		this(pValueLabel, Integer.toString(pDate.get(Calendar.DAY_OF_MONTH)), Integer.toString(pDate.get(Calendar.MONTH) + 1), Integer.toString(pDate.get(Calendar.YEAR)), pFinal, pSettings);
 	}
 
 	public DatumComboBoxen(String pValueLabel, String pValueDay, String pValueMonth, String pValueYear)
@@ -197,5 +203,10 @@ public class DatumComboBoxen extends GUIKomponente
 	public String getYear()
 	{
 		return (String) comboYearField.getSelectedItem();
+	}
+
+	public Calendar getCalendarItem()
+	{
+		return new GregorianCalendar(Integer.parseInt((String) comboYearField.getSelectedItem()), Integer.parseInt((String) comboMonthField.getSelectedItem()), Integer.parseInt((String) comboDayField.getSelectedItem()));
 	}
 }

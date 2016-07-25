@@ -3,11 +3,9 @@ package de.dhbw.wi13c.jguicreator.elemente;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
 import javax.swing.Timer;
-import javax.swing.border.TitledBorder;
 
 public class BarChart extends Chart
 {
@@ -35,25 +33,9 @@ public class BarChart extends Chart
 	}
 	
 	private int i;
-	private boolean animating;
 	private Timer timer;
 	
-	public void animate(){
-		//this.animating = true;
-		/*
-		for (this.i = 1; this.i <= 100; this.i++){
-			this.repaint();			
-			try
-			{
-				Thread.sleep(25);
-			}
-			catch(InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		*/
-		
+	public void animate(){		
 		int delay = 25; //milliseconds
 		ActionListener taskPerformer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -66,10 +48,7 @@ public class BarChart extends Chart
 			}
 		};
 		timer = new Timer(delay, taskPerformer);
-		timer.start();
-		
-
-		//this.animating = false;
+		timer.start();		
 	}
 
 //	@Override // Animation 1
@@ -120,37 +99,38 @@ public class BarChart extends Chart
 	@Override // Animation 2
 	public void drawStep(Graphics g)
 	{
+		// TODO check which double is needed
+		
 		//Axis
-		int length = this.getWidth() / 3 * 2;
+		double length = this.getWidth() / 3 * 2;
 		// height of the y axis
-		int depth = this.getHeight() / 3 * 2;
-		int chartleftx = (this.getWidth() - length) / 2;
-		int charttopy = (this.getHeight() - depth) / 2;
+		double depth = this.getHeight() / 3 * 2;
+		double chartleftx = (this.getWidth() - length) / 2;
+		double charttopy = (this.getHeight() - depth) / 2;
 		
 		// draw the axis
-		g.drawLine(chartleftx, charttopy + depth, chartleftx + length, charttopy + depth);
-		g.drawLine(chartleftx, charttopy, chartleftx, charttopy + depth);
+		g.drawLine((int)chartleftx,(int) (charttopy + depth), (int)(chartleftx + length),(int) (charttopy + depth));
+		g.drawLine((int)chartleftx, (int)charttopy, (int)chartleftx, (int)(charttopy + depth));
 
-		drawYAxisSteps(g, chartleftx, charttopy, depth);
+		drawYAxisSteps(g, (int)chartleftx, (int)charttopy, (int)depth);
 		
 		// BarTiles
-		int barspace = (length / this.values.size());
+		double barspace = (length / this.values.size());
 		// x value of the left side of a bar
-		int currentposition = chartleftx + barspace / 4;
-		int barwidth = barspace / 4 * 3;
+		double currentposition = chartleftx + barspace / 4;
+		double barwidth = barspace / 4 * 3;
 		double stepHeight = ((double)depth)/100;
 		
 		for(String key : this.values.keySet())
 		{
 			Number value = this.values.get(key);
 			// Maximal height of the current bar
-			int currentmaxheight = (int) (depth * value.doubleValue() / this.maxValue);
+			double currentmaxheight = (depth * value.doubleValue() / this.maxValue);
 			
 			
-			int drawHeight = (int)stepHeight * this.i > currentmaxheight ? currentmaxheight : (int)stepHeight * this.i;
-			int bartopY = charttopy + depth - drawHeight;
-			
-			g.fillRect(currentposition, bartopY, barwidth, drawHeight);
+			double drawHeight = stepHeight * this.i > currentmaxheight ? currentmaxheight : stepHeight * this.i;
+			double bartopY = charttopy + depth - Math.floor(drawHeight);
+			g.fillRect((int)currentposition, (int)bartopY, (int)barwidth, (int)drawHeight);
 			currentposition += barspace;
 		}
 	}

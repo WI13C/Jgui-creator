@@ -1,11 +1,11 @@
 package de.dhbw.wi13c.jguicreator.data.uielements;
 
-import de.dhbw.wi13c.jguicreator.data.Dataset;
+import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 public class DomainObject extends UiElementData
 {
-	private Dataset dataset;
+	private UiElementContainer dataset;
 
 	@Override
 	public void accept(GuiVisitor visitor)
@@ -13,12 +13,12 @@ public class DomainObject extends UiElementData
 		visitor.visit(this);
 	}
 
-	public Dataset getDataset()
+	public UiElementContainer getUiElementContainer()
 	{
 		return dataset;
 	}
 
-	public void setDataset(Dataset dataset)
+	public void setUiElementContainer(UiElementContainer dataset)
 	{
 		this.dataset = dataset;
 	}

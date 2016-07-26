@@ -1,17 +1,18 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.Graphics;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.border.TitledBorder;
 
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
-public abstract class Chart extends GUIKomponente
+public abstract class ChartPanel extends GUIKomponente implements MouseMotionListener
 {
 	
 	private String description;
 
-	protected Chart(String description)
+	protected ChartPanel(String description)
 	{	
 		super();
 		this.setDescription(description);

@@ -21,15 +21,12 @@ public class EnumComboBoxen extends GUIKomponente
 
 	private JLabel label;
 
-	private Settings settings;
-
 	public EnumComboBoxen(String pValueLabel, List pListEnum, boolean pFinal, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
 
-		settings = pSettings;
-		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
+		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
@@ -56,7 +53,7 @@ public class EnumComboBoxen extends GUIKomponente
 
 	private void checkLabelValue()
 	{
-		if(labelValue != null && !labelValue.equals(""))
+		if(labelValue != null && !"".equals(labelValue))
 		{
 			labelValue += ": ";
 		}

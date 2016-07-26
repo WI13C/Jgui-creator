@@ -16,8 +16,6 @@ public class SingleButton extends GUIKomponente
 {
 	private JButton btn;
 
-	private Settings settings;
-
 	public SingleButton(ActionListener pActionListener)
 	{
 		this("Klicken", pActionListener, new Settings());
@@ -26,8 +24,7 @@ public class SingleButton extends GUIKomponente
 	public SingleButton(String pButtonText, ActionListener pActionListener, Settings pSettings)
 	{
 		super();
-		settings = pSettings;
-		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
+		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 

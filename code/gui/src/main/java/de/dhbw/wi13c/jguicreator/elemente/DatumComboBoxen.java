@@ -32,13 +32,11 @@ public class DatumComboBoxen extends GUIKomponente
 
 	private JLabel label;
 
-	private Settings settings;
-
 	private String[] days = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
 	private String[] months = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
 
-	private String years[];
+	private String[] years;
 
 	public DatumComboBoxen()
 	{
@@ -63,8 +61,7 @@ public class DatumComboBoxen extends GUIKomponente
 		this.comboMonthValue = pValueMonth;
 		this.comboYearValue = pValueYear;
 
-		settings = pSettings;
-		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
+		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
@@ -127,7 +124,7 @@ public class DatumComboBoxen extends GUIKomponente
 
 	private void checkLabelValue()
 	{
-		if(labelValue != null && !labelValue.equals(""))
+		if(labelValue != null && !"".equals(labelValue))
 		{
 			labelValue += ": ";
 		}

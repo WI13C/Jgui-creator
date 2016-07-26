@@ -64,7 +64,7 @@ public class TextFieldMitLabel extends GUIKomponente
 
 	private void checkLabelValue()
 	{
-		if(labelValue != null && !labelValue.equals(""))
+		if(labelValue != null && !"".equals(labelValue))
 		{
 			labelValue += ": ";
 		}

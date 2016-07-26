@@ -18,13 +18,10 @@ public class DoubleButtons extends GUIKomponente
 
 	private JButton btnAbort;
 
-	private Settings settings;
-
 	public DoubleButtons(ActionListener pActionListener, Settings pSettings)
 	{
 		super();
-		settings = pSettings;
-		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
+		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 

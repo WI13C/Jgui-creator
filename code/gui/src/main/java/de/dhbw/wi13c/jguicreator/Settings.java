@@ -1,7 +1,6 @@
 package de.dhbw.wi13c.jguicreator;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 public class Settings
 {
@@ -9,30 +8,30 @@ public class Settings
 
 	private static final int DEFAULTWINDOWWIDTH = 700;
 
-	private Map<Setting, String> settings = new HashMap<>();
+	private EnumMap<Setting, String> mapSettings = new EnumMap<>(Setting.class);
 
 	public Settings()
 	{
-		settings.put(Setting.WINDOWHEIGHT, DEFAULTWINDOWHEIGHT + "");
-		settings.put(Setting.WINDOWWIDTH, DEFAULTWINDOWWIDTH + "");
+		mapSettings.put(Setting.WINDOWHEIGHT, Integer.toString(DEFAULTWINDOWHEIGHT));
+		mapSettings.put(Setting.WINDOWWIDTH, Integer.toString(DEFAULTWINDOWWIDTH));
 
 	}
 
 	public String getSetting(Setting pSetting)
 	{
-		if(!settings.containsKey(pSetting))
+		if(!mapSettings.containsKey(pSetting))
 		{
 			return "";
 		}
 		else
 		{
-			return settings.get(pSetting);
+			return mapSettings.get(pSetting);
 		}
 	}
 
 	public void setSetting(Setting pSetting, String pValue)
 	{
-		settings.put(pSetting, pValue);
+		mapSettings.put(pSetting, pValue);
 	}
 
 	public enum Setting

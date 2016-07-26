@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.dhbw.wi13c.jguicreator.data.validator.Validator;
+
 public class Datafield<T>
 {
 	

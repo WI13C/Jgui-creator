@@ -1,4 +1,4 @@
-package de.dhbw.wi13c.jguicreator.data;
+package de.dhbw.wi13c.jguicreator.data.validator;
 
 public abstract class Validator<T>
 {

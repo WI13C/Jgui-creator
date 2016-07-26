@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import de.dhbw.wi13c.jguicreator.data.Form;
+import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.listener.GuiListener;
 
 /**
@@ -22,16 +22,13 @@ import de.dhbw.wi13c.jguicreator.listener.GuiListener;
  */
 public abstract class Gui
 {
-	/**
-	 * The Form object
-	 */
-	protected final Form form;
+
 	
 	private final Collection<GuiListener> listeners = new ArrayList<>();
 
-	public Gui(Form form, GuiListener... guiListeners)
+	// TODO Was wird anstelel von Form uebergeben?
+	public Gui(DomainObject form, GuiListener... guiListeners)
 	{
-		this.form = form;
 		this.listeners.addAll(Arrays.asList(guiListeners));
 		
 	}
@@ -46,7 +43,7 @@ public abstract class Gui
 	 */
 	protected void onSave()
 	{
-		this.listeners.stream().forEach((l) -> l.guiSaved(this.form));
+//		this.listeners.stream().forEach((l) -> l.guiSaved(this.form));
 	}
 	
 	/**
@@ -54,6 +51,6 @@ public abstract class Gui
 	 */
 	protected void onCancel()
 	{
-		this.listeners.stream().forEach((l)->l.guiCanceled(this.form) );
+//		this.listeners.stream().forEach((l)->l.guiCanceled(this.form) );
 	}
 }

@@ -1,33 +1,16 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
+import java.util.Map;
 
 public class PieChartPanel extends ChartPanel
 {
-	
-	public PieChartPanel(String description){
-		super(description);
+	public PieChartPanel(String description, Map<String, ? extends Number> keyValues){
+		super(description, keyValues);
 	}
 
 	@Override
 	public void drawStep(Graphics g)
 	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent arg0)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent arg0)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 }

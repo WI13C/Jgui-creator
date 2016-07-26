@@ -5,7 +5,13 @@ import java.util.List;
 
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 
-public class Dataset
+/**
+ * Used to be called Dataset.
+ * Doesn't add any functionality compared to a conventional list for now.
+ * @author Eric Schuh
+ *
+ */
+public class UiElementContainer
 {
 	private List<UiElementData> elements = new ArrayList<>();
 

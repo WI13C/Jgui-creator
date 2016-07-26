@@ -2,22 +2,22 @@ package de.dhbw.wi13c.jguicreator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.security.Signature;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.data.Datafield;
-import de.dhbw.wi13c.jguicreator.data.Dataset;
+import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
+import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.test.Adresse;
-import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.test.Kontakt;
 import de.dhbw.wi13c.jguicreator.test.Person;
 
@@ -25,7 +25,8 @@ public class DomainObjectParser implements Parser
 {
 
 	/**
-	 * @return simple mock data for now
+	 * @return incomplete {@link DomainObject} for now
+	 * call to getMockData() can be uncommented to make the parser return mock data 
 	 * @author Eric
 	 */
 	@Override
@@ -33,8 +34,10 @@ public class DomainObjectParser implements Parser
 	{
 		DomainObject rootObject = new DomainObject();
 
-		parseFields(object.getClass().getDeclaredFields(), object); // doesn't
-																	// return
+		parseFields(object.getClass().getDeclaredFields(), object); // TODO
+																	// getDeclaredFields()
+																	// doesn't
+																	// consider
 																	// inherited
 																	// fields
 
@@ -81,10 +84,17 @@ public class DomainObjectParser implements Parser
 								isAnnotation = true;
 							}
 						}
-
-						if (isDomainObject(field, isAnnotation))
+						
+						if(isDataset(field/*, isAnnotation*/))
 						{
-							createDomainObject(field, object);
+							createDataset(field, object);
+						}
+						else
+						{
+							if (isDomainObject(field))
+							{
+								createDomainObject(field, object);
+							}
 						}
 					}
 				}
@@ -92,19 +102,33 @@ public class DomainObjectParser implements Parser
 		}
 	}
 
+	private void createDataset(Field field, Object object)
+	{
+		System.out.println("dataset: " + field.getName() + " " + " class: "
+				+ object.getClass().getSimpleName());
+		
+		//TODO Elemente der collection parsen. Für diese muss wiederum geprüft werden, ob es sich um textfelder, domainobjects etc. handelt
+	}
+
+	private boolean isDataset(Field field/*, boolean isAnnotation*/)
+	{
+		boolean isList = Collection.class.isAssignableFrom(field.getType());
+		return /*!isAnnotation &&*/ isList;
+	}
+
 	/*
 	 * TODO If no previous condition matched and the name of the field type does
-	 * not start with java.lang, the field type is assumed to be a complex
+	 * not start with java, sun or [B, the field type is assumed to be a complex
 	 * domain object. This may not be a correct assumption in every case.
 	 */
-	private boolean isDomainObject(Field field, boolean isCustomAnnotation)
+	private boolean isDomainObject(Field field)
 	{
 		// System.out.println("------- " +field.getType().getName());
 		boolean isJavaStandard = field.getType().getName().startsWith("java")
 				|| field.getType().getName().startsWith("sun")
 				|| field.getType().getName().startsWith("[B");
 		boolean isPrimitive = field.getType().isPrimitive();
-		return !isCustomAnnotation && !isJavaStandard && !isPrimitive;
+		return !isJavaStandard && !isPrimitive;
 	}
 
 	private void createDomainObject(Field field, Object object)
@@ -156,17 +180,20 @@ public class DomainObjectParser implements Parser
 
 	private void createStringTextfield(Field field, Object object)
 	{
-		System.out.println("stringtextfield: " + field.getName() +" class: "+object.getClass().getSimpleName());
+		System.out.println("stringtextfield: " + field.getName() + " class: "
+				+ object.getClass().getSimpleName());
 	}
 
 	private void createNumberTextfield(Field field, Object object)
 	{
-		System.out.println("numbertextfield: " + field.getName() +" class: "+object.getClass().getSimpleName());
+		System.out.println("numbertextfield: " + field.getName() + " class: "
+				+ object.getClass().getSimpleName());
 	}
 
 	private void createDatePickerData(Field field, Object object)
 	{
-		System.out.println("datepicker : " + field.getName() +" class: "+object.getClass().getSimpleName());
+		System.out.println("datepicker : " + field.getName() + " class: "
+				+ object.getClass().getSimpleName());
 	}
 
 	private boolean isDate(Field field)
@@ -180,12 +207,14 @@ public class DomainObjectParser implements Parser
 
 	private void createBarChartData(Field field, Object object)
 	{
-		System.out.println("barchart: " + field.getName()  +" class: "+object.getClass().getSimpleName());
+		System.out.println("barchart: " + field.getName() + " class: "
+				+ object.getClass().getSimpleName());
 	}
 
 	private void createPieChartData(Field field, Object object)
 	{
-		System.out.println("piechart: " + field.getName() +" class: "+object.getClass().getSimpleName());
+		System.out.println("piechart: " + field.getName() + " class: "
+				+ object.getClass().getSimpleName());
 	}
 
 	private DomainObject getMockData(Object object)
@@ -212,7 +241,7 @@ public class DomainObjectParser implements Parser
 		Datafield<Person> datafield = new Datafield<>();
 		datafield.setInstance(person);
 		rootObject.setDatafield(datafield);
-		Dataset rootDataset = new Dataset();
+		UiElementContainer rootDataset = new UiElementContainer();
 
 		try
 		{
@@ -242,8 +271,8 @@ public class DomainObjectParser implements Parser
 			DomainObject kontaktPrivatDependentObject = new DomainObject();
 			rootDataset.getElements().add(kontaktPrivatDependentObject);
 
-			Dataset kontaktDataset = new Dataset();
-			kontaktPrivatDependentObject.setDataset(kontaktDataset);
+			UiElementContainer kontaktDataset = new UiElementContainer();
+			kontaktPrivatDependentObject.setUiElementContainer(kontaktDataset);
 
 			TextfieldData typTextfield = new TextfieldData();
 			Datafield<String> typDatafield = new Datafield<>();
@@ -266,8 +295,8 @@ public class DomainObjectParser implements Parser
 			emailTextfield.setName("Email");
 			kontaktDataset.getElements().add(emailTextfield);
 
-			Dataset dependentDataset = new Dataset();
-			adresseDependentObject.setDataset(dependentDataset);
+			UiElementContainer dependentDataset = new UiElementContainer();
+			adresseDependentObject.setUiElementContainer(dependentDataset);
 
 			TextfieldData strasseTextfield = new TextfieldData();
 			strasseTextfield.setName("Straße");
@@ -284,7 +313,7 @@ public class DomainObjectParser implements Parser
 			textfield.setDatafield(hausnummerDatafield);
 			dependentDataset.getElements().add(hausnummerTextfield);
 
-			rootObject.setDataset(rootDataset);
+			rootObject.setUiElementContainer(rootDataset);
 
 		}
 		catch (NoSuchFieldException | SecurityException e)

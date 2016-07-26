@@ -2,7 +2,6 @@ package de.dhbw.wi13c.jguicreator.data.validator;
 
 import java.util.regex.Pattern;
 
-import de.dhbw.wi13c.jguicreator.data.Validator;
 import de.dhbw.wi13c.jguicreator.data.annotation.AnnotationMessage;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 

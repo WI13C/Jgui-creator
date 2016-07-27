@@ -2,24 +2,18 @@ package de.dhbw.wi13c.jguicreator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
+import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
+import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
-import de.dhbw.wi13c.jguicreator.test.Adresse;
-import de.dhbw.wi13c.jguicreator.test.Kontakt;
-import de.dhbw.wi13c.jguicreator.test.Person;
 
 public class DomainObjectParser implements Parser
 {
@@ -33,7 +27,7 @@ public class DomainObjectParser implements Parser
 	{
 		DomainObject rootObject = new DomainObject();
 
-		parseFields(object.getClass().getDeclaredFields(), object); // TODO
+		parseFields(object.getClass().getDeclaredFields(), object, rootObject); // TODO
 																	// getDeclaredFields()
 																	// doesn't
 																	// consider
@@ -44,7 +38,10 @@ public class DomainObjectParser implements Parser
 	}
 
 	// TODO gibts da eine schönere lösung als 100 if/else?
-	private void parseFields(Field[] fields, Object object)
+	// TODO bei der implementierung der Methoden, die in dieser Methode aufgerufen werden, wird der Kontext des Aufrufes in dieser Methode
+	// als gegeben betrachtet. Beispielsweise wird bei isNumberTextField() angenommen, dass es sich nicht um einen String handelt,
+	// da sich der Aufruf im else-Block von isStringTextField() befindet. Die Methoden sollten also in keinem anderen Kontext verwendet werden.
+	private void parseFields(Field[] fields, Object object, DomainObject domainObject)
 	{
 		for (Field field : fields)
 		{
@@ -100,12 +97,46 @@ public class DomainObjectParser implements Parser
 		}
 	}
 
-	private void createDataset(Field field, Object object)
+	private Dataset createDataset(Field field, Object object)
 	{
 		System.out.println("dataset: " + field.getName() + " " + " class: "
 				+ object.getClass().getSimpleName());
 		
-		//TODO Elemente der collection parsen. Für diese muss wiederum geprüft werden, ob es sich um textfelder, domainobjects etc. handelt
+		//TODO Es wird eine Liste mit DomainObjects erstellt. Die Liste kann aber trotzdem "einfache" Klassen wie Integer enthalten,
+		//die dann wie DomainObjects behandelt werden. Verursacht das Probleme?
+		Dataset dataset = new Dataset();
+
+		try
+		{
+			boolean isAccessible = field.isAccessible();
+			field.setAccessible(true);
+			Collection<?> col = (Collection<?>) field.get(object);
+			for (Object colObj : col)
+			{
+				try
+				{
+					Object obj = colObj;
+//					System.out.println("------------ " + obj.getClass().getTypeName());
+					DomainObject domainobject = new DomainObject();
+					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
+
+					dataset.getElements().add(domainobject);
+				}
+				catch (SecurityException | IllegalArgumentException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			field.setAccessible(isAccessible);
+		}
+		catch (IllegalArgumentException | IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dataset;
 	}
 
 	private boolean isDataset(Field field/*, boolean isAnnotation*/)
@@ -129,16 +160,17 @@ public class DomainObjectParser implements Parser
 		return !isJavaStandard && !isPrimitive;
 	}
 
-	private void createDomainObject(Field field, Object object)
+	private DomainObject createDomainObject(Field field, Object object)
 	{
 		System.out.println("domainObj: " + field.getName());
-
+		DomainObject domainObject = new DomainObject();
+		
 		try
 		{
 			field.setAccessible(true);
 			Object obj = field.get(object);
-			System.out.println("------------ " + obj.getClass().getTypeName());
-			parseFields(field.getClass().getDeclaredFields(), obj);
+//			System.out.println("------------ " + obj.getClass().getTypeName());
+			parseFields(field.getType().getDeclaredFields(), obj, domainObject);
 		}
 		catch (SecurityException | IllegalArgumentException
 				| IllegalAccessException e)
@@ -146,6 +178,8 @@ public class DomainObjectParser implements Parser
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return domainObject;
 	}
 
 	private boolean isPieChart(Annotation annotation)
@@ -171,27 +205,40 @@ public class DomainObjectParser implements Parser
 
 	private boolean isNumberTextField(Field field)
 	{
-		boolean instance = field.getType().isInstance(Number.class);
+//		Class<?> c = field.getType();
+//		boolean instance = c.isInstance(Number.class);
+		Class<?> classNumber = Number.class;
+		Class<?> classField = field.getType();
+		boolean instance = classNumber.isAssignableFrom(classField);
 		boolean isClass = field.getName().equals("clazz");
 		return instance && !isClass;
 	}
 
-	private void createStringTextfield(Field field, Object object)
+	private TextfieldData createStringTextfield(Field field, Object object)
 	{
 		System.out.println("stringtextfield: " + field.getName() + " class: "
 				+ object.getClass().getSimpleName());
+		
+		TextfieldData textfieldData = new TextfieldData();
+		return textfieldData;
+		
+		
 	}
 
-	private void createNumberTextfield(Field field, Object object)
+	private TextfieldData createNumberTextfield(Field field, Object object)
 	{
 		System.out.println("numbertextfield: " + field.getName() + " class: "
 				+ object.getClass().getSimpleName());
+		TextfieldData textfieldData = new TextfieldData();
+		return textfieldData;
 	}
 
-	private void createDatePickerData(Field field, Object object)
+	private DatepickerData createDatePickerData(Field field, Object object)
 	{
 		System.out.println("datepicker : " + field.getName() + " class: "
 				+ object.getClass().getSimpleName());
+		DatepickerData datepickerData = new DatepickerData();
+		return datepickerData;
 	}
 
 	private boolean isDate(Field field)
@@ -203,16 +250,20 @@ public class DomainObjectParser implements Parser
 		return false;
 	}
 
-	private void createBarChartData(Field field, Object object)
+	private BarChartData createBarChartData(Field field, Object object)
 	{
 		System.out.println("barchart: " + field.getName() + " class: "
 				+ object.getClass().getSimpleName());
+		BarChartData barChartData = new BarChartData();
+		return barChartData;
 	}
 
-	private void createPieChartData(Field field, Object object)
+	private PieChartData createPieChartData(Field field, Object object)
 	{
 		System.out.println("piechart: " + field.getName() + " class: "
 				+ object.getClass().getSimpleName());
+		PieChartData pieChartData = new PieChartData();
+		return pieChartData;
 	}
 
 

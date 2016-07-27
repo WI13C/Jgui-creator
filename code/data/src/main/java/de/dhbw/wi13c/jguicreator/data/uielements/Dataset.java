@@ -1,5 +1,7 @@
 package de.dhbw.wi13c.jguicreator.data.uielements;
 
+import java.util.Collection;
+
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 /**
@@ -9,11 +11,22 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
  */
 public class Dataset extends UiElementData
 {
+	private Collection<DomainObject> elements;
 
 	@Override
 	public void accept(GuiVisitor visitor)
 	{
 		visitor.visit(this);
+	}
+
+	public Collection<DomainObject> getElements()
+	{
+		return elements;
+	}
+
+	public void setElements(Collection<DomainObject> elements)
+	{
+		this.elements = elements;
 	}
 
 }

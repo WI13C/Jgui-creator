@@ -7,6 +7,12 @@ public class DomainObject extends UiElementData
 {
 	private UiElementContainer dataset;
 
+	public DomainObject()
+	{
+		super();
+		this.dataset = new UiElementContainer();
+	}
+
 	@Override
 	public void accept(GuiVisitor visitor)
 	{
@@ -18,9 +24,9 @@ public class DomainObject extends UiElementData
 		return dataset;
 	}
 
-	public void setUiElementContainer(UiElementContainer dataset)
+	public void setUiElementContainer(UiElementContainer container)
 	{
-		this.dataset = dataset;
+		this.dataset = container;
 	}
 
 }

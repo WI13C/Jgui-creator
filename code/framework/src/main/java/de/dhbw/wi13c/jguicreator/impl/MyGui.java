@@ -2,13 +2,11 @@ package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.ScrollPane;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import de.dhbw.wi13c.jguicreator.Gui;
@@ -18,17 +16,22 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.listener.GuiListener;
+import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
 public class MyGui extends Gui
 {
 
 	private JFrame mainFrame;
 
-	private List<JComponent> elements;
+	private List<GUIKomponente> elements;
 
 	private Settings settings;
-	
+
 	private SwingVisitor swingVisitor;
+
+	private JScrollPane scrollPane;
+
+	private JPanel innerScrollPane;
 
 	public MyGui(DomainObject domainObject, GuiListener[] guiListeners)
 	{
@@ -44,10 +47,16 @@ public class MyGui extends Gui
 	public void init(DomainObject domainObject)
 	{
 		swingVisitor = new SwingVisitor(this);
-		mainFrame = new JFrame();
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
 		elements = new ArrayList<>();
+
+		innerScrollPane = new JPanel();
+		innerScrollPane.setLayout(new WrapLayout());
+
+		scrollPane = new JScrollPane(innerScrollPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBorder(null);
+		scrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)) - 30, Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)) - 30));
+		mainFrame = new JFrame();
+
 		mainFrame.setLayout(new FlowLayout());
 		for(UiElementData elementData : domainObject.getUiElementContainer().getElements())
 		{
@@ -62,22 +71,28 @@ public class MyGui extends Gui
 	public void show()
 	{
 
-		for(JComponent elem : elements){
-			mainFrame.add(elem);
+		int preferedScrollPaneSize = 0;
+		for(GUIKomponente elem : elements)
+		{
+			innerScrollPane.add(elem);
+			preferedScrollPaneSize += elem.getKomponentenBounds().getHeight() + 7;
 		}
-
-		
+		System.out.println(preferedScrollPaneSize);
+		innerScrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), preferedScrollPaneSize));
+		innerScrollPane.validate();
+		innerScrollPane.repaint();
+		mainFrame.add(scrollPane);
 
 		mainFrame.setTitle("Foo");
 		mainFrame.setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.validate();
-		
+		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 	}
 
-	public void addElement(JComponent element)
+	public void addElement(GUIKomponente element)
 	{
 		elements.add(element);
 	}
@@ -91,7 +106,5 @@ public class MyGui extends Gui
 	{
 		this.settings = settings;
 	}
-	
-	
 
 }

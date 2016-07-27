@@ -9,15 +9,18 @@ import javax.swing.JPanel;
 public abstract class GUIKomponente extends JPanel
 {
 	protected Font font;
+	private Dimension bounds;
 
+	
 	protected GUIKomponente()
 	{
-		this(700, 500);
+		this(new Dimension(700, 500));
 	}
 
-	protected GUIKomponente(int pWidth, int pHeigth)
+	protected GUIKomponente(Dimension pDimension)
 	{
-		this.setPreferredSize(new Dimension(pWidth, pHeigth));
+		this.bounds =pDimension;
+		this.setPreferredSize(bounds);
 		this.setBackground(Color.WHITE);
 		this.setOpaque(true);
 		this.setVisible(true);
@@ -31,6 +34,13 @@ public abstract class GUIKomponente extends JPanel
 
 	protected void setPanelSize(Dimension pDimension)
 	{
-		this.setPreferredSize(pDimension);
+		this.bounds=pDimension;
+		this.setPreferredSize(bounds);
 	}
+
+	public Dimension getKomponentenBounds()
+	{
+		return bounds;
+	}
+	
 }

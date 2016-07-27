@@ -8,7 +8,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import de.dhbw.wi13c.jguicreator.MockParser;
 import de.dhbw.wi13c.jguicreator.Parser;
+import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
+import de.dhbw.wi13c.jguicreator.data.SwingVisitor;
+import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 
 public class ParserTest
 {
@@ -40,9 +44,14 @@ public class ParserTest
 				1980, 3, 24), adresse, kontakte, einkommensZusammensetzung,
 				einkommensEntwicklung);
 		
+		//example usage of MockParser
+		Parser parser = new MockParser();
+		DomainObject rootObject = parser.parseObject(aPerson);
 		
-		Parser parser = Parser.getDefaultParser();
-		parser.parseObject(aPerson);
+		GuiVisitor visitor = new SwingVisitor();
+		rootObject.accept(visitor);
+		
+		int rootUiElements = rootObject.getUiElementContainer().getElements().size();
 //		parser.parseObject(object)
 	}
 

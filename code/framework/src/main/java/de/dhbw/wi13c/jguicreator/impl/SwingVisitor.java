@@ -1,5 +1,7 @@
 package de.dhbw.wi13c.jguicreator.impl;
 
+import java.util.Map;
+
 import javax.swing.JPanel;
 import javax.swing.plaf.DimensionUIResource;
 
@@ -14,6 +16,8 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
+import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
+import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
 
 
@@ -53,7 +57,12 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(DatepickerData datepicker)
 	{
-		System.out.println("Date");
+//		JPanel p = new JPanel();
+//		p.setSize(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)));
+//		GUIKomponente elem = new DatumComboBoxen("foo", "12", "12", "2012", false, settings);
+//		p.add(elem);
+//		myGui.addElement(p);
+//		System.out.println("Date");
 		
 	}
 
@@ -67,8 +76,12 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(BarChartData chart)
 	{
-		System.out.println("BarChart");
-		
+		JPanel p = new JPanel();
+		p.setSize(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)));
+		GUIKomponente elem = new BarChartPanel("", (Map<String, ? extends Number>) chart.getDatafield().getValue());
+		p.add(elem);
+		myGui.addElement(p);
+		System.out.println("Barchart: ");
 	}
 
 	@Override

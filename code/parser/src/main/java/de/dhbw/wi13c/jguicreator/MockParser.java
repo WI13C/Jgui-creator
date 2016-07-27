@@ -81,6 +81,10 @@ public class MockParser implements Parser
 			rootDataset.getElements().add(textfield1);
 
 			BarChartData einkommenBarChart = new BarChartData();
+			Datafield<Map<String, ? extends Number>> einkommensData= new Datafield<Map<String, ? extends Number>>();
+			einkommensData.setValue(einkommen);
+			einkommenBarChart.setDatafield(einkommensData);
+			
 			rootDataset.getElements().add(einkommenBarChart);
 
 			PieChartData entwicklungBarChart = new PieChartData();

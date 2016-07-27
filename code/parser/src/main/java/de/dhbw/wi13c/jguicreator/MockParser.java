@@ -88,6 +88,8 @@ public class MockParser implements Parser
 			rootDataset.getElements().add(einkommenBarChart);
 
 			PieChartData entwicklungBarChart = new PieChartData();
+			Datafield<Map<String, ? extends Number>>  entwicklungsData= new Datafield<Map<String, ? extends Number>>();
+			entwicklungsData.setValue(einkommensentwicklung);
 			rootDataset.getElements().add(entwicklungBarChart);
 
 			DomainObject adresseDependentObject = new DomainObject();

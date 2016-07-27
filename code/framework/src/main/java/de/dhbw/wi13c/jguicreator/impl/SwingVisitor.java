@@ -25,24 +25,21 @@ public class SwingVisitor extends GuiVisitor
 {
 	
 	private MyGui myGui;
-	Settings settings;
 	
 
 	public SwingVisitor(MyGui myGui)
 	{
 		this.myGui = myGui;
-		settings = new Settings();
-		settings.setSetting(Setting.WINDOWHEIGHT, "300");
 	}
 
 	@Override
 	public void visit(TextfieldData textfield)
 	{
-		JPanel p = new JPanel();
-		p.setSize(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)));
-		GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), "VALUE", textfield.getDatafield().isReadOnly(), settings);
-		p.add(elem);
-		myGui.addElement(p);
+//		JPanel p = new JPanel();
+//		p.setSize(Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWHEIGHT)));
+		GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), "VALUE", textfield.getDatafield().isReadOnly(), myGui.getSettings());
+//		p.add(elem);
+		myGui.addElement(elem);
 		System.out.print("Textfeld: ");		
 		System.out.println(textfield.getName());
 		
@@ -76,11 +73,9 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(BarChartData chart)
 	{
-		JPanel p = new JPanel();
-		p.setSize(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)));
-		GUIKomponente elem = new BarChartPanel("", (Map<String, ? extends Number>) chart.getDatafield().getValue());
-		p.add(elem);
-		myGui.addElement(p);
+		BarChartPanel elem = new BarChartPanel("Name vom Chart", (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
+		myGui.addElement(elem);
+		elem.animate();
 		System.out.println("Barchart: ");
 	}
 

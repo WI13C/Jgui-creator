@@ -1,12 +1,15 @@
 package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import de.dhbw.wi13c.jguicreator.Gui;
 import de.dhbw.wi13c.jguicreator.Settings;
@@ -30,15 +33,22 @@ public class MyGui extends Gui
 	public MyGui(DomainObject domainObject, GuiListener[] guiListeners)
 	{
 		super(domainObject, guiListeners);
+		settings = new Settings();
 		init(domainObject);
 	}
 
+	/**
+	 * Constructs default GUI-Layout for the given DomainObject
+	 * @param domainObject
+	 */
 	public void init(DomainObject domainObject)
 	{
 		swingVisitor = new SwingVisitor(this);
 		mainFrame = new JFrame();
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
 		elements = new ArrayList<>();
-		mainFrame.setLayout(new GridLayout(domainObject.getUiElementContainer().getElements().size(), 1));
+		mainFrame.setLayout(new FlowLayout());
 		for(UiElementData elementData : domainObject.getUiElementContainer().getElements())
 		{
 			elementData.accept(swingVisitor);
@@ -57,15 +67,12 @@ public class MyGui extends Gui
 		}
 
 		
-		settings = new Settings();
-		settings.setSetting(Setting.WINDOWHEIGHT, ""+(elements.size()+1)*50);
+
 		mainFrame.setTitle("Foo");
 		mainFrame.setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.pack();
 		mainFrame.validate();
-		mainFrame.repaint();
 		
 		mainFrame.setVisible(true);
 	}

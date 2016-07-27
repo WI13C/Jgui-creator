@@ -76,8 +76,8 @@ public class MockParser implements Parser
 			TextfieldData textfield1 = new TextfieldData();
 			Datafield<String> datafieldNachname = new Datafield<>();
 			datafieldNachname.setField(person.getClass().getDeclaredField("nachname"));
-			textfield.setDatafield(datafieldNachname);
-			textfield.setName("Nachname");
+			textfield1.setDatafield(datafieldNachname);
+			textfield1.setName("Nachname");
 			rootDataset.getElements().add(textfield1);
 
 			BarChartData einkommenBarChart = new BarChartData();

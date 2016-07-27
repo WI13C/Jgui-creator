@@ -17,8 +17,8 @@
 
 
 	<dependencies>
-
 		<!-- Own Modules -->
+
 		<dependency>
 			<groupId>de.dhbw.wi13c.jguicreator</groupId>
 			<artifactId>data</artifactId>

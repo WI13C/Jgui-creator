@@ -27,7 +27,7 @@ public abstract class Gui
 	private final Collection<GuiListener> listeners = new ArrayList<>();
 
 	// TODO Was wird anstelel von Form uebergeben?
-	public Gui(DomainObject form, GuiListener... guiListeners)
+	public Gui(DomainObject domainObject, GuiListener... guiListeners)
 	{
 		this.listeners.addAll(Arrays.asList(guiListeners));
 		
@@ -53,4 +53,6 @@ public abstract class Gui
 	{
 //		this.listeners.stream().forEach((l)->l.guiCanceled(this.form) );
 	}
+	
+	
 }

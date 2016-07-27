@@ -24,10 +24,11 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
+			<version>4.12</version>
 		</dependency>
 
 
-		<!-- Logging -->
+		<!-- Logging-->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -37,7 +38,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
+		</dependency> 
 
 		<!-- Validation -->
 		<dependency>

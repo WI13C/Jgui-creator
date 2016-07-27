@@ -6,18 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
-
 import de.dhbw.wi13c.jguicreator.MockParser;
 import de.dhbw.wi13c.jguicreator.Parser;
-import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
-import de.dhbw.wi13c.jguicreator.data.SwingVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 
 public class ParserTest
 {
 
-	@Test
 	public void test()
 	{
 		Adresse adresse = new Adresse("Hauptstraße", 30);
@@ -48,10 +43,10 @@ public class ParserTest
 		Parser parser = new MockParser();
 		DomainObject rootObject = parser.parseObject(aPerson);
 		
-		GuiVisitor visitor = new SwingVisitor();
-		rootObject.accept(visitor);
-		
-		int rootUiElements = rootObject.getUiElementContainer().getElements().size();
+//		GuiVisitor visitor = new SwingVisitor();
+//		rootObject.accept(visitor);
+//		
+//		int rootUiElements = rootObject.getUiElementContainer().getElements().size();
 //		parser.parseObject(object)
 	}
 

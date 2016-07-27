@@ -12,12 +12,25 @@ import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
+/**
+ * Klasse für die GUIKomponente Doppel-Button.
+ * 
+ * @author Tim Bayer
+ *
+ */
+@SuppressWarnings("serial")
 public class DoubleButtons extends GUIKomponente
 {
-	private JButton btnAccept;
+	private JButton btnAcceptObject;
 
-	private JButton btnAbort;
+	private JButton btnAbortObject;
 
+	/**
+	 * Konstruktor zur Erstellung der DoubleButton-GUIKomponente. Größe wird anhand der Settings gesetzt.
+	 * 
+	 * @param pActionListener
+	 * @param pSettings
+	 */
 	public DoubleButtons(ActionListener pActionListener, Settings pSettings)
 	{
 		super();
@@ -25,23 +38,21 @@ public class DoubleButtons extends GUIKomponente
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
-		initFont(15);
-
 		this.setLayout(new BorderLayout());
 		JPanel pnlAbort = new JPanel();
-		btnAbort = new JButton("Abbrechen");
-		btnAbort.addActionListener(pActionListener);
-		btnAbort.setFont(font);
+		btnAbortObject = new JButton("Abbrechen");
+		btnAbortObject.addActionListener(pActionListener);
+		btnAbortObject.setFont(textfont);
 		pnlAbort.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2)));
-		pnlAbort.add(btnAbort);
+		pnlAbort.add(btnAbortObject);
 		pnlAbort.setOpaque(false);
 
 		JPanel pnlAccept = new JPanel();
-		btnAccept = new JButton("Speichern");
-		btnAccept.addActionListener(pActionListener);
-		btnAccept.setFont(font);
+		btnAcceptObject = new JButton("Speichern");
+		btnAcceptObject.addActionListener(pActionListener);
+		btnAcceptObject.setFont(textfont);
 		pnlAccept.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
-		pnlAccept.add(btnAccept);
+		pnlAccept.add(btnAcceptObject);
 		pnlAccept.setOpaque(false);
 
 		this.add(pnlAccept, BorderLayout.WEST);
@@ -50,11 +61,11 @@ public class DoubleButtons extends GUIKomponente
 
 	public JButton getBtnAccept()
 	{
-		return btnAccept;
+		return btnAcceptObject;
 	}
 
 	public JButton getBtnAbort()
 	{
-		return btnAbort;
+		return btnAbortObject;
 	}
 }

@@ -11,29 +11,33 @@ import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
+/**
+ * Klasse für die GUIKomponente Textfeld mit beschreibendem Label. 
+ * 
+ * @author Tim Bayer
+ *
+ */
+@SuppressWarnings("serial")
 public class TextFieldMitLabel extends GUIKomponente
 {
 	private String labelValue;
 
 	private String textfieldValue;
 
-	private JTextField field;
+	private JTextField textfieldObject;
 
-	private JLabel label;
+	private JLabel labelObject;
 
 	private Settings settings;
 
-	public TextFieldMitLabel()
-	{
-		this("", "", false, new Settings());
-
-	}
-
-	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue)
-	{
-		this(pLabelValue, pTextFieldValue, false, new Settings());
-	}
-
+	/**
+	 * Konstruktor zur Erstellung der TextFieldMitLabel-GUIKomponente. Größe wird anhand der Settings gesetzt.
+	 * 
+	 * @param pLabelValue
+	 * @param pTextFieldValue
+	 * @param pFinal
+	 * @param pSettings
+	 */
 	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings)
 	{
 		super();
@@ -42,26 +46,27 @@ public class TextFieldMitLabel extends GUIKomponente
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
-		initFont(15);
-
 		this.labelValue = pLabelValue;
 		this.textfieldValue = pTextFieldValue;
 		this.setLayout(new BorderLayout());
 		checkLabelValue();
-		label = new JLabel(labelValue);
-		label.setFont(font);
-		label.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
-		this.add(label, BorderLayout.WEST);
-		field = new JTextField(50);
-		field.setFont(font);
-		field.setText(textfieldValue);
+		labelObject = new JLabel(labelValue);
+		labelObject.setFont(textfont);
+		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
+		this.add(labelObject, BorderLayout.WEST);
+		textfieldObject = new JTextField(50);
+		textfieldObject.setFont(textfont);
+		textfieldObject.setText(textfieldValue);
 		if(pFinal)
 		{
-			field.setEnabled(false);
+			textfieldObject.setEnabled(false);
 		}
-		this.add(field, BorderLayout.EAST);
+		this.add(textfieldObject, BorderLayout.EAST);
 	}
 
+	/**
+	 * Methode die den Text des Labels um ":" erweitert.
+	 */
 	private void checkLabelValue()
 	{
 		if(labelValue != null && !"".equals(labelValue))
@@ -72,11 +77,11 @@ public class TextFieldMitLabel extends GUIKomponente
 
 	public String getTextfieldValue()
 	{
-		return field.getText();
+		return textfieldObject.getText();
 	}
 
 	public void setTextOfTextfield(String pValue)
 	{
-		field.setText(pValue);
+		textfieldObject.setText(pValue);
 	}
 }

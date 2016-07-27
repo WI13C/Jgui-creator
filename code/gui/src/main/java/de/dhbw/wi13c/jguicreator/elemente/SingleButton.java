@@ -12,15 +12,24 @@ import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
+/**
+ * Klasse für die GUIKomponente Einzel-Button.
+ * 
+ * @author Tim Bayer
+ *
+ */
+@SuppressWarnings("serial")
 public class SingleButton extends GUIKomponente
 {
-	private JButton btn;
+	private JButton btnObject;
 
-	public SingleButton(ActionListener pActionListener)
-	{
-		this("Klicken", pActionListener, new Settings());
-	}
-
+	/**
+	 * Konstruktor zur Erstellung der SingleButton-GUIKomponente. Größe wird anhand der Settings gesetzt.
+	 * 
+	 * @param pButtonText
+	 * @param pActionListener
+	 * @param pSettings
+	 */
 	public SingleButton(String pButtonText, ActionListener pActionListener, Settings pSettings)
 	{
 		super();
@@ -28,16 +37,14 @@ public class SingleButton extends GUIKomponente
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
-		initFont(15);
-
 		this.setLayout(new BorderLayout());
 
 		JPanel pnlAccept = new JPanel();
-		btn = new JButton(pButtonText);
-		btn.addActionListener(pActionListener);
-		btn.setFont(font);
+		btnObject = new JButton(pButtonText);
+		btnObject.addActionListener(pActionListener);
+		btnObject.setFont(textfont);
 		pnlAccept.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
-		pnlAccept.add(btn);
+		pnlAccept.add(btnObject);
 		pnlAccept.setOpaque(false);
 
 		this.add(pnlAccept, BorderLayout.WEST);
@@ -45,7 +52,7 @@ public class SingleButton extends GUIKomponente
 
 	public JButton getBtn()
 	{
-		return btn;
+		return btnObject;
 	}
 
 }

@@ -12,15 +12,30 @@ import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
+/**
+ * Klasse für die GUIKomponente ComboBox zur Darstellung von Enumerationen mit beschreibendem Label.
+ * 
+ * @author Tim Bayer
+ *
+ */
+@SuppressWarnings("serial")
 public class EnumComboBoxen extends GUIKomponente
 {
 
 	private String labelValue;
 
-	private JComboBox<Object> comboEnumField;
+	private JComboBox<Object> comboboxObject;
 
-	private JLabel label;
+	private JLabel labelObject;
 
+	/**
+	 *  Konstruktor zur Erstellung der EnumComboBoxen-GUIKomponente. Größe wird anhand der Settings gesetzt.
+	 * 
+	 * @param pValueLabel
+	 * @param pListEnum
+	 * @param pFinal
+	 * @param pSettings
+	 */
 	public EnumComboBoxen(String pValueLabel, List pListEnum, boolean pFinal, Settings pSettings)
 	{
 		super();
@@ -30,27 +45,28 @@ public class EnumComboBoxen extends GUIKomponente
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
 
-		initFont(15);
-
 		this.setLayout(new BorderLayout());
 		checkLabelValue();
-		label = new JLabel(labelValue);
-		label.setFont(font);
-		label.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
-		this.add(label, BorderLayout.WEST);
+		labelObject = new JLabel(labelValue);
+		labelObject.setFont(textfont);
+		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
+		this.add(labelObject, BorderLayout.WEST);
 
-		comboEnumField = new JComboBox<>(pListEnum.getItems());
-		comboEnumField.setFont(font);
+		comboboxObject = new JComboBox<>(pListEnum.getItems());
+		comboboxObject.setFont(textfont);
 
-		comboEnumField.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
+		comboboxObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 
 		if(pFinal)
 		{
-			comboEnumField.setEnabled(false);
+			comboboxObject.setEnabled(false);
 		}
-		this.add(comboEnumField, BorderLayout.EAST);
+		this.add(comboboxObject, BorderLayout.EAST);
 	}
 
+	/**
+	 * Methode die den Text des Labels um ":" erweitert.
+	 */
 	private void checkLabelValue()
 	{
 		if(labelValue != null && !"".equals(labelValue))
@@ -61,6 +77,6 @@ public class EnumComboBoxen extends GUIKomponente
 
 	public String getSelectedItem()
 	{
-		return (String) comboEnumField.getSelectedItem();
+		return (String) comboboxObject.getSelectedItem();
 	}
 }

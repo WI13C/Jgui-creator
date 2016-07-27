@@ -2,6 +2,12 @@ package de.dhbw.wi13c.jguicreator;
 
 import java.util.EnumMap;
 
+/**
+ * Klasse um Einstellungen für alle Komponenten der GUI zu bestimmen. Bsp: Maße des Fensters
+ * 
+ * @author Tim Bayer
+ *
+ */
 public class Settings
 {
 	private static final int DEFAULTWINDOWHEIGHT = 500;
@@ -10,6 +16,9 @@ public class Settings
 
 	private EnumMap<Setting, String> mapSettings = new EnumMap<>(Setting.class);
 
+	/**
+	 * Konstruktor zur Initialisierung der Settings. Default-Werte für Fensterbreite & -höhe werden gesetzt.
+	 */
 	public Settings()
 	{
 		mapSettings.put(Setting.WINDOWHEIGHT, Integer.toString(DEFAULTWINDOWHEIGHT));
@@ -33,7 +42,12 @@ public class Settings
 	{
 		mapSettings.put(pSetting, pValue);
 	}
-
+/**
+ * Enumerationen die die möglichen zu setzenden Settings beschreiben
+ * 
+ * @author Tim Bayer
+ *
+ */
 	public enum Setting
 	{
 		WINDOWHEIGHT, WINDOWWIDTH;

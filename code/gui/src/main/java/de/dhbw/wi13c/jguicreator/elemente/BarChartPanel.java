@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.listener.ChartComponentAdapter;
+import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.listener.BarChartMouseMotionListener;
 
 public class BarChartPanel extends ChartPanel
@@ -26,9 +27,9 @@ public class BarChartPanel extends ChartPanel
 		return this.maxValue;
 	}
 
-	public BarChartPanel(String description, Map<String, ? extends Number> keyValues)
+	public BarChartPanel(String description, Map<String, ? extends Number> keyValues, Settings pSettings)
 	{
-		super(description, keyValues);
+		super(description, keyValues, pSettings);
 		this.renderMaxValue();
 		this.RefreshValues();
 		this.addListeners();

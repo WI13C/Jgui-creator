@@ -1,6 +1,7 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
@@ -9,6 +10,8 @@ import java.util.Map;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
+import de.dhbw.wi13c.jguicreator.Settings;
+import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.listener.ChartTimerActionListener;
 
@@ -115,9 +118,15 @@ public abstract class ChartPanel extends GUIKomponente
 		return this.depth;
 	}
 
-	protected ChartPanel(String description, Map<String, ? extends Number> keyValues)
+	protected ChartPanel(String description, Map<String, ? extends Number> keyValues, Settings pSettings)
 	{
 		super();
+		
+		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
+		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.6));
+		setPanelSize(size);
+
+		initFont(15);
 		this.setDescription(description);
 		this.fillArrays(keyValues);
 	}

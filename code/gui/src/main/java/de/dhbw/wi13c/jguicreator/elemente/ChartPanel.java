@@ -13,13 +13,12 @@ import javax.swing.border.TitledBorder;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
+import de.dhbw.wi13c.jguicreator.helper.KeyValue;
 import de.dhbw.wi13c.jguicreator.listener.ChartTimerActionListener;
 
 public abstract class ChartPanel extends GUIKomponente
 {
-	private String[] keys;
-
-	private double[] values;
+	private KeyValue keyValues[];
 
 	private TitledBorder border;
 
@@ -35,7 +34,7 @@ public abstract class ChartPanel extends GUIKomponente
 
 	private boolean drawSign;
 
-	private double depth;
+	private double yAxisLength;
 
 	private double chartLeftX;
 
@@ -75,22 +74,22 @@ public abstract class ChartPanel extends GUIKomponente
 
 	public double getValue()
 	{
-		return this.values[index];
+		return getValue(this.index);
 	}
 
 	public double getValue(int index)
 	{
-		return this.values[index];
+		return this.keyValues[index].getValue();
 	}
 
 	public String getKey()
 	{
-		return this.keys[index];
+		return this.keyValues[index].getKey();
 	}
 
 	public int getCount()
 	{
-		return this.values.length;
+		return this.keyValues.length;
 	}
 
 	public void setIndex(int index)
@@ -115,7 +114,7 @@ public abstract class ChartPanel extends GUIKomponente
 
 	public double getDepth()
 	{
-		return this.depth;
+		return this.yAxisLength;
 	}
 
 	protected ChartPanel(String description, Map<String, ? extends Number> keyValues, Settings pSettings)
@@ -135,13 +134,11 @@ public abstract class ChartPanel extends GUIKomponente
 
 	private void fillArrays(Map<String, ? extends Number> keyValues)
 	{
-		this.keys = new String[keyValues.size()];
-		this.values = new double[keyValues.size()];
+		this.keyValues = new KeyValue[keyValues.size()];
 		int i = 0;
 		for(String key : keyValues.keySet())
 		{
-			this.keys[i] = key;
-			this.values[i] = keyValues.get(key).doubleValue();
+			this.keyValues[i] = new KeyValue(key, keyValues.get(key).doubleValue());
 			i++;
 		}
 	}
@@ -161,9 +158,9 @@ public abstract class ChartPanel extends GUIKomponente
 	public void RefreshValues()
 	{
 		this.xAxisLength = this.getWidth() * 0.67;
-		this.depth = this.getHeight() * 0.67;
+		this.yAxisLength = this.getHeight() * 0.67;
 		this.chartLeftX = (this.getWidth() - this.xAxisLength) * 0.5;
-		this.chartTopY = (this.getHeight() - depth) * 0.5;
+		this.chartTopY = (this.getHeight() - yAxisLength) * 0.5;
 	}
 
 	public void drawSign(Graphics g)

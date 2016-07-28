@@ -4,8 +4,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
-import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
+import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
@@ -14,6 +15,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
+import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 
 public class DomainObjectParser implements Parser
 {
@@ -28,11 +30,11 @@ public class DomainObjectParser implements Parser
 		DomainObject rootObject = new DomainObject();
 
 		parseFields(object.getClass().getDeclaredFields(), object, rootObject); // TODO
-																	// getDeclaredFields()
-																	// doesn't
-																	// consider
-																	// inherited
-																	// fields
+		// getDeclaredFields()
+		// doesn't
+		// consider
+		// inherited
+		// fields
 
 		return rootObject;
 	}
@@ -43,106 +45,208 @@ public class DomainObjectParser implements Parser
 	// da sich der Aufruf im else-Block von isStringTextField() befindet. Die Methoden sollten also in keinem anderen Kontext verwendet werden.
 	private void parseFields(Field[] fields, Object object, DomainObject domainObject)
 	{
-		for (Field field : fields)
+		for(Field field : fields)
 		{
-			if (isStringTextField(field))
+			UiElementData uiElementData = null;
+			
+			if(isStringTextField(field))
 			{
-				createStringTextfield(field, object);
+				uiElementData = createStringTextfield(field, object);
 			}
 			else
 			{
-				if (isNumberTextField(field))
+				if(isNumberTextField(field))
 				{
-					createNumberTextfield(field, object);
+					uiElementData = createNumberTextfield(field, object);
 				}
 				else
 				{
-					if (isDate(field))
+					if(isDate(field))
 					{
-						createDatePickerData(field, object);
+						uiElementData = createDatePickerData(field, object);
 					}
 					else
 					{
 						boolean isAnnotation = false;
-						for (Annotation annotation : field.getAnnotations())
+						for(Annotation annotation : field.getAnnotations())
 						{
 							isAnnotation = false;
-							if (isBarChart(annotation))
+							if(isBarChart(annotation))
 							{
-								createBarChartData(field, object);
+								uiElementData = createBarChartData(field, object);
 								isAnnotation = true;
 							}
 
-							if (isPieChart(annotation))
+							if(isPieChart(annotation))
 							{
-								createPieChartData(field, object);
+								uiElementData = createPieChartData(field, object);
 								isAnnotation = true;
 							}
 						}
-						
+
 						if(isDataset(field/*, isAnnotation*/))
 						{
-							createDataset(field, object);
+							uiElementData = createDataset(field, object);
 						}
 						else
 						{
-							if (isDomainObject(field))
+							if(isDomainObject(field))
 							{
-								createDomainObject(field, object);
+								uiElementData = createDomainObject(field, object);
 							}
 						}
 					}
 				}
 			}
+			
+			if(uiElementData != null)
+			{
+				domainObject.getUiElementContainer().addElement(uiElementData);
+				setUiElementName(field, uiElementData);
+			}
+			
 		}
+	}
+
+	//TODO kann erweitert werden um bessere namen zu generieren
+	//bspw. könnten wörter getrennt werden
+	private void setUiElementName(Field field, UiElementData uiElementData)
+	{
+		String output = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+		uiElementData.setName(output);
 	}
 
 	private Dataset createDataset(Field field, Object object)
 	{
-		System.out.println("dataset: " + field.getName() + " " + " class: "
-				+ object.getClass().getSimpleName());
-		
+//		System.out.println("dataset: " + field.getName() + " " + " class: "
+//			+ object.getClass().getSimpleName());
+
 		//TODO Es wird eine Liste mit DomainObjects erstellt. Die Liste kann aber trotzdem "einfache" Klassen wie Integer enthalten,
 		//die dann wie DomainObjects behandelt werden. Verursacht das Probleme?
 		Dataset dataset = new Dataset();
-
+		
 		try
 		{
 			boolean isAccessible = field.isAccessible();
 			field.setAccessible(true);
 			Collection<?> col = (Collection<?>) field.get(object);
-			for (Object colObj : col)
+			for(Object colObj : col)
 			{
 				try
 				{
 					Object obj = colObj;
-//					System.out.println("------------ " + obj.getClass().getTypeName());
+					//					System.out.println("------------ " + obj.getClass().getTypeName());
 					DomainObject domainobject = new DomainObject();
 					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
 
 					dataset.getElements().add(domainobject);
 				}
-				catch (SecurityException | IllegalArgumentException e)
+				catch(SecurityException | IllegalArgumentException e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
+
 			field.setAccessible(isAccessible);
 		}
-		catch (IllegalArgumentException | IllegalAccessException e)
+		catch(IllegalArgumentException | IllegalAccessException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return dataset;
 	}
 
+	private DomainObject createDomainObject(Field field, Object object)
+	{
+//		System.out.println("domainObj: " + field.getName());
+		DomainObject domainObject = new DomainObject();
+
+		try
+		{
+			field.setAccessible(true);
+			Object obj = field.get(object);
+			//			System.out.println("------------ " + obj.getClass().getTypeName());
+			parseFields(field.getType().getDeclaredFields(), obj, domainObject);
+		}
+		catch(SecurityException | IllegalArgumentException
+			| IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return domainObject;
+	}
+
+	private TextfieldData createStringTextfield(Field field, Object object)
+	{
+//		System.out.println("stringtextfield: " + field.getName() + " class: "
+//			+ object.getClass().getSimpleName());
+
+		TextfieldData textfieldData = new TextfieldData();
+		return textfieldData;
+	}
+
+	private TextfieldData createNumberTextfield(Field field, Object object)
+	{
+//		System.out.println("numbertextfield: " + field.getName() + " class: "
+//			+ object.getClass().getSimpleName());
+		TextfieldData textfieldData = new TextfieldData();
+		return textfieldData;
+	}
+
+	private DatepickerData createDatePickerData(Field field, Object object)
+	{
+//		System.out.println("datepicker : " + field.getName() + " class: "
+//			+ object.getClass().getSimpleName());
+		DatepickerData datepickerData = new DatepickerData();
+		return datepickerData;
+	}
+
+	private BarChartData createBarChartData(Field field, Object object)
+	{
+//		System.out.println("barchart: " + field.getName() + " class: "
+//			+ object.getClass().getSimpleName());
+		BarChartData barChartData = new BarChartData();
+		Datafield datafield = new Datafield<Map<String, ? extends Number>>(); //TODO es gibt auch andere maps als string-number
+		try
+		{
+			field.setAccessible(true);
+			datafield.setValue(field.get(object));
+		}
+		catch(IllegalArgumentException | IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		barChartData.setDatafield(datafield );
+		return barChartData;
+	}
+
+	private PieChartData createPieChartData(Field field, Object object)
+	{
+//		System.out.println("piechart: " + field.getName() + " class: "
+//			+ object.getClass().getSimpleName());
+		PieChartData pieChartData = new PieChartData();
+		return pieChartData;
+	}
+
+	private boolean isDate(Field field)
+	{
+		if(field.getType().equals(Date.class))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	private boolean isDataset(Field field/*, boolean isAnnotation*/)
 	{
 		boolean isList = Collection.class.isAssignableFrom(field.getType());
-		return /*!isAnnotation &&*/ isList;
+		return /*!isAnnotation &&*/isList;
 	}
 
 	/*
@@ -154,50 +258,28 @@ public class DomainObjectParser implements Parser
 	{
 		// System.out.println("------- " +field.getType().getName());
 		boolean isJavaStandard = field.getType().getName().startsWith("java")
-				|| field.getType().getName().startsWith("sun")
-				|| field.getType().getName().startsWith("[B");
+			|| field.getType().getName().startsWith("sun")
+			|| field.getType().getName().startsWith("[B");
 		boolean isPrimitive = field.getType().isPrimitive();
 		return !isJavaStandard && !isPrimitive;
-	}
-
-	private DomainObject createDomainObject(Field field, Object object)
-	{
-		System.out.println("domainObj: " + field.getName());
-		DomainObject domainObject = new DomainObject();
-		
-		try
-		{
-			field.setAccessible(true);
-			Object obj = field.get(object);
-//			System.out.println("------------ " + obj.getClass().getTypeName());
-			parseFields(field.getType().getDeclaredFields(), obj, domainObject);
-		}
-		catch (SecurityException | IllegalArgumentException
-				| IllegalAccessException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return domainObject;
 	}
 
 	private boolean isPieChart(Annotation annotation)
 	{
 		return annotation.annotationType().getTypeName()
-				.equals(PieChart.class.getTypeName());
+			.equals(PieChart.class.getTypeName());
 	}
 
 	private boolean isBarChart(Annotation annotation)
 	{
 		return annotation.annotationType().getTypeName()
-				.equals(BarChart.class.getTypeName());
+			.equals(BarChart.class.getTypeName());
 	}
 
 	private boolean isStringTextField(Field field)
 	{
 		boolean equals = field.getType().getName()
-				.equals(String.class.getName());
+			.equals(String.class.getName());
 		boolean isSignature = field.getName().equals("signature");
 
 		return equals && !isSignature;
@@ -205,65 +287,13 @@ public class DomainObjectParser implements Parser
 
 	private boolean isNumberTextField(Field field)
 	{
-//		Class<?> c = field.getType();
-//		boolean instance = c.isInstance(Number.class);
+		//		Class<?> c = field.getType();
+		//		boolean instance = c.isInstance(Number.class);
 		Class<?> classNumber = Number.class;
 		Class<?> classField = field.getType();
 		boolean instance = classNumber.isAssignableFrom(classField);
 		boolean isClass = field.getName().equals("clazz");
 		return instance && !isClass;
-	}
-
-	private TextfieldData createStringTextfield(Field field, Object object)
-	{
-		System.out.println("stringtextfield: " + field.getName() + " class: "
-				+ object.getClass().getSimpleName());
-		
-		TextfieldData textfieldData = new TextfieldData();
-		return textfieldData;
-		
-		
-	}
-
-	private TextfieldData createNumberTextfield(Field field, Object object)
-	{
-		System.out.println("numbertextfield: " + field.getName() + " class: "
-				+ object.getClass().getSimpleName());
-		TextfieldData textfieldData = new TextfieldData();
-		return textfieldData;
-	}
-
-	private DatepickerData createDatePickerData(Field field, Object object)
-	{
-		System.out.println("datepicker : " + field.getName() + " class: "
-				+ object.getClass().getSimpleName());
-		DatepickerData datepickerData = new DatepickerData();
-		return datepickerData;
-	}
-
-	private boolean isDate(Field field)
-	{
-		if (field.getType().equals(Date.class))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	private BarChartData createBarChartData(Field field, Object object)
-	{
-		System.out.println("barchart: " + field.getName() + " class: "
-				+ object.getClass().getSimpleName());
-		BarChartData barChartData = new BarChartData();
-		return barChartData;
-	}
-
-	private PieChartData createPieChartData(Field field, Object object)
-	{
-		System.out.println("piechart: " + field.getName() + " class: "
-				+ object.getClass().getSimpleName());
-		PieChartData pieChartData = new PieChartData();
-		return pieChartData;
 	}
 
 

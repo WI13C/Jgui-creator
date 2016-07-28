@@ -38,12 +38,21 @@ public class SwingVisitor extends GuiVisitor
 	{
 		//		JPanel p = new JPanel();
 		//		p.setSize(Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWHEIGHT)));
-		GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), "VALUE", textfield.getDatafield().isReadOnly(), myGui.getSettings());
-		//		p.add(elem);
-		myGui.addElement(elem);
-		System.out.print("Textfeld: ");
-		System.out.println(textfield.getName());
-
+		
+		if(textfield.getDatafield() != null)
+		{
+			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), "VALUE", textfield.getDatafield().isReadOnly(), myGui.getSettings());
+			//		p.add(elem);
+			myGui.addElement(elem);
+			System.out.print("Textfeld: ");
+			System.out.println(textfield.getName());
+	
+		}
+		else
+		{
+			//TODO nullpointer behandeln
+		}
+		
 	}
 
 	@Override
@@ -83,10 +92,17 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(BarChartData chart)
 	{
-		BarChartPanel elem = new BarChartPanel("Name vom Chart", (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
-		myGui.addElement(elem);
-		elem.animate();
-		System.out.println("Barchart: ");
+		if(chart.getDatafield() != null)
+		{
+			BarChartPanel elem = new BarChartPanel("Name vom Chart", (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
+			myGui.addElement(elem);
+			elem.animate();
+			System.out.println("Barchart: ");	
+		}
+		else
+		{
+			//TODO nullpointer behandeln
+		}
 	}
 
 	@Override

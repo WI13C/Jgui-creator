@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
-import de.dhbw.wi13c.jguicreator.MockParser;
 import de.dhbw.wi13c.jguicreator.Parser;
+import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 
 public class ParserTest
 {
 
-	public void test()
+	public DomainObject test()
 	{
 		Adresse adresse = new Adresse("Hauptstraße", 30);
 		Kontakt privat = new Kontakt("privat", "0160123456", "ferdi@prov.de");
@@ -41,7 +41,7 @@ public class ParserTest
 				einkommensEntwicklung);
 		
 		Parser parser = new DomainObjectParser();
-		parser.parseObject(aPerson);
+		return parser.parseObject(aPerson);
 		
 		//example usage of MockParser
 //		Parser parser = new MockParser();
@@ -49,6 +49,8 @@ public class ParserTest
 		
 //		GuiVisitor visitor = new SwingVisitor();
 //		rootObject.accept(visitor);
+		
+		
 //		
 //		int rootUiElements = rootObject.getUiElementContainer().getElements().size();
 		

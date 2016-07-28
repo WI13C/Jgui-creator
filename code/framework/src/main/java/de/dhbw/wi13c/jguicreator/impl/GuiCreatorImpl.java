@@ -27,6 +27,14 @@ public class GuiCreatorImpl<T> implements GuiCreator<T>
 		buildView(domainObject);
 
 	}
+	
+	@Override
+	public void createView(T object, SavedListener<T> listener, Parser parser)
+	{
+		DomainObject domainObject = parser.parseObject(object);
+		buildView(domainObject);
+
+	}
 
 	public void buildView(DomainObject domainObject)
 	{

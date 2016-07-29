@@ -66,19 +66,21 @@ public class MockParser implements Parser
 		
 		try
 		{
-			TextfieldData textfield = new TextfieldData();
+			TextfieldData textfield1 = new TextfieldData();
 			Datafield<String> datafieldVorname = new Datafield<>();
 			datafieldVorname.setField(person.getClass().getDeclaredField("vorname"));
-			textfield.setDatafield(datafieldVorname);
-			textfield.setName("Vorname");
-			rootDataset.getElements().add(textfield);
+			datafieldVorname.setValue(new String(person.getVorname()));
+			textfield1.setDatafield(datafieldVorname);
+			textfield1.setName("Vorname");
+			rootDataset.getElements().add(textfield1);
 
-			TextfieldData textfield1 = new TextfieldData();
+			TextfieldData textfield2 = new TextfieldData();
 			Datafield<String> datafieldNachname = new Datafield<>();
 			datafieldNachname.setField(person.getClass().getDeclaredField("nachname"));
-			textfield1.setDatafield(datafieldNachname);
-			textfield1.setName("Nachname");
-			rootDataset.getElements().add(textfield1);
+			datafieldNachname.setValue(person.getNachname());
+			textfield2.setDatafield(datafieldNachname);
+			textfield2.setName("Nachname");
+			rootDataset.getElements().add(textfield2);
 
 			BarChartData einkommenBarChart = new BarChartData();
 			Datafield<Map<String, ? extends Number>> einkommensData= new Datafield<Map<String, ? extends Number>>();
@@ -104,21 +106,24 @@ public class MockParser implements Parser
 			TextfieldData typTextfield = new TextfieldData();
 			Datafield<String> typDatafield = new Datafield<>();
 			typDatafield.setField(privatKontakt.getClass().getDeclaredField("typ"));
-			textfield.setDatafield(typDatafield);
+			typDatafield.setValue("wasmusshierrein");
+			typTextfield.setDatafield(typDatafield);
 			typTextfield.setName("Typ");
 			kontaktDataset.getElements().add(typTextfield);
 
 			TextfieldData telTextfield = new TextfieldData();
 			Datafield<String> telDatafield = new Datafield<>();
 			telDatafield.setField(privatKontakt.getClass().getDeclaredField("telefon"));
-			textfield.setDatafield(telDatafield);
+			telDatafield.setValue("09832");
+			telTextfield.setDatafield(telDatafield);
 			telTextfield.setName("Telefonnummer");
 			kontaktDataset.getElements().add(telTextfield);
 
 			TextfieldData emailTextfield = new TextfieldData();
 			Datafield<String> emailDatafield = new Datafield<>();
 			emailDatafield.setField(privatKontakt.getClass().getDeclaredField("email"));
-			textfield.setDatafield(emailDatafield);
+			emailDatafield.setValue("mail@pornhub.com");
+			emailTextfield.setDatafield(emailDatafield);
 			emailTextfield.setName("Email");
 			kontaktDataset.getElements().add(emailTextfield);
 
@@ -129,7 +134,8 @@ public class MockParser implements Parser
 			strasseTextfield.setName("Straße");
 			Datafield<String> strasseDatafield = new Datafield<>();
 			strasseDatafield.setField(adresse.getClass().getDeclaredField("strasse"));
-			textfield.setDatafield(strasseDatafield);
+			strasseDatafield.setValue("Reperbahn");
+			strasseTextfield.setDatafield(strasseDatafield);
 			dependentDataset.getElements().add(strasseTextfield);
 
 			TextfieldData hausnummerTextfield = new TextfieldData();
@@ -137,7 +143,8 @@ public class MockParser implements Parser
 			Datafield<String> hausnummerDatafield = new Datafield<>();
 			hausnummerDatafield.setField(adresse.getClass().getDeclaredField(
 					"Hausnummer"));
-			textfield.setDatafield(hausnummerDatafield);
+			hausnummerDatafield.setValue("88");
+			hausnummerTextfield.setDatafield(hausnummerDatafield);
 			dependentDataset.getElements().add(hausnummerTextfield);
 
 			rootObject.setUiElementContainer(rootDataset);

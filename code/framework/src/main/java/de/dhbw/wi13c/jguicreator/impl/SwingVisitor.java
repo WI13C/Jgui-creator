@@ -4,11 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-import javax.swing.JPanel;
-import javax.swing.plaf.DimensionUIResource;
-
-import de.dhbw.wi13c.jguicreator.Settings;
-import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
@@ -19,7 +14,6 @@ import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
-import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
 
@@ -38,21 +32,19 @@ public class SwingVisitor extends GuiVisitor
 	{
 		//		JPanel p = new JPanel();
 		//		p.setSize(Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWHEIGHT)));
-		
+
 		if(textfield.getDatafield() != null)
 		{
-			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), "VALUE", textfield.getDatafield().isReadOnly(), myGui.getSettings());
-			//		p.add(elem);
+			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getDatafield().getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings());
 			myGui.addElement(elem);
-			System.out.print("Textfeld: ");
-			System.out.println(textfield.getName());
-	
+			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
+
 		}
 		else
 		{
 			//TODO nullpointer behandeln
 		}
-		
+
 	}
 
 	@Override
@@ -63,7 +55,7 @@ public class SwingVisitor extends GuiVisitor
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				
+
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);
@@ -97,7 +89,7 @@ public class SwingVisitor extends GuiVisitor
 			BarChartPanel elem = new BarChartPanel("Name vom Chart", (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 			myGui.addElement(elem);
 			elem.animate();
-			System.out.println("Barchart: ");	
+			System.out.println("Barchart: ");
 		}
 		else
 		{

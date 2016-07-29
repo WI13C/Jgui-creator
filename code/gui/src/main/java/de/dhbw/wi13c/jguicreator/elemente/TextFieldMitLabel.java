@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
+import de.dhbw.wi13c.jguicreator.data.Datafield.DatafieldType;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.listener.SaveListener;
 
@@ -31,7 +32,7 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 
 	private Settings settings;
 
-	private TextFieldDataType datatype;
+	private DatafieldType datatype;
 
 	/**
 	 * Konstruktor zur Erstellung der TextFieldMitLabel-GUIKomponente. Größe wird anhand der Settings gesetzt.
@@ -41,11 +42,11 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings, TextFieldDataType pDataType)
+	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings, DatafieldType datafieldType)
 	{
 		super();
 		this.settings = pSettings;
-		this.datatype = pDataType;
+		this.datatype = datafieldType;
 		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
@@ -128,7 +129,7 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 	{
 		switch(datatype)
 		{
-			case STRING:
+			case TEXT:
 				return (T) mapTextFieldValueToString();
 			case DOUBLE:
 				return (T) mapTextFieldValueToDouble();
@@ -137,10 +138,5 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 			default:
 				return (T) mapTextFieldValueToString();
 		}
-	}
-
-	public enum TextFieldDataType
-	{
-		STRING, DOUBLE, INTEGER;
 	}
 }

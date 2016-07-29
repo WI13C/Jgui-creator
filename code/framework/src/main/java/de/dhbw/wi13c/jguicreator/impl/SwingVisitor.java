@@ -36,7 +36,7 @@ public class SwingVisitor extends GuiVisitor
 		if(textfield.getDatafield() != null)
 		{
 
-			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getDatafield().getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings());
+			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getDatafield().getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield.getDatafield().getType());
 
 			myGui.addElement(elem);
 			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
@@ -61,14 +61,14 @@ public class SwingVisitor extends GuiVisitor
 				{
 
 					@Override
-					public void guiSaved(Object form)
+					public void guiSaved(DomainObject form)
 					{
 						// TODO Auto-generated method stub
 
 					}
 
 					@Override
-					public void guiCanceled(Object form)
+					public void guiCanceled(DomainObject form)
 					{
 						// TODO Auto-generated method stub
 

@@ -98,6 +98,8 @@ public class Datafield<T>
 	{
 		TEXT,
 		NUMBER,
+		INTEGER,
+		DOUBLE,
 		DATE,
 		LIST;
 		//TODO complete

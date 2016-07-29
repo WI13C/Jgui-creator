@@ -42,19 +42,20 @@ public class GuiCreatorImpl<T> implements GuiCreator<T>
 		{
 
 			@Override
-			public void guiSaved(Object form)
+			public void guiSaved(DomainObject o)
 			{
 				// TODO Auto-generated method stub
 
 			}
 
 			@Override
-			public void guiCanceled(Object form)
+			public void guiCanceled(DomainObject o)
 			{
 				// TODO Auto-generated method stub
 
 			}
 		}});
+		
 	}
 
 }

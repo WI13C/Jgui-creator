@@ -14,6 +14,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
+import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
 
@@ -59,7 +60,7 @@ public class SwingVisitor extends GuiVisitor
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);
-		System.out.println("Abhängiges Object");
+		System.out.println("Abhängiges Object: " + dependentObject.getName());
 	}
 
 	@Override
@@ -86,7 +87,7 @@ public class SwingVisitor extends GuiVisitor
 	{
 		if(chart.getDatafield() != null)
 		{
-			BarChartPanel elem = new BarChartPanel("Name vom Chart", (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
+			BarChartPanel elem = new BarChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 			myGui.addElement(elem);
 			elem.animate();
 			System.out.println("Barchart: ");
@@ -100,7 +101,17 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(PieChartData chart)
 	{
-		System.out.println("PieChart");
+		if(chart.getDatafield() != null)
+		{
+			PieChartPanel elem = new PieChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
+			myGui.addElement(elem);
+			elem.animate();
+			System.out.println("Piechart: ");
+		}
+		else
+		{
+			//TODO nullpointer behandeln
+		}
 
 	}
 

@@ -86,12 +86,12 @@ public class MockParser implements Parser
 			Datafield<Map<String, ? extends Number>> einkommensData= new Datafield<Map<String, ? extends Number>>();
 			einkommensData.setValue(einkommen);
 			einkommenBarChart.setDatafield(einkommensData);
-			
 			rootDataset.getElements().add(einkommenBarChart);
 
 			PieChartData entwicklungBarChart = new PieChartData();
 			Datafield<Map<String, ? extends Number>>  entwicklungsData= new Datafield<Map<String, ? extends Number>>();
 			entwicklungsData.setValue(einkommensentwicklung);
+			entwicklungBarChart.setDatafield(entwicklungsData);
 			rootDataset.getElements().add(entwicklungBarChart);
 
 			DomainObject adresseDependentObject = new DomainObject();

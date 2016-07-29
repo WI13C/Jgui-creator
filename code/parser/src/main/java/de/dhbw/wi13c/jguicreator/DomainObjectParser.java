@@ -124,6 +124,33 @@ public class DomainObjectParser implements Parser
 				//Setting the read only boolean
 				boolean isFinal = Modifier.isFinal(field.getModifiers());
 				uiElementData.getDatafield().setReadOnly(isFinal);
+				
+				try
+				{
+					field.setAccessible(true);
+
+					//TODO soll temporär sein
+					//Grund für die Abfrage: im SwingVisitor wird der Wert eines Datafields bei einem Textfeld zu String gecasted
+					//Das führt bei Number Datentypen zu cast exceptions
+					Class<?> classNumber = Number.class;
+					Class<?> classField = field.getType();
+					boolean instance = classNumber.isAssignableFrom(classField);
+					if(instance)
+					{
+						uiElementData.getDatafield().setValue(field.get(object).toString());
+					}
+					else
+					{
+						uiElementData.getDatafield().setValue(field.get(object));
+					}
+					
+					
+				}
+				catch(IllegalArgumentException | IllegalAccessException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				parseValidators(uiElementData, field);
 			}

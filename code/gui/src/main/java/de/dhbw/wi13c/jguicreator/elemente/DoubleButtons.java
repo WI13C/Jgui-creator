@@ -2,6 +2,7 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
+import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 
 /**
  * Klasse für die GUIKomponente Doppel-Button.
@@ -31,7 +33,7 @@ public class DoubleButtons extends GUIKomponente
 	 * @param pActionListener
 	 * @param pSettings
 	 */
-	public DoubleButtons(ActionListener pActionListener, Settings pSettings)
+	public DoubleButtons(SavedCanceledListener pActionListener, Settings pSettings)
 	{
 		super();
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
@@ -41,7 +43,17 @@ public class DoubleButtons extends GUIKomponente
 		this.setLayout(new BorderLayout());
 		JPanel pnlAbort = new JPanel();
 		btnAbortObject = new JButton("Abbrechen");
-		btnAbortObject.addActionListener(pActionListener);
+		btnAbortObject.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(e.getActionCommand().equalsIgnoreCase("Abbrechen"))
+					pActionListener.canceled();
+
+			}
+		});
 		btnAbortObject.setFont(textfont);
 		pnlAbort.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2)));
 		pnlAbort.add(btnAbortObject);
@@ -49,7 +61,17 @@ public class DoubleButtons extends GUIKomponente
 
 		JPanel pnlAccept = new JPanel();
 		btnAcceptObject = new JButton("Speichern");
-		btnAcceptObject.addActionListener(pActionListener);
+		btnAcceptObject.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(e.getActionCommand().equalsIgnoreCase("Speichern"))
+					pActionListener.saved();
+
+			}
+		});
 		btnAcceptObject.setFont(textfont);
 		pnlAccept.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		pnlAccept.add(btnAcceptObject);

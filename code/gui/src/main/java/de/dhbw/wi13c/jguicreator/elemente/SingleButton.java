@@ -27,10 +27,10 @@ public class SingleButton extends GUIKomponente
 	 * Konstruktor zur Erstellung der SingleButton-GUIKomponente. Größe wird anhand der Settings gesetzt.
 	 * 
 	 * @param pButtonText
-	 * @param pActionListener
+	 * @param eventListener
 	 * @param pSettings
 	 */
-	public SingleButton(String pButtonText, ActionListener pActionListener, Settings pSettings)
+	public SingleButton(String pButtonText, ActionListener eventListener, Settings pSettings)
 	{
 		super();
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
@@ -41,7 +41,7 @@ public class SingleButton extends GUIKomponente
 
 		JPanel pnlAccept = new JPanel();
 		btnObject = new JButton(pButtonText);
-		btnObject.addActionListener(pActionListener);
+		btnObject.addActionListener(eventListener);
 		btnObject.setFont(textfont);
 		pnlAccept.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		pnlAccept.add(btnObject);

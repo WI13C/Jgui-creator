@@ -2,6 +2,7 @@ package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
@@ -12,21 +13,24 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
+import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
-import de.dhbw.wi13c.jguicreator.listener.GuiListener;
 
 public class SwingVisitor extends GuiVisitor
 {
 
 	private MyGui myGui;
 
+	private Map<UiElementData, GUIKomponente> elementConnector;
+
 	public SwingVisitor(MyGui myGui)
 	{
 		this.myGui = myGui;
+		elementConnector = new HashMap<>();
 	}
 
 	@Override
@@ -40,7 +44,7 @@ public class SwingVisitor extends GuiVisitor
 
 			myGui.addElement(elem);
 			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
-
+			saveConnectorState(textfield, elem);
 		}
 		else
 		{
@@ -54,26 +58,12 @@ public class SwingVisitor extends GuiVisitor
 	{
 		SingleButton sb = new SingleButton(dependentObject.getName(), new ActionListener()
 		{
+			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				MyGui tempGui = new MyGui(dependentObject, new GuiListener[]{new GuiListener()
-				{
-
-					@Override
-					public void guiSaved(DomainObject form)
-					{
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void guiCanceled(DomainObject form)
-					{
-						// TODO Auto-generated method stub
-
-					}
-				}});
+				System.out.println("öffne neues fenster mit abhängigem objekt");
+				
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);
@@ -97,7 +87,6 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(ComboBoxData comboBox)
 	{
 		System.out.println("ComboBox");
-
 	}
 
 	@Override
@@ -138,6 +127,11 @@ public class SwingVisitor extends GuiVisitor
 	{
 		System.out.println("Dataset");
 
+	}
+
+	private void saveConnectorState(UiElementData uiElementData, GUIKomponente guiKomponente)
+	{
+		elementConnector.put(uiElementData, guiKomponente);
 	}
 
 }

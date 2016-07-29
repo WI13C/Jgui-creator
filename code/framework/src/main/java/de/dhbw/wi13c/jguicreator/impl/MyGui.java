@@ -23,6 +23,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.listener.GuiListener;
+import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
 public class MyGui extends Gui
@@ -85,37 +86,44 @@ public class MyGui extends Gui
 			innerScrollPane.add(elem);
 			preferedScrollPaneSize += elem.getKomponentenBounds().getHeight() + 7;
 		}
-		
+
 		//Default ssave and exit buttons
-		DoubleButtons saveExit = new DoubleButtons(new ActionListener()
+		DoubleButtons saveExit = new DoubleButtons(new SavedCanceledListener()
 		{
-			
+
 			@Override
-			public void actionPerformed(ActionEvent e)
+			public void saved()
 			{
-				// TODO Auto-generated method stub
-				
+				System.out.println("saved");
+
+			}
+
+			@Override
+			public void canceled()
+			{
+				System.out.println("canceled");
+
 			}
 		}, getSettings());
-		
+
 		innerScrollPane.add(saveExit);
-		
+
 		innerScrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), preferedScrollPaneSize));
 		innerScrollPane.validate();
 		innerScrollPane.repaint();
 		mainFrame.add(scrollPane);
-		
+
 		System.out.println(mainFrame.getWindowListeners().length);
-		mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        if (JOptionPane.showConfirmDialog(mainFrame, 
-		            "Das Schließen des Fensters führt zum Datenverlust!\nTrotzdem schließen?", "Achtung!", 
-		            JOptionPane.YES_NO_OPTION,
-		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		            System.exit(0);
-		        }
-		    }
+		mainFrame.addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent)
+			{
+				if(JOptionPane.showConfirmDialog(mainFrame, "Das Schließen des Fensters führt zum Datenverlust!\nTrotzdem schließen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+				{
+					System.exit(0);
+				}
+			}
 		});
 
 		mainFrame.setTitle("Foo");
@@ -141,6 +149,5 @@ public class MyGui extends Gui
 	{
 		this.settings = settings;
 	}
-
 
 }

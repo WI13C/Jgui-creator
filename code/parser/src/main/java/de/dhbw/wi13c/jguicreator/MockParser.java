@@ -78,26 +78,31 @@ public class MockParser implements Parser
 			Datafield<String> datafieldNachname = new Datafield<>();
 			datafieldNachname.setField(person.getClass().getDeclaredField("nachname"));
 			datafieldNachname.setValue(person.getNachname());
+			datafieldNachname.setReadOnly(true);
 			textfield2.setDatafield(datafieldNachname);
 			textfield2.setName("Nachname");
 			rootDataset.getElements().add(textfield2);
 
 			BarChartData einkommenBarChart = new BarChartData();
+			einkommenBarChart.setName("Einkommen");
 			Datafield<Map<String, ? extends Number>> einkommensData= new Datafield<Map<String, ? extends Number>>();
 			einkommensData.setValue(einkommen);
 			einkommenBarChart.setDatafield(einkommensData);
 			rootDataset.getElements().add(einkommenBarChart);
 
 			PieChartData entwicklungBarChart = new PieChartData();
+			entwicklungBarChart.setName("Einkommensentwicklung");
 			Datafield<Map<String, ? extends Number>>  entwicklungsData= new Datafield<Map<String, ? extends Number>>();
 			entwicklungsData.setValue(einkommensentwicklung);
 			entwicklungBarChart.setDatafield(entwicklungsData);
 			rootDataset.getElements().add(entwicklungBarChart);
 
 			DomainObject adresseDependentObject = new DomainObject();
+			adresseDependentObject.setName("Adresse");
 			rootDataset.getElements().add(adresseDependentObject);
 
 			DomainObject kontaktPrivatDependentObject = new DomainObject();
+			kontaktPrivatDependentObject.setName("Kontakte");
 			rootDataset.getElements().add(kontaktPrivatDependentObject);
 
 			UiElementContainer kontaktDataset = new UiElementContainer();

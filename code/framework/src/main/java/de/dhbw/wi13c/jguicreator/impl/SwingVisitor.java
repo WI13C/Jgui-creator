@@ -17,6 +17,7 @@ import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
+import de.dhbw.wi13c.jguicreator.listener.GuiListener;
 
 public class SwingVisitor extends GuiVisitor
 {
@@ -31,12 +32,12 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(TextfieldData textfield)
 	{
-		//		JPanel p = new JPanel();
-		//		p.setSize(Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(myGui.getSettings().getSetting(Setting.WINDOWHEIGHT)));
 
 		if(textfield.getDatafield() != null)
 		{
+
 			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getDatafield().getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings());
+
 			myGui.addElement(elem);
 			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
 
@@ -51,16 +52,33 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(DomainObject dependentObject)
 	{
-		SingleButton sb = new SingleButton("dependentObject", new ActionListener()
+		SingleButton sb = new SingleButton(dependentObject.getName(), new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				MyGui tempGui = new MyGui(dependentObject, new GuiListener[]{new GuiListener()
+				{
 
+					@Override
+					public void guiSaved(Object form)
+					{
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void guiCanceled(Object form)
+					{
+						// TODO Auto-generated method stub
+
+					}
+				}});
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);
 		System.out.println("Abhängiges Object: " + dependentObject.getName());
+
 	}
 
 	@Override
@@ -90,7 +108,7 @@ public class SwingVisitor extends GuiVisitor
 			BarChartPanel elem = new BarChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 			myGui.addElement(elem);
 			elem.animate();
-			System.out.println("Barchart: ");
+			System.out.println("Barchart: " + chart.getName());
 		}
 		else
 		{
@@ -106,7 +124,7 @@ public class SwingVisitor extends GuiVisitor
 			PieChartPanel elem = new PieChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 			myGui.addElement(elem);
 			elem.animate();
-			System.out.println("Piechart: ");
+			System.out.println("Piechart: " + chart.getName());
 		}
 		else
 		{

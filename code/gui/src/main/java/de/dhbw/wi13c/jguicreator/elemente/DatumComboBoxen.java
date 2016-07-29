@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
+import de.dhbw.wi13c.jguicreator.listener.SaveListener;
 
 /**
  * Klasse für die GUIKomponente ComboBox zur Darstellung von einem Datum mit beschreibendem Label.
@@ -21,7 +22,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
  *
  */
 @SuppressWarnings("serial")
-public class DatumComboBoxen extends GUIKomponente
+public class DatumComboBoxen extends GUIKomponente implements SaveListener
 {
 	private String labelValue;
 
@@ -230,5 +231,12 @@ public class DatumComboBoxen extends GUIKomponente
 	public Calendar getCalendarItem()
 	{
 		return new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), Integer.parseInt((String) comboboxMonthObject.getSelectedItem()), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T guiSave()
+	{
+		return (T) new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), Integer.parseInt((String) comboboxMonthObject.getSelectedItem()), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
 	}
 }

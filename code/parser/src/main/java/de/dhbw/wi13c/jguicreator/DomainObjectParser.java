@@ -16,6 +16,7 @@ import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
+import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
 import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
 import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
@@ -75,33 +76,41 @@ public class DomainObjectParser implements Parser
 					}
 					else
 					{
-						boolean isAnnotation = false;
-						for(Annotation annotation : field.getAnnotations())
+						if(isComboBox(field))
 						{
-							isAnnotation = false;
-							if(isBarChart(annotation))
-							{
-								uiElementData = createBarChartData(field, object);
-								isAnnotation = true;
-							}
-
-							if(isPieChart(annotation))
-							{
-								uiElementData = createPieChartData(field, object);
-								isAnnotation = true;
-							}
-						}
-
-						if(isDataset(field/*, isAnnotation*/))
-						{
-							uiElementData = createDataset(field, object);
+							uiElementData = createComboBox(field, object);
 						}
 						else
 						{
-							if(isDomainObject(field))
+							boolean isAnnotation = false;
+							for(Annotation annotation : field.getAnnotations())
 							{
-								uiElementData = createDomainObject(field, object);
+								isAnnotation = false;
+								if(isBarChart(annotation))
+								{
+									uiElementData = createBarChartData(field, object);
+									isAnnotation = true;
+								}
+
+								if(isPieChart(annotation))
+								{
+									uiElementData = createPieChartData(field, object);
+									isAnnotation = true;
+								}
 							}
+
+							if(isDataset(field/*, isAnnotation*/))
+							{
+								uiElementData = createDataset(field, object);
+							}
+							else
+							{
+								if(isDomainObject(field))
+								{
+									uiElementData = createDomainObject(field, object);
+								}
+							}
+							
 						}
 					}
 				}
@@ -124,7 +133,7 @@ public class DomainObjectParser implements Parser
 
 	private void parseValidators(UiElementData uiElementData, Field field)
 	{
-		Set<Validator> validators = uiElementData.getDatafield().getValidators();
+		Set validators = uiElementData.getDatafield().getValidators();
 		for(Annotation annotation : field.getDeclaredAnnotations())
 		{
 			if(annotation.annotationType().getTypeName()
@@ -154,6 +163,12 @@ public class DomainObjectParser implements Parser
 	{
 		String output = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
 		uiElementData.setName(output);
+	}
+
+	private UiElementData createComboBox(Field field, Object object)
+	{
+		ComboBoxData comboBoxdata = new ComboBoxData();
+		return comboBoxdata;
 	}
 
 	private Dataset createDataset(Field field, Object object)
@@ -272,6 +287,12 @@ public class DomainObjectParser implements Parser
 		//			+ object.getClass().getSimpleName());
 		PieChartData pieChartData = new PieChartData();
 		return pieChartData;
+	}
+
+	private boolean isComboBox(Field field)
+	{
+		boolean isEnum = field.getType().isEnum();
+		return isEnum;
 	}
 
 	private boolean isDate(Field field)

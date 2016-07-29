@@ -11,7 +11,14 @@ import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 
 public class Person {
-
+	public enum Geschlecht
+	{
+		MANN
+		,FRAU
+	}
+	
+	private Geschlecht geschlecht;
+	
 	@NotNull
 	@Size(min = 2)
 	private String vorname;
@@ -34,6 +41,8 @@ public class Person {
 
 	@BarChart
 	private Map<String, ? extends Number> einkommensEntwicklung;
+	
+	
 
 	public String getVorname() {
 		return vorname;
@@ -116,6 +125,16 @@ public class Person {
 				+ kontaktDaten + ", einkommensZusammensetzung="
 				+ einkommensZusammensetzung + ", einkommensEntwicklung="
 				+ einkommensEntwicklung + "]";
+	}
+
+	public Geschlecht getGeschlecht()
+	{
+		return geschlecht;
+	}
+
+	public void setGeschlecht(Geschlecht geschlecht)
+	{
+		this.geschlecht = geschlecht;
 	}
 
 	// ..

@@ -1,11 +1,7 @@
 package de.dhbw.wi13c.jguicreator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
-import de.dhbw.wi13c.jguicreator.listener.GuiListener;
+import de.dhbw.wi13c.jguicreator.listener.SaveListener;
 
 /**
  * 
@@ -17,19 +13,14 @@ import de.dhbw.wi13c.jguicreator.listener.GuiListener;
  * The changes on the gui must be reflected in the Forms Field objects only if the save button is pressed.
  * Otherwise the Form object should remain unchanged
  * 
- * @author Robin Sadlo
  *
  */
 public abstract class Gui
 {
 
-	
-	private final Collection<GuiListener> listeners = new ArrayList<>();
 
-	// TODO Was wird anstelel von Form uebergeben?
-	public Gui(DomainObject domainObject, GuiListener... guiListeners)
+	public Gui(DomainObject domainObject)
 	{
-		this.listeners.addAll(Arrays.asList(guiListeners));
 		
 	}
 	
@@ -37,22 +28,6 @@ public abstract class Gui
 	 * Called to show the Gui
 	 */
 	public abstract void show();
-	
-	/**
-	 * Called when the Gui is saved
-	 */
-	protected void onSave()
-	{
-//		this.listeners.stream().forEach((l) -> l.guiSaved(this.form));
-	}
-	
-	/**
-	 * Called when the gui is canceled
-	 */
-	protected void onCancel()
-	{
-//		this.listeners.stream().forEach((l)->l.guiCanceled(this.form) );
-	}
 	
 	
 }

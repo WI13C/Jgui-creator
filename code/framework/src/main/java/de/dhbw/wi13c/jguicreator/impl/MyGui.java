@@ -22,8 +22,8 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
-import de.dhbw.wi13c.jguicreator.listener.GuiListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
+import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
 public class MyGui extends Gui
@@ -41,9 +41,15 @@ public class MyGui extends Gui
 
 	private JPanel innerScrollPane;
 
-	public MyGui(DomainObject domainObject, GuiListener[] guiListeners)
+	private SavedListener<DomainObject> domainObjectSavedListener;
+
+	private DomainObject domainObject;
+
+	public MyGui(DomainObject domainObject, SavedListener<DomainObject> domainObjectSavedListener)
 	{
-		super(domainObject, guiListeners);
+		super(domainObject);
+		this.domainObject = domainObject;
+		this.domainObjectSavedListener = domainObjectSavedListener;
 		settings = new Settings();
 		init(domainObject);
 	}
@@ -87,7 +93,7 @@ public class MyGui extends Gui
 			preferedScrollPaneSize += elem.getKomponentenBounds().getHeight() + 7;
 		}
 
-		//Default ssave and exit buttons
+		//Default save and exit buttons
 		DoubleButtons saveExit = new DoubleButtons(new SavedCanceledListener()
 		{
 
@@ -95,7 +101,7 @@ public class MyGui extends Gui
 			public void saved()
 			{
 				System.out.println("saved");
-
+				domainObjectSavedListener.saved(domainObject);
 			}
 
 			@Override
@@ -113,7 +119,7 @@ public class MyGui extends Gui
 		innerScrollPane.repaint();
 		mainFrame.add(scrollPane);
 
-		System.out.println(mainFrame.getWindowListeners().length);
+		//Override default windows closing behavior
 		mainFrame.addWindowListener(new java.awt.event.WindowAdapter()
 		{
 			@Override

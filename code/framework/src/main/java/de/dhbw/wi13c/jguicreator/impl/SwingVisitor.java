@@ -19,6 +19,7 @@ import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
+import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 
 public class SwingVisitor extends GuiVisitor
 {
@@ -62,8 +63,16 @@ public class SwingVisitor extends GuiVisitor
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println("öffne neues fenster mit abhängigem objekt");
-				
+				MyGui foo = new MyGui(dependentObject, new SavedListener<DomainObject>()
+				{
+					
+					@Override
+					public void saved(DomainObject object)
+					{
+						System.out.println("neue gui aufgerufen");
+						
+					}
+				});
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);

@@ -10,6 +10,7 @@ import java.util.Map;
 import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
+import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
@@ -75,12 +76,20 @@ public class MockParser implements Parser
 			textfield1.setName("Vorname");
 			rootDataset.getElements().add(textfield1);
 			
+			ComboBoxData geschlecht = new ComboBoxData();
+			Datafield<Person.Geschlecht> datafieldGeschlecht = new Datafield<>();
+			datafieldGeschlecht.setField(person.getClass().getDeclaredField("geschlecht"));
+			datafieldGeschlecht.setValue(Person.Geschlecht.MANN);
+			geschlecht.setDatafield(datafieldGeschlecht);
+			geschlecht.setName("Gender");
+			rootDataset.getElements().add(geschlecht);
+			
 			DatepickerData datum1 = new DatepickerData();
 			Datafield<Date> datafieldGeburtstag = new Datafield<>();
 			datafieldGeburtstag.setField(person.getClass().getDeclaredField("Geburtsdatum"));
 			datafieldGeburtstag.setValue(person.getGeburtsdatum());
 			datum1.setDatafield(datafieldGeburtstag);
-			textfield1.setName("Geburtstag");
+			datum1.setName("Geburtstag");
 			rootDataset.getElements().add(datum1);
 
 			TextfieldData textfield2 = new TextfieldData();

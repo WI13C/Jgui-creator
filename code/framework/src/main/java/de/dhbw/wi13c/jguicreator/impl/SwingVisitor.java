@@ -2,6 +2,7 @@ package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
+import de.dhbw.wi13c.jguicreator.elemente.EnumComboBoxen;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
@@ -85,8 +87,9 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(DatepickerData datepicker)
 	{
-		
-		DatumComboBoxen dcb = new DatumComboBoxen("Datum", "12", "12", "2342", false, myGui.getSettings());
+		System.out.println("Date: " + datepicker.getName());
+		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), "12", "12", "2342", false, myGui.getSettings());
+		saveConnectorState(datepicker, dcb);
 		myGui.addElement(dcb);
 
 	}
@@ -94,7 +97,8 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(ComboBoxData comboBox)
 	{
-		System.out.println("ComboBox");
+		System.out.println("ComboBox: " + comboBox.getName());
+//		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), comboBox.getDatafield().getType(), false, myGui.getSettings());
 	}
 
 	@Override
@@ -133,7 +137,7 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(Dataset dataset)
 	{
-		System.out.println("Dataset");
+		System.out.println("Dataset: " + dataset.getName());
 
 	}
 

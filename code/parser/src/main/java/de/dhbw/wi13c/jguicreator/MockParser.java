@@ -11,6 +11,7 @@ import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
+import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
 import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
@@ -33,7 +34,7 @@ public class MockParser implements Parser
 	{
 		return getMockData(object);
 	}
-	
+
 	/**
 	 * 
 	 * @param object does not affect the returned data
@@ -44,9 +45,10 @@ public class MockParser implements Parser
 		Adresse adresse = new Adresse("Freiburgerstraße", 4);
 
 		List<Kontakt> kontaktdaten = new ArrayList<>();
-		Kontakt privatKontakt = new Kontakt("privat", "016326632",
-				"jens.mueller@pom.de");
+		Kontakt privatKontakt = new Kontakt("privat", "016326632", "jens.mueller@pom.de");
+		Kontakt privatKontakt1 = new Kontakt("arbeit", "672893", "jens.m@ag.de");
 		kontaktdaten.add(privatKontakt);
+		kontaktdaten.add(privatKontakt1);
 
 		Map<String, Integer> einkommen = new HashMap<>();
 		einkommen.put("Zinsen", new Integer(5000));
@@ -57,15 +59,14 @@ public class MockParser implements Parser
 		einkommensentwicklung.put("Februar", new Integer(2300));
 		einkommensentwicklung.put("März", new Integer(2700));
 
-		Person person = new Person("Jens", "Müller", 5, new Date(1994, 5, 15),
-				adresse, kontaktdaten, einkommen, einkommensentwicklung);
+		Person person = new Person("Jens", "Müller", 5, new Date(1994, 5, 15), adresse, kontaktdaten, einkommen, einkommensentwicklung);
 
 		DomainObject rootObject = new DomainObject();
 		Datafield<Person> datafield = new Datafield<>();
 		datafield.setInstance(person);
 		rootObject.setDatafield(datafield);
 		UiElementContainer rootDataset = new UiElementContainer();
-		
+
 		try
 		{
 			TextfieldData textfield1 = new TextfieldData();
@@ -75,7 +76,7 @@ public class MockParser implements Parser
 			textfield1.setDatafield(datafieldVorname);
 			textfield1.setName("Vorname");
 			rootDataset.getElements().add(textfield1);
-			
+
 			ComboBoxData geschlecht = new ComboBoxData();
 			Datafield<Person.Geschlecht> datafieldGeschlecht = new Datafield<>();
 			datafieldGeschlecht.setField(person.getClass().getDeclaredField("geschlecht"));
@@ -83,7 +84,7 @@ public class MockParser implements Parser
 			geschlecht.setDatafield(datafieldGeschlecht);
 			geschlecht.setName("Gender");
 			rootDataset.getElements().add(geschlecht);
-			
+
 			DatepickerData datum1 = new DatepickerData();
 			Datafield<Date> datafieldGeburtstag = new Datafield<>();
 			datafieldGeburtstag.setField(person.getClass().getDeclaredField("Geburtsdatum"));
@@ -103,25 +104,26 @@ public class MockParser implements Parser
 
 			BarChartData einkommenBarChart = new BarChartData();
 			einkommenBarChart.setName("Einkommen");
-			Datafield<Map<String, ? extends Number>> einkommensData= new Datafield<Map<String, ? extends Number>>();
+			Datafield<Map<String, ? extends Number>> einkommensData = new Datafield<Map<String, ? extends Number>>();
 			einkommensData.setValue(einkommen);
 			einkommenBarChart.setDatafield(einkommensData);
 			rootDataset.getElements().add(einkommenBarChart);
 
 			PieChartData entwicklungBarChart = new PieChartData();
 			entwicklungBarChart.setName("Einkommensentwicklung");
-			Datafield<Map<String, ? extends Number>>  entwicklungsData= new Datafield<Map<String, ? extends Number>>();
+			Datafield<Map<String, ? extends Number>> entwicklungsData = new Datafield<Map<String, ? extends Number>>();
 			entwicklungsData.setValue(einkommensentwicklung);
 			entwicklungBarChart.setDatafield(entwicklungsData);
 			rootDataset.getElements().add(entwicklungBarChart);
 
+			//Abhaengiges Objekt
 			DomainObject adresseDependentObject = new DomainObject();
 			adresseDependentObject.setName("Adresse");
 			rootDataset.getElements().add(adresseDependentObject);
 
+			//einzelner Kontakt
 			DomainObject kontaktPrivatDependentObject = new DomainObject();
-			kontaktPrivatDependentObject.setName("Kontakte");
-			rootDataset.getElements().add(kontaktPrivatDependentObject);
+			kontaktPrivatDependentObject.setName("Einzelner Kontakt");
 
 			UiElementContainer kontaktDataset = new UiElementContainer();
 			kontaktPrivatDependentObject.setUiElementContainer(kontaktDataset);
@@ -149,7 +151,51 @@ public class MockParser implements Parser
 			emailTextfield.setDatafield(emailDatafield);
 			emailTextfield.setName("Email");
 			kontaktDataset.getElements().add(emailTextfield);
+			rootDataset.getElements().add(kontaktPrivatDependentObject);
+			
+			
+			//Darstellen von Listen mit Typen und @Id Annotation
+			Dataset kontakteSet = new Dataset();
+			kontakteSet.setName("Kontakte als Liste");
+			for(Kontakt k : kontaktdaten)
+			{
 
+				DomainObject kontaktPrivatDependentObject1 = new DomainObject();
+				kontaktPrivatDependentObject.setName("Einzelner Kontakt");
+
+//				UiElementContainer kontaktDataset = new UiElementContainer();
+//				kontaktPrivatDependentObject.setUiElementContainer(kontaktDataset);
+
+				TextfieldData typTextfield1 = new TextfieldData();
+				Datafield<String> typDatafield1 = new Datafield<>();
+				typDatafield1.setField(k.getClass().getDeclaredField("typ"));
+				typDatafield1.setValue("wasmusshierrein");
+				typTextfield1.setDatafield(typDatafield1);
+				typTextfield1.setName("Typ");
+//				kontaktDataset.getElements().add(typTextfield);
+
+				TextfieldData telTextfield1 = new TextfieldData();
+				Datafield<String> telDatafield1 = new Datafield<>();
+				telDatafield1.setField(k.getClass().getDeclaredField("telefon"));
+				telDatafield1.setValue("09832");
+				telTextfield1.setDatafield(telDatafield1);
+				telTextfield1.setName("Telefonnummer");
+//				kontaktDataset.getElements().add(telTextfield);
+
+				TextfieldData emailTextfield1 = new TextfieldData();
+				Datafield<String> emailDatafield1 = new Datafield<>();
+				emailDatafield1.setField(k.getClass().getDeclaredField("email"));
+				emailDatafield1.setValue("mail@pornhub.com");
+				emailTextfield1.setDatafield(emailDatafield1);
+				emailTextfield1.setName("Email");
+//				kontaktDataset.getElements().add(emailTextfield);
+
+				kontakteSet.addElement(k.getTyp(), kontaktPrivatDependentObject1);
+			}
+			rootDataset.getElements().add(kontakteSet);
+			
+			
+			//Adresse
 			UiElementContainer dependentDataset = new UiElementContainer();
 			adresseDependentObject.setUiElementContainer(dependentDataset);
 
@@ -164,8 +210,7 @@ public class MockParser implements Parser
 			TextfieldData hausnummerTextfield = new TextfieldData();
 			hausnummerTextfield.setName("Hausnummer");
 			Datafield<String> hausnummerDatafield = new Datafield<>();
-			hausnummerDatafield.setField(adresse.getClass().getDeclaredField(
-					"Hausnummer"));
+			hausnummerDatafield.setField(adresse.getClass().getDeclaredField("Hausnummer"));
 			hausnummerDatafield.setValue("88");
 			hausnummerTextfield.setDatafield(hausnummerDatafield);
 			dependentDataset.getElements().add(hausnummerTextfield);
@@ -173,7 +218,7 @@ public class MockParser implements Parser
 			rootObject.setUiElementContainer(rootDataset);
 
 		}
-		catch (NoSuchFieldException | SecurityException e)
+		catch(NoSuchFieldException | SecurityException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();

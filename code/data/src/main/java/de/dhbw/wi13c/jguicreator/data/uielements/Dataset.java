@@ -2,6 +2,8 @@ package de.dhbw.wi13c.jguicreator.data.uielements;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
@@ -12,13 +14,13 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
  */
 public class Dataset extends UiElementData
 {
-	private Collection<DomainObject> elements;
-	
+	private Map<String, DomainObject> elements;
+
 	public Dataset()
 	{
 		//TODO muss hier statt einer ArrayList der Typ einer Collection erzeugt werden,
 		//der im geparsten Objekt für den Datensatz verwendet wird?
-		elements = new ArrayList<DomainObject>();
+		elements = new HashMap<String, DomainObject>();
 	}
 
 	@Override
@@ -27,14 +29,18 @@ public class Dataset extends UiElementData
 		visitor.visit(this);
 	}
 
-	public Collection<DomainObject> getElements()
+	public Map<String, DomainObject> getElements()
 	{
 		return elements;
 	}
 
-	public void setElements(Collection<DomainObject> elements)
+	public void setElements(Map<String, DomainObject> elements)
 	{
 		this.elements = elements;
+	}
+	
+	public void addElement(String key, DomainObject element){
+		this.elements.put(key, element);
 	}
 
 }

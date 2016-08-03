@@ -2,8 +2,9 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.List;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -43,7 +44,7 @@ public class ListCombo extends GUIKomponente
  * @param pActionListener
  * @param pSettings
  */
-	public ListCombo(String pValueLabel, List pListKeys, ActionListener pActionListener, Settings pSettings)
+	public ListCombo(String pValueLabel, List<String> pListKeys, ActionListener pActionListener, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
@@ -59,7 +60,9 @@ public class ListCombo extends GUIKomponente
 		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		this.add(labelObject, BorderLayout.WEST);
 
-		comboBoxObject = new JComboBox<>(pListKeys.getItems());
+		String[] keys = new String[pListKeys.size()];
+		keys = pListKeys.toArray(keys);
+		comboBoxObject = new JComboBox<>(keys);
 		comboBoxObject.setFont(textfont);
 
 		comboBoxObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));

@@ -238,7 +238,8 @@ public class DomainObjectParser implements Parser
 					DomainObject domainobject = new DomainObject();
 					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
 
-					dataset.getElements().add(domainobject);
+					//TODO parse @Id-Annotation for correct key!!!!!!! 
+					dataset.getElements().put("key", domainobject);
 				}
 				catch(SecurityException | IllegalArgumentException e)
 				{

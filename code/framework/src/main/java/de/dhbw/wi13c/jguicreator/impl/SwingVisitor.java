@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
@@ -18,7 +19,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
-import de.dhbw.wi13c.jguicreator.elemente.EnumComboBoxen;
+import de.dhbw.wi13c.jguicreator.elemente.ListCombo;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
@@ -138,6 +139,21 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(Dataset dataset)
 	{
 		System.out.println("Dataset: " + dataset.getName());
+		List<String> keys = new ArrayList<>();
+		for(String key : dataset.getElements().keySet()){
+			keys.add(key);
+		}
+		ListCombo lc = new ListCombo(dataset.getName(), keys, new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		}, myGui.getSettings());
+		myGui.addElement(lc);
 
 	}
 

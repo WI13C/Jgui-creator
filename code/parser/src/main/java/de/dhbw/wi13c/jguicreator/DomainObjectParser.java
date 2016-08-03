@@ -118,6 +118,11 @@ public class DomainObjectParser implements Parser
 
 			if(uiElementData != null)
 			{
+				//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
+				Datafield datafield = new Datafield();
+				uiElementData.setDatafield(datafield);
+				datafield.setField(field);
+				
 				domainObject.getUiElementContainer().addElement(uiElementData);
 				setUiElementName(field, uiElementData);
 

@@ -12,9 +12,7 @@ public abstract class UiElementData
 	
 	public UiElementData()
 	{
-		//TODO das Erzeugen des Datafields an dieser Stelle soll temporär sein und deshalb entfernt werden
-		datafield = new Datafield();
-		
+	
 	}
 	
 	public abstract void accept(GuiVisitor visitor);

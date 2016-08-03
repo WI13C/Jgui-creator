@@ -16,6 +16,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
+import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
@@ -84,12 +85,9 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(DatepickerData datepicker)
 	{
-		//		JPanel p = new JPanel();
-		//		p.setSize(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)),Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)));
-		//		GUIKomponente elem = new DatumComboBoxen("foo", "12", "12", "2012", false, settings);
-		//		p.add(elem);
-		//		myGui.addElement(p);
-		//		System.out.println("Date");
+		
+		DatumComboBoxen dcb = new DatumComboBoxen("Datum", "12", "12", "2342", false, myGui.getSettings());
+		myGui.addElement(dcb);
 
 	}
 

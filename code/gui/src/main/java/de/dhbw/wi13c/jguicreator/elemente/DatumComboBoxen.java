@@ -56,7 +56,7 @@ public class DatumComboBoxen extends GUIKomponente implements SaveListener
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	private DatumComboBoxen(String pValueLabel, String pValueDay, String pValueMonth, String pValueYear, boolean pFinal, Settings pSettings)
+	public DatumComboBoxen(String pValueLabel, String pValueDay, String pValueMonth, String pValueYear, boolean pFinal, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;

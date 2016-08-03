@@ -10,6 +10,7 @@ import java.util.Map;
 import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
+import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
@@ -73,6 +74,14 @@ public class MockParser implements Parser
 			textfield1.setDatafield(datafieldVorname);
 			textfield1.setName("Vorname");
 			rootDataset.getElements().add(textfield1);
+			
+			DatepickerData datum1 = new DatepickerData();
+			Datafield<Date> datafieldGeburtstag = new Datafield<>();
+			datafieldGeburtstag.setField(person.getClass().getDeclaredField("Geburtsdatum"));
+			datafieldGeburtstag.setValue(person.getGeburtsdatum());
+			datum1.setDatafield(datafieldGeburtstag);
+			textfield1.setName("Geburtstag");
+			rootDataset.getElements().add(datum1);
 
 			TextfieldData textfield2 = new TextfieldData();
 			Datafield<String> datafieldNachname = new Datafield<>();

@@ -24,11 +24,11 @@ import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 public class SwingVisitor extends GuiVisitor
 {
 
-	private MyGui myGui;
+	private IsGui myGui;
 
 	private Map<UiElementData, GUIKomponente> elementConnector;
 
-	public SwingVisitor(MyGui myGui)
+	public SwingVisitor(IsGui myGui)
 	{
 		this.myGui = myGui;
 		elementConnector = new HashMap<>();
@@ -59,20 +59,21 @@ public class SwingVisitor extends GuiVisitor
 	{
 		SingleButton sb = new SingleButton(dependentObject.getName(), new ActionListener()
 		{
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				MyGui foo = new MyGui(dependentObject, new SavedListener<DomainObject>()
+
+				Popup p = new Popup("Fooo", myGui.getFrame(), dependentObject, new SavedListener<DomainObject>()
 				{
-					
 					@Override
 					public void saved(DomainObject object)
 					{
-						System.out.println("neue gui aufgerufen");
-						
+						System.out.println("saved");
 					}
 				});
+
+				p.setVisible(true);
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);

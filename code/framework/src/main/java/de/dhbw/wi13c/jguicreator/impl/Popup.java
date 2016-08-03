@@ -5,12 +5,12 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import de.dhbw.wi13c.jguicreator.Gui;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
@@ -21,64 +21,50 @@ import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
-public class MyGui extends Gui implements IsGui
+public class Popup extends JDialog implements IsGui
 {
-
-	private JFrame mainFrame;
-
-	private List<GUIKomponente> elements;
-
-	private Settings settings;
-
-	private SwingVisitor swingVisitor;
-
-	private JScrollPane scrollPane;
-
-	private JPanel innerScrollPane;
+	private static final long serialVersionUID = 1L;
 
 	private SavedListener<DomainObject> domainObjectSavedListener;
 
 	private DomainObject domainObject;
 
-	public MyGui(DomainObject domainObject, SavedListener<DomainObject> domainObjectSavedListener)
+	private Settings settings;
+
+	private SwingVisitor swingVisitor;
+
+	private List<GUIKomponente> elements;
+
+	public Popup(String title, JFrame parent, DomainObject domainObject, SavedListener<DomainObject> domainObjectSavedListener)
 	{
-		super(domainObject);
+		super(parent, title, true);
 		this.domainObject = domainObject;
 		this.domainObjectSavedListener = domainObjectSavedListener;
 		settings = new Settings();
 		init(domainObject);
+
 	}
 
-	/**
-	 * Constructs default GUI-Layout for the given DomainObject
-	 * @param domainObject
-	 */
-	public void init(DomainObject domainObject)
+	private void init(DomainObject domainObject)
 	{
 		swingVisitor = new SwingVisitor(this);
 		elements = new ArrayList<>();
 
-		innerScrollPane = new JPanel();
+		setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
+
+		JPanel innerScrollPane = new JPanel();
 		innerScrollPane.setLayout(new WrapLayout());
 
-		scrollPane = new JScrollPane(innerScrollPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPane = new JScrollPane(innerScrollPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(null);
 		scrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)) - 30, Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)) - 30));
-		mainFrame = new JFrame();
 
-		mainFrame.setLayout(new FlowLayout());
+		setLayout(new FlowLayout());
 		for(UiElementData elementData : domainObject.getUiElementContainer().getElements())
 		{
 			elementData.accept(swingVisitor);
 			//			System.out.println(elementData.getDatafield().getValue());
 		}
-
-		show();
-	}
-
-	@Override
-	public void show()
-	{
 
 		// 50, because of save and exit buttons
 		int preferedScrollPaneSize = 50;
@@ -102,46 +88,31 @@ public class MyGui extends Gui implements IsGui
 			@Override
 			public void canceled()
 			{
-				if(JOptionPane.showConfirmDialog(mainFrame, "Das Schließen des Fensters führt zum Datenverlust!\nTrotzdem schließen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-				{
-					System.exit(0);
-				}
+				dispose();
 
 			}
 		}, getSettings());
+		add(scrollPane);
 
 		innerScrollPane.add(saveExit);
-
 		innerScrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), preferedScrollPaneSize));
 		innerScrollPane.validate();
 		innerScrollPane.repaint();
-		mainFrame.add(scrollPane);
 
-		//Override default windows closing behavior
-		mainFrame.addWindowListener(new java.awt.event.WindowAdapter()
-		{
-			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent)
-			{
-				if(JOptionPane.showConfirmDialog(mainFrame, "Das Schließen des Fensters führt zum Datenverlust!\nTrotzdem schließen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-				{
-					System.exit(0);
-				}
-			}
-		});
-
-		mainFrame.setTitle("Foo");
-		mainFrame.setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
-		mainFrame.setLocationRelativeTo(null);
-		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		mainFrame.validate();
-		mainFrame.setResizable(false);
-		mainFrame.setVisible(true);
 	}
 
-	public void addElement(GUIKomponente element)
+	@Override
+	public JFrame getFrame()
 	{
-		elements.add(element);
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addElement(GUIKomponente elem)
+	{
+		elements.add(elem);
+
 	}
 
 	@Override
@@ -149,15 +120,4 @@ public class MyGui extends Gui implements IsGui
 	{
 		return settings;
 	}
-
-	public void setSettings(Settings settings)
-	{
-		this.settings = settings;
-	}
-
-	public JFrame getFrame()
-	{
-		return mainFrame;
-	}
-
 }

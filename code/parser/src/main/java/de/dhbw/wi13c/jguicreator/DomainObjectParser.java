@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.FieldLabel;
+import de.dhbw.wi13c.jguicreator.data.annotation.Id;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
@@ -229,8 +230,11 @@ public class DomainObjectParser implements Parser
 			boolean isAccessible = field.isAccessible();
 			field.setAccessible(true);
 			Collection<?> col = (Collection<?>) field.get(object);
+			
+			int i = 0;
 			for(Object colObj : col)
 			{
+				i++;
 				try
 				{
 					Object obj = colObj;
@@ -238,8 +242,27 @@ public class DomainObjectParser implements Parser
 					DomainObject domainobject = new DomainObject();
 					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
 
-					//TODO parse @Id-Annotation for correct key!!!!!!! 
-					dataset.getElements().put("key", domainobject);
+					String key = "";
+					for(Field subField : obj.getClass().getDeclaredFields())
+					{
+						Id declaredIdAnnotation = subField.getDeclaredAnnotation(Id.class);
+						if(declaredIdAnnotation != null)
+						{
+							subField.setAccessible(true);
+							Object value = subField.get(colObj);
+							key = value.toString();
+						}
+					}
+					
+					if(key.equals(""))
+					{
+						dataset.getElements().put(i+"", domainobject);
+					}
+					else
+					{
+						dataset.getElements().put(key, domainobject);
+					}
+					
 				}
 				catch(SecurityException | IllegalArgumentException e)
 				{

@@ -1,6 +1,7 @@
 package de.dhbw.wi13c.jguicreator.test;
 
 import javax.validation.constraints.Pattern;
+import de.dhbw.wi13c.jguicreator.data.annotation.Id;
 
 public class Kontakt {
 

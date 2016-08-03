@@ -1,9 +1,12 @@
 package de.dhbw.wi13c.jguicreator.test;
 
+import de.dhbw.wi13c.jguicreator.data.annotation.FieldLabel;
+
 public class Adresse {
 
+	@FieldLabel(name="Straße")
 	private String strasse;
-
+	
 	private Integer Hausnummer;
 
 	public String getStrasse() {

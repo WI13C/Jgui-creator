@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 
 import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
+import de.dhbw.wi13c.jguicreator.data.annotation.FieldLabel;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
@@ -118,10 +119,13 @@ public class DomainObjectParser implements Parser
 
 			if(uiElementData != null)
 			{
-				//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
-				Datafield datafield = new Datafield();
-				uiElementData.setDatafield(datafield);
-				datafield.setField(field);
+				if(uiElementData.getDatafield() == null)
+				{
+					//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
+					Datafield datafield = new Datafield();
+					uiElementData.setDatafield(datafield);
+					datafield.setField(field);
+				}
 				
 				domainObject.getUiElementContainer().addElement(uiElementData);
 				setUiElementName(field, uiElementData);
@@ -189,12 +193,20 @@ public class DomainObjectParser implements Parser
 		uiElementData.getDatafield().getValidators();
 	}
 
-	//TODO kann erweitert werden um bessere namen zu generieren
-	//bspw. könnten wörter getrennt werden
 	private void setUiElementName(Field field, UiElementData uiElementData)
 	{
-		String output = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-		uiElementData.setName(output);
+		FieldLabel declaredAnnotation = field.getDeclaredAnnotation(FieldLabel.class);
+		if(declaredAnnotation != null)
+		{
+			uiElementData.setName(declaredAnnotation.name());
+		}
+		else
+		{
+			//TODO kann erweitert werden um bessere namen zu generieren
+			//bspw. könnten wörter getrennt werden
+			String output = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+			uiElementData.setName(output);
+		}
 	}
 
 	private UiElementData createComboBox(Field field, Object object)

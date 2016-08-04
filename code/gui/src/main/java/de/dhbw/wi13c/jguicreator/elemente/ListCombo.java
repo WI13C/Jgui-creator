@@ -2,6 +2,7 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
+import de.dhbw.wi13c.jguicreator.listener.AddEditRemoveListener;
 
 /**
  * Klasse für die GUIKomponente ComboBox zur Darstellung von Listen mit beschreibendem Label und Buttons.
@@ -36,15 +38,16 @@ public class ListCombo extends GUIKomponente
 	private JButton btnRemoveObject;
 
 	private JButton btnAddObject;
-/**
- * Konstruktor zur Erstellung der ListCombo-GUIKomponente. Größe wird anhand der Settings gesetzt.
- * 
- * @param pValueLabel
- * @param pListKeys
- * @param pActionListener
- * @param pSettings
- */
-	public ListCombo(String pValueLabel, List<String> pListKeys, ActionListener pActionListener, Settings pSettings)
+
+	/**
+	 * Konstruktor zur Erstellung der ListCombo-GUIKomponente. Größe wird anhand der Settings gesetzt.
+	 * 
+	 * @param pValueLabel
+	 * @param pListKeys
+	 * @param pActionListener
+	 * @param pSettings
+	 */
+	public ListCombo(String pValueLabel, List<String> pListKeys, AddEditRemoveListener pAddEditRemoveListener, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
@@ -71,7 +74,19 @@ public class ListCombo extends GUIKomponente
 
 		JPanel pnlAdd = new JPanel();
 		btnAddObject = new JButton("add");
-		btnAddObject.addActionListener(pActionListener);
+		btnAddObject.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(e.getActionCommand().equalsIgnoreCase("Add"))
+				{
+					pAddEditRemoveListener.add();
+				}
+
+			}
+		});
 		btnAddObject.setFont(textfont);
 		pnlAdd.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlAdd.add(btnAddObject);
@@ -79,7 +94,18 @@ public class ListCombo extends GUIKomponente
 
 		JPanel pnlEdit = new JPanel();
 		btnEditObject = new JButton("edit");
-		btnEditObject.addActionListener(pActionListener);
+		btnEditObject.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(e.getActionCommand().equalsIgnoreCase("Edit"))
+				{
+					pAddEditRemoveListener.edit("key");
+				}
+			}
+		});
 		btnEditObject.setFont(textfont);
 		pnlEdit.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlEdit.add(btnEditObject);
@@ -87,7 +113,18 @@ public class ListCombo extends GUIKomponente
 
 		JPanel pnlRemove = new JPanel();
 		btnRemoveObject = new JButton("remove");
-		btnRemoveObject.addActionListener(pActionListener);
+		btnRemoveObject.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(e.getActionCommand().equalsIgnoreCase("remove"))
+				{
+					pAddEditRemoveListener.remove("key");
+				}
+			}
+		});
 		btnRemoveObject.setFont(textfont);
 		pnlRemove.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlRemove.add(btnRemoveObject);

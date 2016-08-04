@@ -23,6 +23,7 @@ import de.dhbw.wi13c.jguicreator.elemente.ListCombo;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
+import de.dhbw.wi13c.jguicreator.listener.AddEditRemoveListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 
 public class SwingVisitor extends GuiVisitor
@@ -143,13 +144,25 @@ public class SwingVisitor extends GuiVisitor
 		for(String key : dataset.getElements().keySet()){
 			keys.add(key);
 		}
-		ListCombo lc = new ListCombo(dataset.getName(), keys, new ActionListener()
+		ListCombo lc = new ListCombo(dataset.getName(), keys, new AddEditRemoveListener()
 		{
 			
 			@Override
-			public void actionPerformed(ActionEvent e)
+			public void remove(String key)
 			{
-				// TODO Auto-generated method stub
+				System.out.println("remove");
+			}
+			
+			@Override
+			public void edit(String key)
+			{
+				System.out.println("edit");
+			}
+			
+			@Override
+			public void add()
+			{
+				System.out.println("add");
 				
 			}
 		}, myGui.getSettings());

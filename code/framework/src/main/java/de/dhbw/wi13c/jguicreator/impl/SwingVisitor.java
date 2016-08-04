@@ -3,6 +3,8 @@ package de.dhbw.wi13c.jguicreator.impl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +92,8 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(DatepickerData datepicker)
 	{
 		System.out.println("Date: " + datepicker.getName());
-		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), "12", "12", "2342", false, myGui.getSettings());
+		Date date = (Date)datepicker.getDatafield().getValue();
+		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), new GregorianCalendar(1994, 5, 5), false, myGui.getSettings());
 		saveConnectorState(datepicker, dcb);
 		myGui.addElement(dcb);
 

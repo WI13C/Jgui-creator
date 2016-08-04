@@ -50,122 +50,121 @@ public class DomainObjectParser implements Parser
 		return rootObject;
 	}
 
-	// TODO gibts da eine schönere lösung als 100 if/else?
-	// TODO bei der implementierung der Methoden, die in dieser Methode aufgerufen werden, wird der Kontext des Aufrufes in dieser Methode
-	// als gegeben betrachtet. Beispielsweise wird bei isNumberTextField() angenommen, dass es sich nicht um einen String handelt,
-	// da sich der Aufruf im else-Block von isStringTextField() befindet. Die Methoden sollten also in keinem anderen Kontext verwendet werden.
 	private void parseFields(Field[] fields, Object object, DomainObject domainObject)
 	{
 		for(Field field : fields)
 		{
+			boolean foundOne = false;
 			UiElementData uiElementData = null;
 
-			if(isStringTextField(field))
+			if(!foundOne && isStringTextField(field))
 			{
 				uiElementData = createStringTextfield(field, object);
+				foundOne = true;
 			}
-			else
+
+			if(!foundOne && isNumberTextField(field))
 			{
-				if(isNumberTextField(field))
+				uiElementData = createNumberTextfield(field, object);
+				foundOne = true;
+			}
+
+			if(!foundOne && isDate(field))
+			{
+				uiElementData = createDatePickerData(field, object);
+				foundOne = true;
+			}
+
+			if(!foundOne && isComboBox(field))
+			{
+				uiElementData = createComboBox(field, object);
+				foundOne = true;
+
+			}
+
+			if(!foundOne && !isDataset(field) && !isDomainObject(field))
+			{
+				for(Annotation annotation : field.getAnnotations())
 				{
-					uiElementData = createNumberTextfield(field, object);
-				}
-				else
-				{
-					if(isDate(field))
+					if(isBarChart(annotation))
 					{
-						uiElementData = createDatePickerData(field, object);
+						uiElementData = createBarChartData(field, object);
+						foundOne = true;
 					}
-					else
+
+					if(isPieChart(annotation))
 					{
-						if(isComboBox(field))
-						{
-							uiElementData = createComboBox(field, object);
-						}
-						else
-						{
-							boolean isAnnotation = false;
-							for(Annotation annotation : field.getAnnotations())
-							{
-								isAnnotation = false;
-								if(isBarChart(annotation))
-								{
-									uiElementData = createBarChartData(field, object);
-									isAnnotation = true;
-								}
-
-								if(isPieChart(annotation))
-								{
-									uiElementData = createPieChartData(field, object);
-									isAnnotation = true;
-								}
-							}
-
-							if(isDataset(field/*, isAnnotation*/))
-							{
-								uiElementData = createDataset(field, object);
-							}
-							else
-							{
-								if(isDomainObject(field))
-								{
-									uiElementData = createDomainObject(field, object);
-								}
-							}
-							
-						}
+						uiElementData = createPieChartData(field, object);
+						foundOne = true;
 					}
 				}
+
+			}
+
+			if(!foundOne && isDataset(field))
+			{
+				uiElementData = createDataset(field, object);
+				foundOne = true;
+			}
+
+			if(!foundOne && isDomainObject(field))
+			{
+				uiElementData = createDomainObject(field, object);
+				foundOne = true;
 			}
 
 			if(uiElementData != null)
 			{
-				if(uiElementData.getDatafield() == null)
-				{
-					//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
-					Datafield datafield = new Datafield();
-					uiElementData.setDatafield(datafield);
-					datafield.setField(field);
-				}
-				
-				domainObject.getUiElementContainer().addElement(uiElementData);
-				setUiElementName(field, uiElementData);
-
-				//Setting the read only boolean
-				boolean isFinal = Modifier.isFinal(field.getModifiers());
-				uiElementData.getDatafield().setReadOnly(isFinal);
-				
-				try
-				{
-					field.setAccessible(true);
-
-					//TODO soll temporär sein
-					//Grund für die Abfrage: im SwingVisitor wird der Wert eines Datafields bei einem Textfeld zu String gecasted
-					//Das führt bei Number Datentypen zu cast exceptions
-					Class<?> classNumber = Number.class;
-					Class<?> classField = field.getType();
-					boolean instance = classNumber.isAssignableFrom(classField);
-					if(instance)
-					{
-						uiElementData.getDatafield().setValue(field.get(object).toString());
-					}
-					else
-					{
-						uiElementData.getDatafield().setValue(field.get(object));
-					}
-					
-					
-				}
-				catch(IllegalArgumentException | IllegalAccessException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				parseValidators(uiElementData, field);
+				setupUiElementData(object, domainObject, field, uiElementData);
 			}
 
 		}
+	}
+
+	private void setupUiElementData(Object object, DomainObject domainObject, Field field, UiElementData uiElementData)
+	{
+		if(uiElementData.getDatafield() == null)
+		{
+			//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
+			Datafield datafield = new Datafield();
+			uiElementData.setDatafield(datafield);
+			datafield.setField(field);
+		}
+
+		domainObject.getUiElementContainer().addElement(uiElementData);
+		setUiElementName(field, uiElementData);
+
+		//Setting the read only boolean
+		boolean isFinal = Modifier.isFinal(field.getModifiers());
+		uiElementData.getDatafield().setReadOnly(isFinal);
+
+		try
+		{
+			field.setAccessible(true);
+
+			//TODO soll temporär sein
+			//Grund für die Abfrage: im SwingVisitor wird der Wert eines Datafields bei einem Textfeld zu String gecasted
+			//Das führt bei Number Datentypen zu cast exceptions
+			Class<?> classNumber = Number.class;
+			Class<?> classField = field.getType();
+			boolean instance = classNumber.isAssignableFrom(classField);
+			if(instance)
+			{
+				uiElementData.getDatafield().setValue(field.get(object).toString());
+			}
+			else
+			{
+				uiElementData.getDatafield().setValue(field.get(object));
+			}
+
+		}
+		catch(IllegalArgumentException | IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		parseValidators(uiElementData, field);
 	}
 
 	private void parseValidators(UiElementData uiElementData, Field field)
@@ -184,7 +183,7 @@ public class DomainObjectParser implements Parser
 			{
 				//TODO Validator erstellen und zum datenobjekt hinzufügen
 			}
-			
+
 			if(annotation.annotationType().getTypeName()
 				.equals(Size.class.getTypeName()))
 			{
@@ -230,7 +229,7 @@ public class DomainObjectParser implements Parser
 			boolean isAccessible = field.isAccessible();
 			field.setAccessible(true);
 			Collection<?> col = (Collection<?>) field.get(object);
-			
+
 			int i = 0;
 			for(Object colObj : col)
 			{
@@ -253,16 +252,16 @@ public class DomainObjectParser implements Parser
 							key = value.toString();
 						}
 					}
-					
+
 					if(key.equals(""))
 					{
-						dataset.getElements().put(i+"", domainobject);
+						dataset.getElements().put(i + "", domainobject);
 					}
 					else
 					{
 						dataset.getElements().put(key, domainobject);
 					}
-					
+
 				}
 				catch(SecurityException | IllegalArgumentException e)
 				{
@@ -372,10 +371,10 @@ public class DomainObjectParser implements Parser
 		return false;
 	}
 
-	private boolean isDataset(Field field/*, boolean isAnnotation*/)
+	private boolean isDataset(Field field)
 	{
 		boolean isList = Collection.class.isAssignableFrom(field.getType());
-		return /*!isAnnotation &&*/isList;
+		return isList;
 	}
 
 	/*

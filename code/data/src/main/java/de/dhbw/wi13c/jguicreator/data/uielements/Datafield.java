@@ -75,6 +75,25 @@ public class Datafield<T>
 	public void setValue(T value)
 	{
 		this.value = value;
+		
+		try
+		{
+			if(this.field != null && value != null)
+			{
+				boolean isAccessible = this.field.isAccessible();
+				this.field.setAccessible(true);
+				this.field.set(instance, value);
+				this.field.setAccessible(isAccessible);	
+			}
+		} catch (IllegalArgumentException e)
+		{
+//			 TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public DatafieldType getType()

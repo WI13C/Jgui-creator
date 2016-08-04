@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
+import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.Datafield.DatafieldType;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.listener.SaveListener;
@@ -33,6 +34,8 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 	private Settings settings;
 
 	private DatafieldType datatype;
+	
+	private TextfieldData textfieldData;
 
 	/**
 	 * Konstruktor zur Erstellung der TextFieldMitLabel-GUIKomponente. Größe wird anhand der Settings gesetzt.
@@ -42,11 +45,12 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings, DatafieldType datafieldType)
+	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings, DatafieldType datafieldType, TextfieldData textfieldData)
 	{
 		super();
 		this.settings = pSettings;
 		this.datatype = datafieldType;
+		this.textfieldData = textfieldData;
 		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
 		setPanelSize(size);
@@ -138,5 +142,15 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 			default:
 				return (T) mapTextFieldValueToString();
 		}
+	}
+
+	@Override
+	public void reflectData()
+	{
+		//TODO FIXME Diese Klasse repräsentiert momentan die UiElementData Klasse namens TextfieldData.
+		//Diese repräsentiert Strings jedoch werden hier (TextFieldMitLabel) auch Number Typen verwendet.
+		//Diese Number Typen werden von NumberTextfieldData repräsentiert.
+		//=> anstatt nur TextFieldMitLabel zusätzlich noch NumberTextFieldMitLabel erstellen?
+		textfieldData.setValue(this.textfieldObject.getText());		
 	}
 }

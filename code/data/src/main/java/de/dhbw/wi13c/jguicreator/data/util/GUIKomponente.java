@@ -30,6 +30,8 @@ public abstract class GUIKomponente extends JPanel
 
 		initFont(15);
 	}
+	
+	public abstract void reflectData();
 
 	/**
 	 * Methode zur Änderung der Default-Schriftgröße für die GUIKomponente

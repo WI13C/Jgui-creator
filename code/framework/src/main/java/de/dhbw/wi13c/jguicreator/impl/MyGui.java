@@ -97,6 +97,11 @@ public class MyGui extends Gui implements IsGui
 			{
 				System.out.println("saved");
 				domainObjectSavedListener.saved(domainObject);
+				
+				for (GUIKomponente guiKomponente : elements)
+				{
+					guiKomponente.reflectData();
+				}
 			}
 
 			@Override

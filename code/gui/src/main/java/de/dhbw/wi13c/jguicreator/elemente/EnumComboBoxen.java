@@ -79,4 +79,11 @@ public class EnumComboBoxen extends GUIKomponente
 	{
 		return (String) comboboxObject.getSelectedItem();
 	}
+
+	@Override
+	public void reflectData()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -94,4 +94,11 @@ public class BarChartPanel extends ChartPanel
 			currentXPosition += this.barSpace;
 		}
 	}
+
+	@Override
+	public void reflectData()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

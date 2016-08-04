@@ -76,4 +76,11 @@ public class PieChartPanel extends ChartPanel
 	    		(int) Math.round(drawAngle)
 	    		);
 	}
+
+	@Override
+	public void reflectData()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

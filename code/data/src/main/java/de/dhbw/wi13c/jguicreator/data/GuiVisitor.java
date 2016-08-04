@@ -5,6 +5,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
 import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
 import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
+import de.dhbw.wi13c.jguicreator.data.uielements.NumberTextFieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 
@@ -23,4 +24,5 @@ public abstract class GuiVisitor
 	public abstract void visit(BarChartData chart);
 	public abstract void visit(PieChartData chart);
 	public abstract void visit(Dataset dataset);
+	public abstract void visit(NumberTextFieldData numberTextFieldData);
 }

@@ -2,7 +2,7 @@ package de.dhbw.wi13c.jguicreator.data.uielements;
 
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
-public class ComboBoxData extends UiElementData<Enum>
+public class NumberTextFieldData extends UiElementData<Number>
 {
 
 	@Override
@@ -14,7 +14,7 @@ public class ComboBoxData extends UiElementData<Enum>
 	@Override
 	protected void initDatafield()
 	{
-		setDatafield(new Datafield<Enum>());		
+		setDatafield(new Datafield<Number>());
 	}
 
 }

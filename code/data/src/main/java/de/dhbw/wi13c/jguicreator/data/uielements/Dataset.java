@@ -12,7 +12,7 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
  * @author Eric Schuh
  *
  */
-public class Dataset extends UiElementData
+public class Dataset extends UiElementData<Map<String, DomainObject>>
 {
 	private Map<String, DomainObject> elements;
 
@@ -41,6 +41,12 @@ public class Dataset extends UiElementData
 	
 	public void addElement(String key, DomainObject element){
 		this.elements.put(key, element);
+	}
+
+	@Override
+	protected void initDatafield()
+	{
+		setDatafield(new Datafield<Map<String, DomainObject>>());
 	}
 
 }

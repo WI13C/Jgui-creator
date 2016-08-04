@@ -1,4 +1,4 @@
-package de.dhbw.wi13c.jguicreator.data;
+package de.dhbw.wi13c.jguicreator.data.uielements;
 
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -8,6 +8,14 @@ import de.dhbw.wi13c.jguicreator.data.validator.Validator;
 
 public class Datafield<T>
 {
+	/**
+	 * Constructor can only be called by classes of the package to deny the construction of Datafields with a wrong
+	 * Type. Instead the Subclasses of UiElementData should specify the Type.
+	 */
+	Datafield()
+	{
+		
+	}
 	
 	/**
 	 * Field to Reflect Data back to the original object

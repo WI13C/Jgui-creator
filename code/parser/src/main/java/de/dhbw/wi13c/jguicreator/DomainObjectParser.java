@@ -12,13 +12,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.FieldLabel;
 import de.dhbw.wi13c.jguicreator.data.annotation.Id;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
+import de.dhbw.wi13c.jguicreator.data.uielements.Datafield;
 import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
 import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
@@ -123,13 +123,13 @@ public class DomainObjectParser implements Parser
 
 	private void setupUiElementData(Object object, DomainObject domainObject, Field field, UiElementData uiElementData)
 	{
-		if(uiElementData.getDatafield() == null)
-		{
-			//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
-			Datafield datafield = new Datafield();
-			uiElementData.setDatafield(datafield);
-			datafield.setField(field);
-		}
+//		if(uiElementData.getDatafield() == null)
+//		{
+//			//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
+//			Datafield datafield = new Datafield();
+//			uiElementData.setDatafield(datafield);
+//			datafield.setField(field);
+//		}
 
 		domainObject.getUiElementContainer().addElement(uiElementData);
 		setUiElementName(field, uiElementData);
@@ -333,7 +333,9 @@ public class DomainObjectParser implements Parser
 		//		System.out.println("barchart: " + field.getName() + " class: "
 		//			+ object.getClass().getSimpleName());
 		BarChartData barChartData = new BarChartData();
-		Datafield datafield = new Datafield<Map<String, ? extends Number>>(); //TODO es gibt auch andere maps als string-number
+		
+//		Datafield datafield = new Datafield<Map<String, ? extends Number>>(); //TODO es gibt auch andere maps als string-number
+		Datafield datafield = barChartData.getDatafield();
 		try
 		{
 			field.setAccessible(true);

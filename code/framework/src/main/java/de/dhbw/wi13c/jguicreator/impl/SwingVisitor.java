@@ -15,6 +15,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
 import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
 import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
+import de.dhbw.wi13c.jguicreator.data.uielements.NumberTextFieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
@@ -51,7 +52,8 @@ public class SwingVisitor extends GuiVisitor
 			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getDatafield().getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield.getDatafield().getType());
 
 			myGui.addElement(elem);
-			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
+//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
+			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getValue());
 			saveConnectorState(textfield, elem);
 		}
 		else
@@ -176,6 +178,13 @@ public class SwingVisitor extends GuiVisitor
 	private void saveConnectorState(UiElementData uiElementData, GUIKomponente guiKomponente)
 	{
 		elementConnector.put(uiElementData, guiKomponente);
+	}
+
+	@Override
+	public void visit(NumberTextFieldData numberTextFieldData)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,7 +3,7 @@ package de.dhbw.wi13c.jguicreator.data.uielements;
 import de.dhbw.wi13c.jguicreator.data.UiElementContainer;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
-public class DomainObject extends UiElementData
+public class DomainObject extends UiElementData<Object>
 {
 	private UiElementContainer dataset;
 
@@ -27,6 +27,12 @@ public class DomainObject extends UiElementData
 	public void setUiElementContainer(UiElementContainer container)
 	{
 		this.dataset = container;
+	}
+
+	@Override
+	protected void initDatafield()
+	{
+		setDatafield(new Datafield<Object>());
 	}
 
 }

@@ -1,23 +1,23 @@
 package de.dhbw.wi13c.jguicreator.data.uielements;
 
-import de.dhbw.wi13c.jguicreator.data.Datafield;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
-public abstract class UiElementData
+public abstract class UiElementData<T>
 {
-	private Datafield datafield;
+	private Datafield<T> datafield;
 	
 	private String name;
 
-	
 	public UiElementData()
 	{
-	
+		initDatafield();
 	}
+	
+	protected abstract void initDatafield();
 	
 	public abstract void accept(GuiVisitor visitor);
 
-	public Datafield getDatafield()
+	public Datafield<T> getDatafield()
 	{
 		return datafield;
 	}

@@ -1,6 +1,6 @@
 package de.dhbw.wi13c.jguicreator;
 
-import de.dhbw.wi13c.jguicreator.data.Datafield;
+import de.dhbw.wi13c.jguicreator.data.uielements.Datafield;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 
 public class ParserImpl implements Parser
@@ -12,8 +12,8 @@ public class ParserImpl implements Parser
 		// TODO Auto-generated method stub
 		
 		DomainObject domainObject = new DomainObject();
-		Datafield<String> textDatafield = new Datafield<>();
-		domainObject.setDatafield(textDatafield);
+//		Datafield<String> textDatafield = new Datafield<>();
+//		domainObject.setDatafield(textDatafield);
 		
 		return domainObject;
 	}

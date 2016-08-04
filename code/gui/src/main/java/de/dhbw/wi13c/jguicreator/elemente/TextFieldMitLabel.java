@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
-import de.dhbw.wi13c.jguicreator.data.Datafield.DatafieldType;
+import de.dhbw.wi13c.jguicreator.data.uielements.Datafield.DatafieldType;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.listener.SaveListener;
 

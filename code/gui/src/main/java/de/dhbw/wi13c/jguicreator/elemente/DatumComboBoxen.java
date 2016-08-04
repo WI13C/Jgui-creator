@@ -46,6 +46,11 @@ public class DatumComboBoxen extends GUIKomponente implements SaveListener
 
 	private String[] possibleyears;
 
+	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, Settings pSettings)
+	{
+		this(pValueLabel, Integer.toString(pDate.get(Calendar.DAY_OF_MONTH)), Integer.toString(pDate.get(Calendar.MONTH) + 1), Integer.toString(pDate.get(Calendar.YEAR)), pFinal, pSettings);
+	}
+
 	/**
 	 * Konstruktor zur Erstellung der DatumComboBoxen-GUIKomponente. Größe wird anhand der Settings gesetzt.
 	 * 

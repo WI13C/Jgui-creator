@@ -134,7 +134,7 @@ public class ListCombo extends GUIKomponente
 		pnlBtns.add(pnlAdd);
 		pnlBtns.add(pnlEdit);
 		pnlBtns.add(pnlRemove);
-		pnlBtns.setOpaque(true);
+		pnlBtns.setOpaque(false);
 
 		this.add(pnlBtns, BorderLayout.EAST);
 	}

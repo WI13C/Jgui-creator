@@ -49,12 +49,10 @@ public class SwingVisitor extends GuiVisitor
 		if(textfield.getDatafield() != null)
 		{
 
-			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getValue(),
-					textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield.getDatafield().getType(), textfield);
-
+			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield);
 
 			myGui.addElement(elem);
-//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
+			//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
 			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getValue());
 			saveConnectorState(textfield, elem);
 		}
@@ -96,7 +94,7 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(DatepickerData datepicker)
 	{
 		System.out.println("Date: " + datepicker.getName());
-		Date date = (Date)datepicker.getDatafield().getValue();
+		Date date = (Date) datepicker.getDatafield().getValue();
 		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), new GregorianCalendar(1994, 5, 5), false, myGui.getSettings());
 		saveConnectorState(datepicker, dcb);
 		myGui.addElement(dcb);
@@ -107,7 +105,7 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(ComboBoxData comboBox)
 	{
 		System.out.println("ComboBox: " + comboBox.getName());
-//		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), comboBox.getDatafield().getType(), false, myGui.getSettings());
+		//		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), comboBox.getDatafield().getType(), false, myGui.getSettings());
 	}
 
 	@Override
@@ -148,29 +146,30 @@ public class SwingVisitor extends GuiVisitor
 	{
 		System.out.println("Dataset: " + dataset.getName());
 		List<String> keys = new ArrayList<>();
-		for(String key : dataset.getElements().keySet()){
+		for(String key : dataset.getElements().keySet())
+		{
 			keys.add(key);
 		}
 		ListCombo lc = new ListCombo(dataset.getName(), keys, new AddEditRemoveListener()
 		{
-			
+
 			@Override
 			public void remove(String key)
 			{
 				System.out.println("remove");
 			}
-			
+
 			@Override
 			public void edit(String key)
 			{
 				System.out.println("edit");
 			}
-			
+
 			@Override
 			public void add()
 			{
 				System.out.println("add");
-				
+
 			}
 		}, myGui.getSettings());
 		myGui.addElement(lc);
@@ -186,7 +185,7 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(NumberTextFieldData numberTextFieldData)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -21,7 +21,7 @@ import de.dhbw.wi13c.jguicreator.listener.SaveListener;
  *
  */
 @SuppressWarnings("serial")
-public class TextFieldMitLabel extends GUIKomponente implements SaveListener
+public class TextFieldMitLabel extends GUIKomponente
 {
 	private String labelValue;
 
@@ -33,8 +33,6 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 
 	private Settings settings;
 
-	private DatafieldType datatype;
-	
 	private TextfieldData textfieldData;
 
 	/**
@@ -45,11 +43,10 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings, DatafieldType datafieldType, TextfieldData textfieldData)
+	public TextFieldMitLabel(String pLabelValue, String pTextFieldValue, boolean pFinal, Settings pSettings, TextfieldData textfieldData)
 	{
 		super();
 		this.settings = pSettings;
-		this.datatype = datafieldType;
 		this.textfieldData = textfieldData;
 		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
@@ -92,56 +89,6 @@ public class TextFieldMitLabel extends GUIKomponente implements SaveListener
 	public void setTextOfTextfield(String pValue)
 	{
 		textfieldObject.setText(pValue);
-	}
-
-	private String mapTextFieldValueToString()
-	{
-		return textfieldObject.getText();
-	}
-
-	private Integer mapTextFieldValueToInteger()
-	{
-
-		Integer value = new Integer(5);
-		try
-		{
-			value = Integer.parseInt(textfieldObject.getText());
-		}
-		catch(Exception e)
-		{
-		}
-		return value;
-	}
-
-	private Double mapTextFieldValueToDouble()
-	{
-
-		Double value = new Double(5);
-		try
-		{
-			value = Double.parseDouble(textfieldObject.getText());
-		}
-		catch(Exception e)
-		{
-		}
-		return value;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T guiSave()
-	{
-		switch(datatype)
-		{
-			case TEXT:
-				return (T) mapTextFieldValueToString();
-			case DOUBLE:
-				return (T) mapTextFieldValueToDouble();
-			case INTEGER:
-				return (T) mapTextFieldValueToInteger();
-			default:
-				return (T) mapTextFieldValueToString();
-		}
 	}
 
 	@Override

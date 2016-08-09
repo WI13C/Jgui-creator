@@ -22,7 +22,7 @@ import de.dhbw.wi13c.jguicreator.listener.SaveListener;
  *
  */
 @SuppressWarnings("serial")
-public class DatumComboBoxen extends GUIKomponente implements SaveListener
+public class DatumComboBoxen extends GUIKomponente
 {
 	private String labelValue;
 
@@ -46,29 +46,21 @@ public class DatumComboBoxen extends GUIKomponente implements SaveListener
 
 	private String[] possibleyears;
 
-	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, Settings pSettings)
-	{
-		this(pValueLabel, Integer.toString(pDate.get(Calendar.DAY_OF_MONTH)), Integer.toString(pDate.get(Calendar.MONTH) + 1), Integer.toString(pDate.get(Calendar.YEAR)), pFinal, pSettings);
-	}
-
 	/**
 	 * Konstruktor zur Erstellung der DatumComboBoxen-GUIKomponente. Größe wird anhand der Settings gesetzt.
 	 * 
 	 * @param pValueLabel
-	 * @param pValueDay
-	 * @param pValueMonth
-	 * @param pValueYear
+	 * @param pVDate
 	 * @param pFinal
 	 * @param pSettings
-	 * @deprecated
 	 */
-	public DatumComboBoxen(String pValueLabel, String pValueDay, String pValueMonth, String pValueYear, boolean pFinal, Settings pSettings)
+	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
-		this.comboDayValue = pValueDay;
-		this.comboMonthValue = pValueMonth;
-		this.comboYearValue = pValueYear;
+		this.comboDayValue = Integer.toString(pDate.get(Calendar.DAY_OF_MONTH));
+		this.comboMonthValue = Integer.toString(pDate.get(Calendar.MONTH) + 1);
+		this.comboYearValue = Integer.toString(pDate.get(Calendar.YEAR));
 
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
@@ -239,17 +231,10 @@ public class DatumComboBoxen extends GUIKomponente implements SaveListener
 		return new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), Integer.parseInt((String) comboboxMonthObject.getSelectedItem()), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T guiSave()
-	{
-		return (T) new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), Integer.parseInt((String) comboboxMonthObject.getSelectedItem()), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
-	}
-
 	@Override
 	public void reflectData()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

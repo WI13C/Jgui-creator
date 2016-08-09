@@ -49,7 +49,9 @@ public class SwingVisitor extends GuiVisitor
 		if(textfield.getDatafield() != null)
 		{
 
-			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getDatafield().getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield.getDatafield().getType());
+			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getValue(),
+					textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield.getDatafield().getType(), textfield);
+
 
 			myGui.addElement(elem);
 //			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());

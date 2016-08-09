@@ -170,4 +170,11 @@ public class ListCombo extends GUIKomponente
 		}
 	}
 
+	@Override
+	public void reflectData()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

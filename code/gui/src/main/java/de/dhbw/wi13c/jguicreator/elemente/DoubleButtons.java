@@ -90,4 +90,11 @@ public class DoubleButtons extends GUIKomponente
 	{
 		return btnAbortObject;
 	}
+
+	@Override
+	public void reflectData()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

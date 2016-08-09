@@ -245,4 +245,11 @@ public class DatumComboBoxen extends GUIKomponente implements SaveListener
 	{
 		return (T) new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), Integer.parseInt((String) comboboxMonthObject.getSelectedItem()), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
 	}
+
+	@Override
+	public void reflectData()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

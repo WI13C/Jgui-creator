@@ -2,7 +2,7 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.List;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -36,7 +36,7 @@ public class EnumComboBoxen extends GUIKomponente
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public EnumComboBoxen(String pValueLabel, List pListEnum, boolean pFinal, Settings pSettings)
+	public EnumComboBoxen(String pValueLabel, List<String> pListKeys, boolean pFinal, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
@@ -52,7 +52,9 @@ public class EnumComboBoxen extends GUIKomponente
 		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		this.add(labelObject, BorderLayout.WEST);
 
-		comboboxObject = new JComboBox<>(pListEnum.getItems());
+		String[] keys = new String[pListKeys.size()];
+		keys = pListKeys.toArray(keys);
+		comboboxObject = new JComboBox<>(keys);
 		comboboxObject.setFont(textfont);
 
 		comboboxObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));

@@ -60,7 +60,7 @@ public class BarChartPanel extends ChartPanel
 	{
 		//Axis Description
 		int axisSteps = 50; // new "step-line" every 50px
-		int notationLineLength = (int) this.getXAxisLength();
+		int notationLineLength = (int) this.getChartLength();
 		for(int i = depth - axisSteps; i >= 0; i -= axisSteps)
 		{
 			g.drawLine(x - 10, y + i, x + notationLineLength, y + i);
@@ -72,7 +72,7 @@ public class BarChartPanel extends ChartPanel
 	{
 		super.RefreshValues();
 
-		this.barSpace = (this.getXAxisLength() / this.getCount());
+		this.barSpace = (this.getChartLength() / this.getCount());
 		this.initialXPosition = this.getChartLeftX() + barSpace * 0.25;
 		this.barwidth = barSpace * 0.75;
 	}
@@ -81,25 +81,25 @@ public class BarChartPanel extends ChartPanel
 	public void drawStep(Graphics g)
 	{
 		// draw the axis
-		g.drawLine((int) this.getChartLeftX(), (int) (this.getChartTopY() + this.getDepth()), (int) (this.getChartLeftX() + this.getXAxisLength()), (int) (this.getChartTopY() + this.getDepth()));
-		g.drawLine((int) this.getChartLeftX(), (int) this.getChartTopY(), (int) this.getChartLeftX(), (int) (this.getChartTopY() + this.getDepth()));
+		g.drawLine((int) this.getChartLeftX(), (int) (this.getChartTopY() + this.getChartHeight()), (int) (this.getChartLeftX() + this.getChartLength()), (int) (this.getChartTopY() + this.getChartHeight()));
+		g.drawLine((int) this.getChartLeftX(), (int) this.getChartTopY(), (int) this.getChartLeftX(), (int) (this.getChartTopY() + this.getChartHeight()));
 
 		g.setColor(this.color);
 		double currentXPosition = this.initialXPosition;
 		for(int i = 0; i < this.getCount(); i++)
 		{
 			// Maximal height of the current bar
-			double currentmaxheight = (this.getDepth() * this.getValue(i) * 0.9 / this.maxValue);
+			double currentmaxheight = (this.getChartHeight() * this.getValue(i) * 0.9 / this.maxValue);
 			double stepHeight = currentmaxheight * 0.01;
 
 			double drawHeight = stepHeight * this.getPercent();
-			double bartopY = this.getChartTopY() + getDepth() - Math.floor(drawHeight);
+			double bartopY = this.getChartTopY() + getChartHeight() - Math.floor(drawHeight);
 			g.fillRect((int) currentXPosition, (int) bartopY, (int) this.barwidth, (int) drawHeight);
 			currentXPosition += this.barSpace;
 		}
 
 		g.setColor(Color.lightGray);
-		drawYAxisSteps(g, (int) this.getChartLeftX(), (int) this.getChartTopY(), (int) this.getDepth());
+		drawYAxisSteps(g, (int) this.getChartLeftX(), (int) this.getChartTopY(), (int) this.getChartHeight());
 	}
 
 	@Override

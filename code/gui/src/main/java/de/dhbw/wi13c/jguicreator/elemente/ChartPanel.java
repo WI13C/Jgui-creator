@@ -107,12 +107,12 @@ public abstract class ChartPanel extends GUIKomponente
 		return this.chartTopY;
 	}
 
-	public double getXAxisLength()
+	public double getChartLength()
 	{
 		return this.xAxisLength;
 	}
 
-	public double getDepth()
+	public double getChartHeight()
 	{
 		return this.yAxisLength;
 	}
@@ -145,7 +145,7 @@ public abstract class ChartPanel extends GUIKomponente
 		}
 	}
 
-	public void animate()
+	private void animate()
 	{
 		int delay = 25; //milliseconds		
 		this.timer = new Timer(delay, new ChartTimerActionListener(this));

@@ -27,7 +27,7 @@ public class BarChartMouseMotionListener implements MouseMotionListener
 			double barwidth = this.chart.getBarSpace() * 0.75;
 			int index = (int)((mouseX - this.chart.getChartLeftX()) / this.chart.getBarSpace());
 			this.chart.setIndex(index);
-			this.chart.setCenterOfSignY(this.chart.getDepth() - this.chart.getDepth() * this.chart.getValue() * 0.5 / this.chart.getMaxValue()+ this.chart.getChartTopY());
+			this.chart.setCenterOfSignY(this.chart.getChartHeight() - this.chart.getChartHeight() * this.chart.getValue() * 0.5 / this.chart.getMaxValue()+ this.chart.getChartTopY());
 			this.chart.setCenterOfSignX(this.chart.getChartLeftX() + this.chart.getBarSpace() * 0.25 + this.chart.getBarSpace() * index + barwidth * 0.5);
 			this.chart.setDrawSign(true);
 		}else{
@@ -38,7 +38,7 @@ public class BarChartMouseMotionListener implements MouseMotionListener
 	}
 	
 	private boolean isValidBounds(int mouseX, int mouseY){
-		return mouseX - this.chart.getChartLeftX() >= 0 && mouseX - this.chart.getChartLeftX() <= this.chart.getXAxisLength()
-			&& mouseY - this.chart.getChartTopY() >= 0 && mouseY - this.chart.getChartTopY() <= this.chart.getDepth();
+		return mouseX - this.chart.getChartLeftX() >= 0 && mouseX - this.chart.getChartLeftX() <= this.chart.getChartLength()
+			&& mouseY - this.chart.getChartTopY() >= 0 && mouseY - this.chart.getChartTopY() <= this.chart.getChartHeight();
 	}
 }

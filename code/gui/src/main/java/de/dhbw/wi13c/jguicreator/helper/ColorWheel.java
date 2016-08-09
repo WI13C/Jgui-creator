@@ -4,20 +4,21 @@ import java.awt.Color;
 
 public class ColorWheel
 {
-	private String[] colors;
+	private Color[] colors;
 
 	public ColorWheel(int colorCount)
 	{
-		this.calculateColors();
-	}
-
-	private void calculateColors()
-	{
-		Color color = new Color(0.0f, 0.0f, 0.0f);
+		this.colors = new Color[colorCount];
+		int half = colorCount / 2 + colorCount % 2;
+		for(int i = 0; i < colorCount; i++)
+		{
+			int varietyNumber = i/2 + i%2 + (i%2) * (half - 1);
+			this.colors[i] = Color.getHSBColor(1.0f / colorCount * varietyNumber, 0.8f, 0.8f);
+		}
 	}
 
 	public Color getColor(int index)
 	{
-		return null;
+		return this.colors[index];
 	}
 }

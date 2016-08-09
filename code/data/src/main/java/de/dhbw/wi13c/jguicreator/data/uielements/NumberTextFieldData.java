@@ -4,6 +4,10 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 public class NumberTextFieldData extends UiElementData<Number>
 {
+	public NumberTextFieldData()
+	{
+		super();
+	}
 
 	@Override
 	public void accept(GuiVisitor visitor)

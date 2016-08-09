@@ -6,6 +6,10 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 public class BarChartData extends UiElementData<Map<String, ? extends Number>>
 {
+	public BarChartData()
+	{
+		super();
+	}
 
 	@Override
 	public void accept(GuiVisitor visitor)

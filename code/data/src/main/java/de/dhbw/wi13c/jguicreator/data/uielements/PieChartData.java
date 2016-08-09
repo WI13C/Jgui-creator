@@ -6,6 +6,10 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 public class PieChartData extends UiElementData<Map<String, ? extends Number>>
 {
+	public PieChartData()
+	{
+		super();
+	}
 
 	@Override
 	public void accept(GuiVisitor visitor)

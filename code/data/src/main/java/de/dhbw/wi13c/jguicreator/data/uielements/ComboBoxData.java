@@ -4,6 +4,10 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 public class ComboBoxData extends UiElementData<Enum>
 {
+	public ComboBoxData()
+	{
+		super();
+	}
 
 	@Override
 	public void accept(GuiVisitor visitor)

@@ -21,6 +21,9 @@ public abstract class UiElementData<T>
 	{
 		return datafield;
 	}
+	
+	public abstract T getValue();
+	public abstract void setValue(T value);
 
 	public void setDatafield(Datafield datafield)
 	{

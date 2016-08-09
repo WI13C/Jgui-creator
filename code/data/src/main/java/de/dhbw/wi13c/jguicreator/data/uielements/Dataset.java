@@ -49,4 +49,16 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 		setDatafield(new Datafield<Map<String, DomainObject>>());
 	}
 
+	@Override
+	public Map<String, DomainObject> getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Map<String, DomainObject> value)
+	{
+		getDatafield().setValue(value);
+	}
+
 }

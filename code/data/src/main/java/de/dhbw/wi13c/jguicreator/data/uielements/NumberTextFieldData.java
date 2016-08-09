@@ -17,4 +17,16 @@ public class NumberTextFieldData extends UiElementData<Number>
 		setDatafield(new Datafield<Number>());
 	}
 
+	@Override
+	public Number getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Number value)
+	{
+		getDatafield().setValue(value);
+	}
+
 }

@@ -23,4 +23,16 @@ public class DatepickerData extends UiElementData<Date>
 		setDatafield(new Datafield<Date>());
 	}
 
+	@Override
+	public Date getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Date value)
+	{
+		getDatafield().setValue(value);
+	}
+
 }

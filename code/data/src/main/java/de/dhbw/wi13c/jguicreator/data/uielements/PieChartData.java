@@ -19,4 +19,16 @@ public class PieChartData extends UiElementData<Map<String, ? extends Number>>
 		setDatafield(new Datafield<Map<String, ? extends Number>>());
 	}
 
+	@Override
+	public Map<String, ? extends Number> getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Map<String, ? extends Number> value)
+	{
+		getDatafield().setValue(value);
+	}
+
 }

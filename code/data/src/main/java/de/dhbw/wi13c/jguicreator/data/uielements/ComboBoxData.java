@@ -17,4 +17,16 @@ public class ComboBoxData extends UiElementData<Enum>
 		setDatafield(new Datafield<Enum>());		
 	}
 
+	@Override
+	public Enum getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Enum value)
+	{
+		getDatafield().setValue(value);
+	}
+
 }

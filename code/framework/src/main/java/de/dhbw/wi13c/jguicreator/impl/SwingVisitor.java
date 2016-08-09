@@ -115,7 +115,6 @@ public class SwingVisitor extends GuiVisitor
 		{
 			BarChartPanel elem = new BarChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 			myGui.addElement(elem);
-			elem.animate();
 			System.out.println("Barchart: " + chart.getName());
 		}
 		else
@@ -131,7 +130,6 @@ public class SwingVisitor extends GuiVisitor
 		{
 			PieChartPanel elem = new PieChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 			myGui.addElement(elem);
-			elem.animate();
 			System.out.println("Piechart: " + chart.getName());
 		}
 		else

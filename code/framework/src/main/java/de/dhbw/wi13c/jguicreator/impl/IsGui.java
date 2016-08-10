@@ -9,5 +9,6 @@ public interface IsGui
 {
 	public JFrame getFrame();
 	public void addElement(GUIKomponente elem);
+	public void save();
 	public Settings getSettings();
 }

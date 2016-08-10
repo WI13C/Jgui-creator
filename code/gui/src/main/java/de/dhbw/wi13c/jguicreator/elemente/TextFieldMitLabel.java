@@ -98,6 +98,8 @@ public class TextFieldMitLabel extends GUIKomponente
 		//Diese repräsentiert Strings jedoch werden hier (TextFieldMitLabel) auch Number Typen verwendet.
 		//Diese Number Typen werden von NumberTextfieldData repräsentiert.
 		//=> anstatt nur TextFieldMitLabel zusätzlich noch NumberTextFieldMitLabel erstellen?
+		//Copy that.
 		textfieldData.setValue(this.textfieldObject.getText());		
+		System.out.println("F:" + this.textfieldObject.getText());
 	}
 }

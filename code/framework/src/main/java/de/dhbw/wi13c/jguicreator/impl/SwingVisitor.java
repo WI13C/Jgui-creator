@@ -36,12 +36,12 @@ public class SwingVisitor extends GuiVisitor
 
 	private IsGui myGui;
 
-	private Map<UiElementData, GUIKomponente> elementConnector;
+	private List<GUIKomponente> elementConnector;
 
 	public SwingVisitor(IsGui myGui)
 	{
 		this.myGui = myGui;
-		elementConnector = new HashMap<>();
+		elementConnector = new ArrayList<>();
 	}
 
 	@Override
@@ -56,7 +56,6 @@ public class SwingVisitor extends GuiVisitor
 			myGui.addElement(elem);
 			//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
 			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getValue());
-			saveConnectorState(textfield, elem);
 		}
 		else
 		{
@@ -75,14 +74,7 @@ public class SwingVisitor extends GuiVisitor
 			public void actionPerformed(ActionEvent e)
 			{
 
-				Popup p = new Popup("Fooo", myGui.getFrame(), dependentObject, new SavedListener<DomainObject>()
-				{
-					@Override
-					public void saved(DomainObject object)
-					{
-						System.out.println("saved");
-					}
-				});
+				Popup p = new Popup("Fooo", myGui.getFrame(), dependentObject);
 
 				p.setVisible(true);
 			}
@@ -98,7 +90,6 @@ public class SwingVisitor extends GuiVisitor
 		System.out.println("Date: " + datepicker.getName());
 		Date date = (Date) datepicker.getDatafield().getValue();
 		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), new GregorianCalendar(1994, 5, 5), false, myGui.getSettings());
-		saveConnectorState(datepicker, dcb);
 		myGui.addElement(dcb);
 
 	}
@@ -145,6 +136,7 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(Dataset dataset)
 	{
 		System.out.println("Dataset: " + dataset.getName());
+		
 		List<String> keys = new ArrayList<>();
 		for(String key : dataset.getElements().keySet())
 		{
@@ -163,16 +155,7 @@ public class SwingVisitor extends GuiVisitor
 			public void edit(String key)
 			{
 				System.out.println("edit: " + key);
-				Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key), new SavedListener<DomainObject>()
-				{
-
-					@Override
-					public void saved(DomainObject object)
-					{
-						// TODO Auto-generated method stub
-						
-					}
-				});
+				Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key));
 				p.setVisible(true);
 			}
 
@@ -187,16 +170,12 @@ public class SwingVisitor extends GuiVisitor
 
 	}
 
-	private void saveConnectorState(UiElementData uiElementData, GUIKomponente guiKomponente)
-	{
-		elementConnector.put(uiElementData, guiKomponente);
-	}
-
 	@Override
 	public void visit(NumberTextFieldData numberTextFieldData)
 	{
 		// TODO Auto-generated method stub
 
 	}
+		
 
 }

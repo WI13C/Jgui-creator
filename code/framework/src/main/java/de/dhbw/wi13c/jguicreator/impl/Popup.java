@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,21 +24,15 @@ public class Popup extends JDialog implements IsGui
 {
 	private static final long serialVersionUID = 1L;
 
-	private SavedListener<DomainObject> domainObjectSavedListener;
-
-	private DomainObject domainObject;
-
 	private Settings settings;
 
 	private SwingVisitor swingVisitor;
 
 	private List<GUIKomponente> elements;
 
-	public Popup(String title, JFrame parent, DomainObject domainObject, SavedListener<DomainObject> domainObjectSavedListener)
+	public Popup(String title, JFrame parent, DomainObject domainObject)
 	{
 		super(parent, title, true);
-		this.domainObject = domainObject;
-		this.domainObjectSavedListener = domainObjectSavedListener;
 		settings = new Settings();
 		init(domainObject);
 
@@ -60,10 +53,9 @@ public class Popup extends JDialog implements IsGui
 		scrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)) - 30, Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)) - 30));
 
 		setLayout(new FlowLayout());
-		for(UiElementData elementData : domainObject.getUiElementContainer().getElements())
+		for(UiElementData<?> elementData : domainObject.getUiElementContainer().getElements())
 		{
 			elementData.accept(swingVisitor);
-			//			System.out.println(elementData.getDatafield().getValue());
 		}
 
 		// 50, because of save and exit buttons
@@ -81,8 +73,9 @@ public class Popup extends JDialog implements IsGui
 			@Override
 			public void saved()
 			{
+				save();
 				System.out.println("saved");
-				domainObjectSavedListener.saved(domainObject);
+				
 			}
 
 			@Override
@@ -104,7 +97,7 @@ public class Popup extends JDialog implements IsGui
 	@Override
 	public JFrame getFrame()
 	{
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -119,5 +112,14 @@ public class Popup extends JDialog implements IsGui
 	public Settings getSettings()
 	{
 		return settings;
+	}
+
+	@Override
+	public void save()
+	{
+		for(GUIKomponente guiKomponente : elements)
+		{
+			guiKomponente.reflectData();
+		}
 	}
 }

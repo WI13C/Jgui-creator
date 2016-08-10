@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JPopupMenu;
+
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
@@ -154,13 +156,24 @@ public class SwingVisitor extends GuiVisitor
 			@Override
 			public void remove(String key)
 			{
-				System.out.println("remove");
+				System.out.println("remove: " + key);
 			}
 
 			@Override
 			public void edit(String key)
 			{
-				System.out.println("edit");
+				System.out.println("edit: " + key);
+				Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key), new SavedListener<DomainObject>()
+				{
+
+					@Override
+					public void saved(DomainObject object)
+					{
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				p.setVisible(true);
 			}
 
 			@Override

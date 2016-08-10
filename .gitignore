@@ -1,2 +1,6 @@
 # OS X
 **/.DS_Store
+
+#IJ
+**/*.iml
+**/.idea

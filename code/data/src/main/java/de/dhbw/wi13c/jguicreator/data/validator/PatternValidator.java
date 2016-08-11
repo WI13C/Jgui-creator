@@ -1,5 +1,6 @@
 package de.dhbw.wi13c.jguicreator.data.validator;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.dhbw.wi13c.jguicreator.data.annotation.AnnotationMessage;
@@ -7,13 +8,16 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 
 public class PatternValidator extends Validator<Pattern>
 {
-	
+
 	UiElementData element;
 
-	public PatternValidator(UiElementData element)
+	String pattern;
+
+	public PatternValidator(UiElementData element, String comparisonPattern)
 	{
 		this.element = element;
-		
+		this.pattern = comparisonPattern;
+
 	}
 
 	@Override
@@ -23,10 +27,12 @@ public class PatternValidator extends Validator<Pattern>
 	}
 
 	@Override
-	public boolean validate(Pattern pattern)
+	public boolean validate()
 	{
-		element.getDatafield().getValue().toString().matches(pattern.pattern());
-		return false;
+		//System.out.println(element.getDatafield().getValue().toString());
+		//System.out.println(pattern);
+		return element.getDatafield().getValue().toString().matches("(?i)" + pattern);
+
 	}
 
 	@Override

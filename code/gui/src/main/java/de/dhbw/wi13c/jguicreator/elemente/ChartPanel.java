@@ -107,12 +107,12 @@ public abstract class ChartPanel extends GUIKomponente
 		return this.chartTopY;
 	}
 
-	public double getXAxisLength()
+	public double getChartLength()
 	{
 		return this.xAxisLength;
 	}
 
-	public double getDepth()
+	public double getChartHeight()
 	{
 		return this.yAxisLength;
 	}
@@ -128,6 +128,8 @@ public abstract class ChartPanel extends GUIKomponente
 		initFont(15);
 		this.setDescription(description);
 		this.fillArrays(keyValues);
+		
+		this.animate();
 	}
 
 	public abstract void drawStep(Graphics g);
@@ -143,7 +145,7 @@ public abstract class ChartPanel extends GUIKomponente
 		}
 	}
 
-	public void animate()
+	private void animate()
 	{
 		int delay = 25; //milliseconds		
 		this.timer = new Timer(delay, new ChartTimerActionListener(this));
@@ -167,14 +169,19 @@ public abstract class ChartPanel extends GUIKomponente
 	{
 		if(this.drawSign)
 		{
-			g.setColor(Color.red);
+			g.setColor(Color.white);
 			double value = this.getValue();
 			String displayText = this.getKey() + ": " + String.valueOf(value);
 			Rectangle2D fontRect = g.getFontMetrics().getStringBounds(displayText, g);
-			g.fillRect((int) (this.centerOfSignX - fontRect.getWidth() * 0.5 - 5), (int) (this.centerOfSignY - fontRect.getHeight() * 0.5 - 5), (int) fontRect.getWidth() + 10, (int) fontRect.getHeight() + 10);
-			g.setColor(Color.white);
-			g.drawString(displayText, (int) (this.centerOfSignX - fontRect.getWidth() * 0.5), (int) (this.centerOfSignY + fontRect.getHeight() * 0.5 - 5));
+			int x = (int) (this.centerOfSignX - fontRect.getWidth() * 0.5 - 5);
+			int y = (int) (this.centerOfSignY - fontRect.getHeight() * 0.5 - 5);
+			int width = (int) fontRect.getWidth() + 10;
+			int height = (int) fontRect.getHeight() + 10;
+			g.fillRoundRect(x, y, width, height, 10, 10);
+			g.setColor(new Color(55, 95, 174));
+			g.drawRoundRect(x, y, width, height, 10, 10);
 			g.setColor(Color.black);
+			g.drawString(displayText, (int) (this.centerOfSignX - fontRect.getWidth() * 0.5), (int) (this.centerOfSignY + fontRect.getHeight() * 0.5 - 5));
 		}
 	}
 

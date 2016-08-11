@@ -35,4 +35,16 @@ public class DomainObject extends UiElementData<Object>
 		setDatafield(new Datafield<Object>());
 	}
 
+	@Override
+	public Object getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Object value)
+	{
+		getDatafield().setValue(value);		
+	}
+
 }

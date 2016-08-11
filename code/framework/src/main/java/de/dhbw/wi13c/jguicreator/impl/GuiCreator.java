@@ -23,6 +23,7 @@ public class GuiCreator<T>
 		DomainObject domainObject = parser.parseObject(object);
 		MyGui gui = new MyGui(domainObject, new SavedListener<DomainObject>()
 		{
+			@SuppressWarnings("unchecked")
 			@Override
 			public void saved(DomainObject dom)
 			{

@@ -6,6 +6,11 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 
 public class DatepickerData extends UiElementData<Date>
 {
+	public DatepickerData()
+	{
+		super();
+	}
+	
 	public Date getDate()
 	{
 		return getDatafield().getValue();
@@ -21,6 +26,18 @@ public class DatepickerData extends UiElementData<Date>
 	protected void initDatafield()
 	{
 		setDatafield(new Datafield<Date>());
+	}
+
+	@Override
+	public Date getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Date value)
+	{
+		getDatafield().setValue(value);
 	}
 
 }

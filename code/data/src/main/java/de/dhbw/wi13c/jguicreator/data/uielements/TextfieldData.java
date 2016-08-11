@@ -6,7 +6,7 @@ public class TextfieldData extends UiElementData<String>
 {
 	public TextfieldData()
 	{
-		
+		super();
 	}
 
 	public void setValue(String value)

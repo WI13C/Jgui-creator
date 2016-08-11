@@ -18,6 +18,7 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 
 	public Dataset()
 	{
+		super();
 		//TODO muss hier statt einer ArrayList der Typ einer Collection erzeugt werden,
 		//der im geparsten Objekt für den Datensatz verwendet wird?
 		elements = new HashMap<String, DomainObject>();
@@ -47,6 +48,18 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 	protected void initDatafield()
 	{
 		setDatafield(new Datafield<Map<String, DomainObject>>());
+	}
+
+	@Override
+	public Map<String, DomainObject> getValue()
+	{
+		return getDatafield().getValue();
+	}
+
+	@Override
+	public void setValue(Map<String, DomainObject> value)
+	{
+		getDatafield().setValue(value);
 	}
 
 }

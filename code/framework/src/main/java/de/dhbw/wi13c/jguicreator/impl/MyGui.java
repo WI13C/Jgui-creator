@@ -20,7 +20,11 @@ import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
-
+/**
+ * 
+ * MyGui is tha base gui where popups can be attached to.
+ *
+ */
 public class MyGui extends Gui implements IsGui
 {
 
@@ -67,7 +71,7 @@ public class MyGui extends Gui implements IsGui
 		mainFrame = new JFrame();
 
 		mainFrame.setLayout(new FlowLayout());
-		for(UiElementData elementData : domainObject.getUiElementContainer().getElements())
+		for(UiElementData<?> elementData : domainObject.getUiElementContainer().getElements())
 		{
 			elementData.accept(swingVisitor);
 			//			System.out.println(elementData.getDatafield().getValue());
@@ -95,13 +99,8 @@ public class MyGui extends Gui implements IsGui
 			@Override
 			public void saved()
 			{
-				System.out.println("saved");
+				save();
 				domainObjectSavedListener.saved(domainObject);
-				
-				for (GUIKomponente guiKomponente : elements)
-				{
-					guiKomponente.reflectData();
-				}
 			}
 
 			@Override
@@ -163,6 +162,17 @@ public class MyGui extends Gui implements IsGui
 	public JFrame getFrame()
 	{
 		return mainFrame;
+	}
+
+	@Override
+	public void save()
+	{
+		for(GUIKomponente guiKomponente : elements)
+		{
+			guiKomponente.reflectData();
+		}
+		
+		System.out.println("saved");
 	}
 
 }

@@ -101,7 +101,7 @@ public class ListCombo extends GUIKomponente
 			{
 				if(e.getActionCommand().equalsIgnoreCase("Edit"))
 				{
-					pAddEditRemoveListener.edit("key");
+					pAddEditRemoveListener.edit((String)comboBoxObject.getSelectedItem());
 				}
 			}
 		});
@@ -120,7 +120,7 @@ public class ListCombo extends GUIKomponente
 			{
 				if(e.getActionCommand().equalsIgnoreCase("remove"))
 				{
-					pAddEditRemoveListener.remove("key");
+					pAddEditRemoveListener.remove((String)comboBoxObject.getSelectedItem());
 				}
 			}
 		});
@@ -172,8 +172,6 @@ public class ListCombo extends GUIKomponente
 	@Override
 	public void reflectData()
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 }

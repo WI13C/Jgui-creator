@@ -3,9 +3,13 @@ package de.dhbw.wi13c.jguicreator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.regex.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -25,7 +29,10 @@ import de.dhbw.wi13c.jguicreator.data.uielements.NumberTextFieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
+import de.dhbw.wi13c.jguicreator.data.validator.NotNullValidator;
 import de.dhbw.wi13c.jguicreator.data.validator.PatternValidator;
+import de.dhbw.wi13c.jguicreator.data.validator.SizeValidator;
+import de.dhbw.wi13c.jguicreator.data.validator.Validator;
 
 public class DomainObjectParser implements Parser
 {
@@ -122,21 +129,21 @@ public class DomainObjectParser implements Parser
 
 	private void setupUiElementData(Object object, DomainObject domainObject, Field field, UiElementData uiElementData)
 	{
-//		if(uiElementData.getDatafield() == null)
-//		{
-//			//TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
-//			Datafield datafield = new Datafield();
-//			uiElementData.setDatafield(datafield);
-//			datafield.setField(field);
-//		}
+		// if(uiElementData.getDatafield() == null)
+		// {
+		// //TODO das Erzeugen des Datafields an dieser Stelle ist unvollständig
+		// Datafield datafield = new Datafield();
+		// uiElementData.setDatafield(datafield);
+		// datafield.setField(field);
+		// }
 
 		domainObject.getUiElementContainer().addElement(uiElementData);
 		setUiElementName(field, uiElementData);
 
-		//Setting the read only boolean
+		// Setting the read only boolean
 		boolean isFinal = Modifier.isFinal(field.getModifiers());
 		uiElementData.getDatafield().setReadOnly(isFinal);
-		
+
 		uiElementData.getDatafield().setField(field);
 		uiElementData.getDatafield().setInstance(object);
 
@@ -144,20 +151,21 @@ public class DomainObjectParser implements Parser
 		{
 			field.setAccessible(true);
 
-			//TODO soll temporär sein
-			//Grund für die Abfrage: im SwingVisitor wird der Wert eines Datafields bei einem Textfeld zu String gecasted
-			//Das führt bei Number Datentypen zu cast exceptions
+			// TODO soll temporär sein
+			// Grund für die Abfrage: im SwingVisitor wird der Wert eines
+			// Datafields bei einem Textfeld zu String gecasted
+			// Das führt bei Number Datentypen zu cast exceptions
 			Class<?> classNumber = Number.class;
 			Class<?> classField = field.getType();
 			boolean instance = classNumber.isAssignableFrom(classField);
-//			if(instance)
-//			{
-//				uiElementData.getDatafield().setValue(field.get(object).toString());
-//			}
-//			else
-//			{
-				uiElementData.getDatafield().setValue(field.get(object));
-//			}
+			// if(instance)
+			// {
+			// uiElementData.getDatafield().setValue(field.get(object).toString());
+			// }
+			// else
+			// {
+			uiElementData.getDatafield().setValue(field.get(object));
+			// }
 
 		}
 		catch(IllegalArgumentException | IllegalAccessException e)
@@ -171,28 +179,40 @@ public class DomainObjectParser implements Parser
 
 	private void parseValidators(UiElementData uiElementData, Field field)
 	{
-		Set validators = uiElementData.getDatafield().getValidators();
+		List<Validator> validators = uiElementData.getDatafield().getValidators();
 		for(Annotation annotation : field.getDeclaredAnnotations())
 		{
-			if(annotation.annotationType().getTypeName()
-				.equals(Pattern.class.getTypeName()))
+			if(annotation.annotationType().getTypeName().equals(Pattern.class.getTypeName()))
 			{
-				validators.add(new PatternValidator(uiElementData));
+				Pattern pattern = (Pattern) annotation;
+				validators.add(new PatternValidator(uiElementData, pattern.regexp()));
 			}
 
-			if(annotation.annotationType().getTypeName()
-				.equals(NotNull.class.getTypeName()))
+			if(annotation.annotationType().getTypeName().equals(NotNull.class.getTypeName()))
 			{
-				//TODO Validator erstellen und zum datenobjekt hinzufügen
+				validators.add(new NotNullValidator(uiElementData));
 			}
 
-			if(annotation.annotationType().getTypeName()
-				.equals(Size.class.getTypeName()))
+			if(annotation.annotationType().getTypeName().equals(Size.class.getTypeName()))
 			{
-				//TODO Validator erstellen und zum datenobjekt hinzufügen
+				Size sizeAnno = (Size) annotation;
+				validators.add(new SizeValidator(uiElementData, sizeAnno.min(), sizeAnno.max()));
 			}
 		}
-		uiElementData.getDatafield().getValidators();
+
+		// save Validators to datafield
+		uiElementData.getDatafield().setValidators(validators);
+
+		// for tests only
+		// TODO remove before release!!
+		// for (Validator validator : validators) {
+		// System.out.println(validator.getClass().getSimpleName());
+		// if(validator.validate() == false)
+		// {
+		// System.out.println(validator.getMessage());
+		// }
+		// }
+
 	}
 
 	private void setUiElementName(Field field, UiElementData uiElementData)
@@ -204,8 +224,8 @@ public class DomainObjectParser implements Parser
 		}
 		else
 		{
-			//TODO kann erweitert werden um bessere namen zu generieren
-			//bspw. könnten wörter getrennt werden
+			// TODO kann erweitert werden um bessere namen zu generieren
+			// bspw. könnten wörter getrennt werden
 			String output = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
 			uiElementData.setName(output);
 		}
@@ -219,11 +239,12 @@ public class DomainObjectParser implements Parser
 
 	private Dataset createDataset(Field field, Object object)
 	{
-		//		System.out.println("dataset: " + field.getName() + " " + " class: "
-		//			+ object.getClass().getSimpleName());
+		// System.out.println("dataset: " + field.getName() + " " + " class: "
+		// + object.getClass().getSimpleName());
 
-		//TODO Es wird eine Liste mit DomainObjects erstellt. Die Liste kann aber trotzdem "einfache" Klassen wie Integer enthalten,
-		//die dann wie DomainObjects behandelt werden. Verursacht das Probleme?
+		// TODO Es wird eine Liste mit DomainObjects erstellt. Die Liste kann
+		// aber trotzdem "einfache" Klassen wie Integer enthalten,
+		// die dann wie DomainObjects behandelt werden. Verursacht das Probleme?
 		Dataset dataset = new Dataset();
 
 		try
@@ -239,7 +260,8 @@ public class DomainObjectParser implements Parser
 				try
 				{
 					Object obj = colObj;
-					//					System.out.println("------------ " + obj.getClass().getTypeName());
+					// System.out.println("------------ " +
+					// obj.getClass().getTypeName());
 					DomainObject domainobject = new DomainObject();
 					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
 
@@ -285,18 +307,18 @@ public class DomainObjectParser implements Parser
 
 	private DomainObject createDomainObject(Field field, Object object)
 	{
-		//		System.out.println("domainObj: " + field.getName());
+		// System.out.println("domainObj: " + field.getName());
 		DomainObject domainObject = new DomainObject();
 
 		try
 		{
 			field.setAccessible(true);
 			Object obj = field.get(object);
-			//			System.out.println("------------ " + obj.getClass().getTypeName());
+			// System.out.println("------------ " +
+			// obj.getClass().getTypeName());
 			parseFields(field.getType().getDeclaredFields(), obj, domainObject);
 		}
-		catch(SecurityException | IllegalArgumentException
-			| IllegalAccessException e)
+		catch(SecurityException | IllegalArgumentException | IllegalAccessException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -307,8 +329,8 @@ public class DomainObjectParser implements Parser
 
 	private TextfieldData createStringTextfield(Field field, Object object)
 	{
-		//		System.out.println("stringtextfield: " + field.getName() + " class: "
-		//			+ object.getClass().getSimpleName());
+		// System.out.println("stringtextfield: " + field.getName() + " class: "
+		// + object.getClass().getSimpleName());
 
 		TextfieldData textfieldData = new TextfieldData();
 		return textfieldData;
@@ -316,27 +338,28 @@ public class DomainObjectParser implements Parser
 
 	private NumberTextFieldData createNumberTextfield(Field field, Object object)
 	{
-		//		System.out.println("numbertextfield: " + field.getName() + " class: "
-		//			+ object.getClass().getSimpleName());
+		// System.out.println("numbertextfield: " + field.getName() + " class: "
+		// + object.getClass().getSimpleName());
 		NumberTextFieldData textfieldData = new NumberTextFieldData();
 		return textfieldData;
 	}
 
 	private DatepickerData createDatePickerData(Field field, Object object)
 	{
-		//		System.out.println("datepicker : " + field.getName() + " class: "
-		//			+ object.getClass().getSimpleName());
+		// System.out.println("datepicker : " + field.getName() + " class: "
+		// + object.getClass().getSimpleName());
 		DatepickerData datepickerData = new DatepickerData();
 		return datepickerData;
 	}
 
 	private BarChartData createBarChartData(Field field, Object object)
 	{
-		//		System.out.println("barchart: " + field.getName() + " class: "
-		//			+ object.getClass().getSimpleName());
+		// System.out.println("barchart: " + field.getName() + " class: "
+		// + object.getClass().getSimpleName());
 		BarChartData barChartData = new BarChartData();
-		
-//		Datafield datafield = new Datafield<Map<String, ? extends Number>>(); //TODO es gibt auch andere maps als string-number
+
+		// Datafield datafield = new Datafield<Map<String, ? extends Number>>();
+		// //TODO es gibt auch andere maps als string-number
 		Datafield datafield = barChartData.getDatafield();
 		try
 		{
@@ -354,8 +377,8 @@ public class DomainObjectParser implements Parser
 
 	private PieChartData createPieChartData(Field field, Object object)
 	{
-		//		System.out.println("piechart: " + field.getName() + " class: "
-		//			+ object.getClass().getSimpleName());
+		// System.out.println("piechart: " + field.getName() + " class: "
+		// + object.getClass().getSimpleName());
 		PieChartData pieChartData = new PieChartData();
 		return pieChartData;
 	}
@@ -389,29 +412,24 @@ public class DomainObjectParser implements Parser
 	private boolean isDomainObject(Field field)
 	{
 		// System.out.println("------- " +field.getType().getName());
-		boolean isJavaStandard = field.getType().getName().startsWith("java")
-			|| field.getType().getName().startsWith("sun")
-			|| field.getType().getName().startsWith("[B");
+		boolean isJavaStandard = field.getType().getName().startsWith("java") || field.getType().getName().startsWith("sun") || field.getType().getName().startsWith("[B");
 		boolean isPrimitive = field.getType().isPrimitive();
 		return !isJavaStandard && !isPrimitive;
 	}
 
 	private boolean isPieChart(Annotation annotation)
 	{
-		return annotation.annotationType().getTypeName()
-			.equals(PieChart.class.getTypeName());
+		return annotation.annotationType().getTypeName().equals(PieChart.class.getTypeName());
 	}
 
 	private boolean isBarChart(Annotation annotation)
 	{
-		return annotation.annotationType().getTypeName()
-			.equals(BarChart.class.getTypeName());
+		return annotation.annotationType().getTypeName().equals(BarChart.class.getTypeName());
 	}
 
 	private boolean isStringTextField(Field field)
 	{
-		boolean equals = field.getType().getName()
-			.equals(String.class.getName());
+		boolean equals = field.getType().getName().equals(String.class.getName());
 		boolean isSignature = field.getName().equals("signature");
 
 		return equals && !isSignature;
@@ -419,8 +437,8 @@ public class DomainObjectParser implements Parser
 
 	private boolean isNumberTextField(Field field)
 	{
-		//		Class<?> c = field.getType();
-		//		boolean instance = c.isInstance(Number.class);
+		// Class<?> c = field.getType();
+		// boolean instance = c.isInstance(Number.class);
 		Class<?> classNumber = Number.class;
 		Class<?> classField = field.getType();
 		boolean instance = classNumber.isAssignableFrom(classField);

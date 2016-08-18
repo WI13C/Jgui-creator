@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.junit.internal.runners.ErrorReportingRunner;
+
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
@@ -34,6 +36,10 @@ public class TextFieldMitLabel extends GUIKomponente
 	private JTextField textfieldObject;
 
 	private JLabel labelObject;
+	
+	private JLabel errorLabel;
+	
+	private JPanel errorPanel;
 
 	private Settings settings;
 
@@ -67,7 +73,7 @@ public class TextFieldMitLabel extends GUIKomponente
 		textfieldObject = new JTextField(50);
 		textfieldObject.setFont(textfont);
 		textfieldObject.setText(textfieldValue);
-		JPanel errorPanel = new JPanel();
+		errorPanel = new JPanel();
 		BufferedImage myPicture;
 		try
 		{
@@ -80,10 +86,11 @@ public class TextFieldMitLabel extends GUIKomponente
 			e.printStackTrace();
 		}
 		ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
-		JLabel errorLabel = new JLabel(errorImg);
-		errorLabel.setToolTipText("ERROR! Please insert good Input!");
+		errorLabel = new JLabel(errorImg);
+		errorLabel.setToolTipText("ERROR! Der Inhalt kann so nicht gespeichert werden!");
 		errorPanel.add(errorLabel);
 		errorPanel.setOpaque(false);
+		errorPanel.setVisible(false);
 		if(pFinal)
 		{
 			textfieldObject.setEnabled(false);
@@ -113,6 +120,15 @@ public class TextFieldMitLabel extends GUIKomponente
 		textfieldObject.setText(pValue);
 	}
 
+	public void showError(String pErrorMsg){
+		errorLabel.setToolTipText(pErrorMsg);
+		errorPanel.setVisible(true);
+	}
+	
+	public void hideError(){
+		errorPanel.setVisible(false);
+	}
+	
 	@Override
 	public void reflectData()
 	{

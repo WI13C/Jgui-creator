@@ -2,9 +2,15 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.dhbw.wi13c.jguicreator.Settings;
@@ -61,11 +67,29 @@ public class TextFieldMitLabel extends GUIKomponente
 		textfieldObject = new JTextField(50);
 		textfieldObject.setFont(textfont);
 		textfieldObject.setText(textfieldValue);
+		JPanel errorPanel = new JPanel();
+		BufferedImage myPicture;
+		try
+		{
+			myPicture = ImageIO.read(this.getClass().getResource("1470932035_sign-error.png"));
+		}
+		catch(IOException e)
+		{
+			System.out.println("UPS");
+			myPicture = null;
+			e.printStackTrace();
+		}
+		ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
+		JLabel errorLabel = new JLabel(errorImg);
+		errorLabel.setToolTipText("ERROR! Please insert good Input!");
+		errorPanel.add(errorLabel);
+		errorPanel.setOpaque(false);
 		if(pFinal)
 		{
 			textfieldObject.setEnabled(false);
 		}
-		this.add(textfieldObject, BorderLayout.EAST);
+		this.add(textfieldObject, BorderLayout.CENTER);
+		this.add(errorPanel, BorderLayout.EAST);
 	}
 
 	/**
@@ -97,7 +121,7 @@ public class TextFieldMitLabel extends GUIKomponente
 		//Diese Number Typen werden von NumberTextfieldData repräsentiert.
 		//=> anstatt nur TextFieldMitLabel zusätzlich noch NumberTextFieldMitLabel erstellen?
 		//Copy that.
-		textfieldData.setValue(this.textfieldObject.getText());		
+		textfieldData.setValue(this.textfieldObject.getText());
 		System.out.println("F:" + this.textfieldObject.getText());
 	}
 }

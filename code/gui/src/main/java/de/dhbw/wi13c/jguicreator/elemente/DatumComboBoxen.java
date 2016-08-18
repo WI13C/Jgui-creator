@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
-import de.dhbw.wi13c.jguicreator.listener.SaveListener;
 
 /**
  * Klasse für die GUIKomponente ComboBox zur Darstellung von einem Datum mit beschreibendem Label.

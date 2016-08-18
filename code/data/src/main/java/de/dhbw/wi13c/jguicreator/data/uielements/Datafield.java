@@ -1,6 +1,8 @@
 package de.dhbw.wi13c.jguicreator.data.uielements;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,29 +16,29 @@ public class Datafield<T>
 	 */
 	Datafield()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Field to Reflect Data back to the original object
 	 */
 	private Field field;
-	
+
 	/**
 	 * Instance of the original Object
 	 */
 	private Object instance;
-	
+
 	/**
 	 * Flag indicating read only
 	 */
 	private boolean readOnly;
-	
+
 	/**
 	 * current Value
 	 */
 	private T value;
-	
+
 	public Field getField()
 	{
 		return field;
@@ -75,7 +77,7 @@ public class Datafield<T>
 	public void setValue(T value)
 	{
 		this.value = value;
-		
+
 		try
 		{
 			if(this.field != null && value != null)
@@ -83,13 +85,15 @@ public class Datafield<T>
 				boolean isAccessible = this.field.isAccessible();
 				this.field.setAccessible(true);
 				this.field.set(instance, value);
-				this.field.setAccessible(isAccessible);	
+				this.field.setAccessible(isAccessible);
 			}
-		} catch (IllegalArgumentException e)
+		}
+		catch(IllegalArgumentException e)
 		{
-//			 TODO Auto-generated catch block
+			//			 TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IllegalAccessException e)
+		}
+		catch(IllegalAccessException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,29 +110,30 @@ public class Datafield<T>
 		this.type = type;
 	}
 
-	public Set<Validator> getValidators()
+	public List<Validator> getValidators()
 	{
 		return validators;
+	}
+
+	public void setValidators(List<Validator> validators)
+	{
+		if(validators != null)
+			this.validators = validators;
 	}
 
 	/**
 	 * Type indicating which Gui Component will be used
 	 */
 	private DatafieldType type;
-	
+
 	/**
 	 * Set of Validators
 	 */
-	private final Set<Validator> validators = new TreeSet<>();
-	
+	private List<Validator> validators = new ArrayList<>();
+
 	public static enum DatafieldType
 	{
-		TEXT,
-		NUMBER,
-		INTEGER,
-		DOUBLE,
-		DATE,
-		LIST;
+		TEXT, NUMBER, INTEGER, DOUBLE, DATE, LIST;
 		//TODO complete
 	}
 

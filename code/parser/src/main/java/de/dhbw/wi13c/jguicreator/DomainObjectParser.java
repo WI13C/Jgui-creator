@@ -45,6 +45,7 @@ public class DomainObjectParser implements Parser
 	public DomainObject parseObject(Object object)
 	{
 		DomainObject rootObject = new DomainObject();
+		rootObject.getDatafield().setInstance(object); //The instance of the Datafield of the rootObject is the rootObject itself
 
 		parseFields(object.getClass().getDeclaredFields(), object, rootObject); // TODO
 		// getDeclaredFields()

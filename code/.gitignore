@@ -1,7 +1,3 @@
-/target/
-
-
-# https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
 .metadata
 bin/
 tmp/
@@ -53,6 +49,5 @@ local.properties
 # Code Recommenders
 .recommenders/
 
-# OS X
-**/.DS_Store
-
+#maven build
+target/*

@@ -4,7 +4,7 @@
 
 	<groupId>de.dhbw.wi13c.jguicreator</groupId>
 	<artifactId>parent</artifactId>
-	<version>{project.version}</version>
+	<version>${project.version}</version>
 
 	<packaging>pom</packaging>
 
@@ -34,25 +34,25 @@
 			<dependency>
 				<groupId>de.dhbw.wi13c.jguicreator</groupId>
 				<artifactId>data</artifactId>
-				<version>{project.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>de.dhbw.wi13c.jguicreator</groupId>
 				<artifactId>parser</artifactId>
-				<version>{project.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>de.dhbw.wi13c.jguicreator</groupId>
 				<artifactId>gui</artifactId>
-				<version>{project.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>de.dhbw.wi13c.jguicreator</groupId>
 				<artifactId>framework</artifactId>
-				<version>{project.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<!-- JUnit -->

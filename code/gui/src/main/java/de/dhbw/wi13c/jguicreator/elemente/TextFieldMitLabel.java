@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -74,16 +75,17 @@ public class TextFieldMitLabel extends GUIKomponente
 		BufferedImage myPicture;
 		try
 		{
-			myPicture = ImageIO.read(this.getClass().getResource("1470932035_sign-error.png"));
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			InputStream input = classLoader.getResourceAsStream("error_Icon.png");
+			myPicture = ImageIO.read(input);
+			ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
+			errorLabel = new JLabel(errorImg);
 		}
 		catch(IOException e)
 		{
-			System.out.println("UPS");
-			myPicture = null;
-			e.printStackTrace();
+			errorLabel = new JLabel();
 		}
-		ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
-		errorLabel = new JLabel(errorImg);
+		
 		errorLabel.setToolTipText("ERROR! Der Inhalt kann so nicht gespeichert werden!");
 		errorPanel.add(errorLabel);
 		errorPanel.setOpaque(false);

@@ -21,7 +21,10 @@
 	</build>
 
 	<dependencies>
-		<!-- <dependency> <groupId>de.dhbw.wi13c.jguicreator</groupId> <artifactId>framework</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> -->
+		<dependency>
+			<groupId>de.dhbw.wi13c.jguicreator</groupId>
+			<artifactId>framework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

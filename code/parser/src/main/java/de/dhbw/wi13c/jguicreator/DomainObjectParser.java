@@ -3,13 +3,10 @@ package de.dhbw.wi13c.jguicreator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -252,10 +249,10 @@ public class DomainObjectParser implements Parser
 		{
 			boolean isAccessible = field.isAccessible();
 			field.setAccessible(true);
-			Collection<?> col = (Collection<?>) field.get(object);
+			Collection<?> collection = (Collection<?>) field.get(object);
 
 			int i = 0;
-			for(Object colObj : col)
+			for(Object colObj : collection)
 			{
 				i++;
 				try
@@ -264,6 +261,13 @@ public class DomainObjectParser implements Parser
 					// System.out.println("------------ " +
 					// obj.getClass().getTypeName());
 					DomainObject domainobject = new DomainObject();
+					
+					//Get the parameterized type of the collection
+					//e.g. Person in case of List<Person>
+			        ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
+			        Class<?> collectionClass = (Class<?>) collectionType.getActualTypeArguments()[0];
+			        domainobject.setType(collectionClass); 
+					
 					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
 
 					String key = "";

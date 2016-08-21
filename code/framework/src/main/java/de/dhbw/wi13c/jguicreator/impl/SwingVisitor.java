@@ -3,13 +3,9 @@ package de.dhbw.wi13c.jguicreator.impl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JPopupMenu;
 
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
@@ -20,7 +16,6 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.NumberTextFieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
-import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
@@ -29,19 +24,21 @@ import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
 import de.dhbw.wi13c.jguicreator.listener.AddEditRemoveListener;
-import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 
+/**
+ * SwingVisitor is part of the visitor-pattern and decides which gui-element should get added to the gui.
+ * 
+ * @author Lukas Hessenthaler, Eric Schuh
+ *
+ */
 public class SwingVisitor extends GuiVisitor
 {
 
 	private IsGui myGui;
 
-	private List<GUIKomponente> elementConnector;
-
 	public SwingVisitor(IsGui myGui)
 	{
 		this.myGui = myGui;
-		elementConnector = new ArrayList<>();
 	}
 
 	@Override
@@ -88,7 +85,6 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(DatepickerData datepicker)
 	{
 		System.out.println("Date: " + datepicker.getName());
-		Date date = (Date) datepicker.getDatafield().getValue();
 		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), new GregorianCalendar(1994, 5, 5), false, myGui.getSettings());
 		myGui.addElement(dcb);
 
@@ -136,7 +132,7 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(Dataset dataset)
 	{
 		System.out.println("Dataset: " + dataset.getName());
-		
+
 		List<String> keys = new ArrayList<>();
 		for(String key : dataset.getElements().keySet())
 		{
@@ -176,6 +172,5 @@ public class SwingVisitor extends GuiVisitor
 		// TODO Auto-generated method stub
 
 	}
-		
 
 }

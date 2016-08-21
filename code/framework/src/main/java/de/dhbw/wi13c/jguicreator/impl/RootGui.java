@@ -20,12 +20,16 @@ import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
+
 /**
+ * RootGui is the root of all [gui].
+ * Dependent on the {@link DomainObject} there will be recursivly called some Popups: {@link Popup}.
+ * There can be multiple Popups, but only one {@link RootGui}.
  * 
- * MyGui is tha base gui where popups can be attached to.
+ * @author Lukas Hessenthaler
  *
  */
-public class MyGui extends Gui implements IsGui
+public class RootGui extends Gui implements IsGui
 {
 
 	private JFrame mainFrame;
@@ -44,21 +48,22 @@ public class MyGui extends Gui implements IsGui
 
 	private DomainObject domainObject;
 
-	public MyGui(DomainObject domainObject, SavedListener<DomainObject> domainObjectSavedListener)
+	public RootGui(DomainObject domainObject, SavedListener<DomainObject> domainObjectSavedListener)
 	{
 		super(domainObject);
 		this.domainObject = domainObject;
 		this.domainObjectSavedListener = domainObjectSavedListener;
-		settings = new Settings();
 		init(domainObject);
 	}
 
 	/**
 	 * Constructs default GUI-Layout for the given DomainObject
+	 * 
 	 * @param domainObject
 	 */
 	public void init(DomainObject domainObject)
 	{
+		settings = new Settings();
 		swingVisitor = new SwingVisitor(this);
 		elements = new ArrayList<>();
 
@@ -74,7 +79,7 @@ public class MyGui extends Gui implements IsGui
 		for(UiElementData<?> elementData : domainObject.getUiElementContainer().getElements())
 		{
 			elementData.accept(swingVisitor);
-			//			System.out.println(elementData.getDatafield().getValue());
+			// System.out.println(elementData.getDatafield().getValue());
 		}
 
 		show();
@@ -92,7 +97,7 @@ public class MyGui extends Gui implements IsGui
 			preferedScrollPaneSize += elem.getKomponentenBounds().getHeight() + 7;
 		}
 
-		//Default save and exit buttons
+		// Default save and exit buttons
 		DoubleButtons saveExit = new DoubleButtons(new SavedCanceledListener()
 		{
 
@@ -121,7 +126,7 @@ public class MyGui extends Gui implements IsGui
 		innerScrollPane.repaint();
 		mainFrame.add(scrollPane);
 
-		//Override default windows closing behavior
+		// Override default windows closing behavior
 		mainFrame.addWindowListener(new java.awt.event.WindowAdapter()
 		{
 			@Override
@@ -171,7 +176,7 @@ public class MyGui extends Gui implements IsGui
 		{
 			guiKomponente.reflectData();
 		}
-		
+
 		System.out.println("saved");
 	}
 

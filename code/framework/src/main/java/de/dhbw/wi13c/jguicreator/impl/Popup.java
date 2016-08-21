@@ -17,9 +17,14 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
-import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
+/**
+ * Popup is equal to {@link RootGui} and implements its behavior from {@link IsGui}.
+ * There can be multiple Popups, but only one {@link RootGui}.
+ * @author Lukas Hessenthaler
+ *
+ */
 public class Popup extends JDialog implements IsGui
 {
 	private static final long serialVersionUID = 1L;
@@ -33,13 +38,16 @@ public class Popup extends JDialog implements IsGui
 	public Popup(String title, JFrame parent, DomainObject domainObject)
 	{
 		super(parent, title, true);
-		settings = new Settings();
 		init(domainObject);
-
 	}
 
+	/**
+	 * Init the gui layout.
+	 * @param domainObject
+	 */
 	private void init(DomainObject domainObject)
 	{
+		settings = new Settings();
 		swingVisitor = new SwingVisitor(this);
 		elements = new ArrayList<>();
 
@@ -75,7 +83,7 @@ public class Popup extends JDialog implements IsGui
 			{
 				save();
 				System.out.println("saved");
-				
+
 			}
 
 			@Override
@@ -97,7 +105,7 @@ public class Popup extends JDialog implements IsGui
 	@Override
 	public JFrame getFrame()
 	{
-
+		//dumb, but needed for RootGui...
 		return null;
 	}
 

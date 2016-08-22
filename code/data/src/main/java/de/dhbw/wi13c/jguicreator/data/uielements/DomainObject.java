@@ -6,6 +6,8 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 public class DomainObject extends UiElementData<Object>
 {
 	private UiElementContainer dataset;
+	
+	private Class<?> type;
 
 	public DomainObject()
 	{
@@ -45,6 +47,16 @@ public class DomainObject extends UiElementData<Object>
 	public void setValue(Object value)
 	{
 		getDatafield().setValue(value);		
+	}
+
+	public Class<?> getType()
+	{
+		return type;
+	}
+
+	public void setType(Class<?> type)
+	{
+		this.type = type;
 	}
 
 }

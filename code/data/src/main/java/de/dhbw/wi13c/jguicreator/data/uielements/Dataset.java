@@ -15,7 +15,7 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 public class Dataset extends UiElementData<Map<String, DomainObject>>
 {
 	private Map<String, DomainObject> elements;
-
+	
 	public Dataset()
 	{
 		super();

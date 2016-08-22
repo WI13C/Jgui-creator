@@ -2,8 +2,6 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -73,19 +71,9 @@ public class ListCombo extends GUIKomponente
 
 		JPanel pnlAdd = new JPanel();
 		btnAddObject = new JButton("add");
-		btnAddObject.addActionListener(new ActionListener()
-		{
+		btnAddObject.addActionListener(e -> pAddEditRemoveListener.add()
 
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(e.getActionCommand().equalsIgnoreCase("Add"))
-				{
-					pAddEditRemoveListener.add();
-				}
-
-			}
-		});
+		);
 		btnAddObject.setFont(textfont);
 		pnlAdd.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlAdd.add(btnAddObject);
@@ -93,18 +81,7 @@ public class ListCombo extends GUIKomponente
 
 		JPanel pnlEdit = new JPanel();
 		btnEditObject = new JButton("edit");
-		btnEditObject.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(e.getActionCommand().equalsIgnoreCase("Edit"))
-				{
-					pAddEditRemoveListener.edit((String)comboBoxObject.getSelectedItem());
-				}
-			}
-		});
+		btnEditObject.addActionListener(e -> pAddEditRemoveListener.edit((String) comboBoxObject.getSelectedItem()));
 		btnEditObject.setFont(textfont);
 		pnlEdit.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlEdit.add(btnEditObject);
@@ -112,18 +89,7 @@ public class ListCombo extends GUIKomponente
 
 		JPanel pnlRemove = new JPanel();
 		btnRemoveObject = new JButton("remove");
-		btnRemoveObject.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(e.getActionCommand().equalsIgnoreCase("remove"))
-				{
-					pAddEditRemoveListener.remove((String)comboBoxObject.getSelectedItem());
-				}
-			}
-		});
+		btnRemoveObject.addActionListener(e -> pAddEditRemoveListener.remove((String) comboBoxObject.getSelectedItem()));
 		btnRemoveObject.setFont(textfont);
 		pnlRemove.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlRemove.add(btnRemoveObject);

@@ -1,12 +1,11 @@
 package framework;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
-import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.validator.NotNullValidator;
-import de.dhbw.wi13c.jguicreator.data.validator.Validator;
 
 public class NotNullValidatorTest
 {

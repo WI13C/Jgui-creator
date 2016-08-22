@@ -250,6 +250,14 @@ public class DomainObjectParser implements Parser
 			boolean isAccessible = field.isAccessible();
 			field.setAccessible(true);
 			Collection<?> collection = (Collection<?>) field.get(object);
+			
+			//Get the parameterized type of the collection
+			//e.g. Person in case of List<Person>
+			//TODO With this implementation the parameterized type can't be abstract
+			//If this is not the case, an error of some sort has to be created to avoid instantiation exceptions
+	        ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
+	        Class<?> collectionClass = (Class<?>) collectionType.getActualTypeArguments()[0];
+	        dataset.setParameterizedType(collectionClass); 
 
 			int i = 0;
 			for(Object colObj : collection)
@@ -262,11 +270,6 @@ public class DomainObjectParser implements Parser
 					// obj.getClass().getTypeName());
 					DomainObject domainobject = new DomainObject();
 					
-					//Get the parameterized type of the collection
-					//e.g. Person in case of List<Person>
-			        ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
-			        Class<?> collectionClass = (Class<?>) collectionType.getActualTypeArguments()[0];
-			        domainobject.setType(collectionClass); 
 					
 					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
 

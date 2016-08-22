@@ -2,6 +2,8 @@ package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -160,6 +162,44 @@ public class SwingVisitor extends GuiVisitor
 			{
 				System.out.println("add");
 
+				/*
+				 * I have yet to write a piece of code that i am more proud of than the following one.
+				 * This code uses the first constructor which has the matching number of arguments
+				 * to create a new instance. 
+				 * The constructor is found in a brute force way by trying all number of arguments
+				 * up to the number of the tries variable.
+				 * @author totally not Eric
+				 */
+				boolean foundOne = false;
+				int k = 0;
+				Object createdObject = null;
+				while(!foundOne && k < dataset.getParameterizedType().getConstructors().length)
+				{
+					Constructor constructor = dataset.getParameterizedType().getConstructors()[k];
+					int tries = 100;
+					int i = 0;
+					while(!foundOne && i<tries)
+					{
+						Object[] objects = new Object[i];
+						try
+						{
+							createdObject = constructor.newInstance(objects);
+							foundOne = true;
+						}
+						catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+						{
+							//nothing should happen here
+						}
+						i++;
+					}
+					k++;
+				}
+				
+				if(createdObject != null)
+				{
+					System.out.println("created object: "+createdObject.toString());
+					//TODO add object to collection, create new window etc.
+				}
 			}
 		}, myGui.getSettings());
 		myGui.addElement(lc);

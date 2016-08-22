@@ -16,6 +16,8 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 {
 	private Map<String, DomainObject> elements;
 	
+	private Class<?> parameterizedType;
+	
 	public Dataset()
 	{
 		super();
@@ -60,6 +62,14 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 	public void setValue(Map<String, DomainObject> value)
 	{
 		getDatafield().setValue(value);
+	}
+
+	public Class<?> getParameterizedType() {
+		return parameterizedType;
+	}
+
+	public void setParameterizedType(Class<?> parameterizedType) {
+		this.parameterizedType = parameterizedType;
 	}
 
 }

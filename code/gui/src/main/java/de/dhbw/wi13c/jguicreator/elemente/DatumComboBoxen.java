@@ -2,8 +2,14 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -39,9 +45,12 @@ public class DatumComboBoxen extends GUIKomponente
 
 	private JLabel label;
 
-	private String[] possibledays = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+	private List<String> listOfMonths;
 
-	private String[] possiblemonths = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+	private String[] possibledays;
+
+	//	private String[] possiblemonths = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+	private String[] possiblemonths;
 
 	private String[] possibleyears;
 
@@ -66,6 +75,12 @@ public class DatumComboBoxen extends GUIKomponente
 		setPanelSize(size);
 
 		initYears();
+		initMonths();
+		comboboxMonthObject = new JComboBox<>(possiblemonths);
+		comboboxMonthObject.setSelectedItem(comboMonthValue);
+		comboboxMonthObject.addActionListener(e -> updateDateComboBox());
+
+		updateDays();
 
 		this.setLayout(new BorderLayout());
 		checkLabelValue();
@@ -75,19 +90,15 @@ public class DatumComboBoxen extends GUIKomponente
 		this.add(label, BorderLayout.WEST);
 
 		comboboxDayObject = new JComboBox<>(possibledays);
-		comboboxMonthObject = new JComboBox<>(possiblemonths);
-		comboboxYearObject = new JComboBox<>(possibleyears);
 
+		comboboxYearObject = new JComboBox<>(possibleyears);
+		comboboxYearObject.addActionListener(e -> updateDateComboBox());
 		comboboxDayObject.setFont(textfont);
 		comboboxMonthObject.setFont(textfont);
 		comboboxYearObject.setFont(textfont);
 
-		comboDayValue = dayMapper(comboDayValue);
-		comboMonthValue = monthMapper(comboMonthValue);
-		comboYearValue = yearMapper(comboYearValue);
-
 		comboboxDayObject.setSelectedItem(comboDayValue);
-		comboboxMonthObject.setSelectedItem(comboMonthValue);
+
 		comboboxYearObject.setSelectedItem(comboYearValue);
 
 		comboboxDayObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.01)));
@@ -109,19 +120,74 @@ public class DatumComboBoxen extends GUIKomponente
 		this.add(p, BorderLayout.EAST);
 	}
 
+	private void updateDays()
+	{
+		listOfMonths = range(1, Month.valueOfIgnoreCase((String) comboboxMonthObject.getSelectedItem()).getNumberOfDays());
+		if(comboboxMonthObject.getSelectedIndex() == 1)
+		{
+
+			if(checkLeapYear())
+			{
+				listOfMonths.remove(listOfMonths.size() - 1);
+			}
+		}
+		possibledays = listOfMonths.stream().toArray(String[]::new);
+	}
+
+	void updateDateComboBox()
+	{
+		int selected = comboboxDayObject.getSelectedIndex();
+		updateDays();
+		comboboxDayObject.removeAllItems();
+		for(String item : possibledays)
+		{
+			comboboxDayObject.addItem(item);
+		}
+		if(selected < possibledays.length)
+		{
+			comboboxDayObject.setSelectedIndex(selected);
+		}
+		else
+		{
+			comboboxDayObject.setSelectedIndex(possibledays.length - 1);
+		}
+
+	}
+
+	private boolean checkLeapYear()
+	{
+		int theYear = Integer.parseInt((String) comboboxYearObject.getSelectedItem());
+		if(theYear % 4 == 0)
+		{
+			if(theYear % 100 != 0 || theYear % 400 == 0)
+			{
+				return true;
+
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	/**
 	 * Methode zur Initialisierung des Arrays mit den Jahren die in der Combobox auszuwählen sind.
 	 */
 	private void initYears()
 	{
-		Calendar now = Calendar.getInstance();
-		int year = now.get(Calendar.YEAR);
-		possibleyears = new String[year * 2];
-		int end = year * 2;
-		for(int i = end - 1; i >= 0; i--)
-		{
-			possibleyears[i] = Integer.toString(i);
-		}
+		List<String> listOfYears = range(0, (int) (Calendar.getInstance().get(Calendar.YEAR) * 1.5));
+		possibleyears = listOfYears.stream().toArray(String[]::new);
+	}
+
+	private void initMonths()
+	{
+		List<String> enumNames = Stream.of(Month.values()).map(Month::getName).collect(Collectors.toList());
+		possiblemonths = enumNames.stream().toArray(String[]::new);
 	}
 
 	/**
@@ -135,79 +201,9 @@ public class DatumComboBoxen extends GUIKomponente
 		}
 	}
 
-	/**
-	 * Methode die den Zahlenwert eines Monats in den Text des Monats umwandelt.
-	 * 
-	 * @param pNumberOfMonth
-	 * @return
-	 */
-	private String monthMapper(String pNumberOfMonth)
+	public void setDate(Calendar pCalendar)
 	{
-		int numberOfMonth = 0;
-		try
-		{
-			numberOfMonth = Integer.parseInt(pNumberOfMonth);
-		}
-		catch(Exception e)
-		{
-			numberOfMonth = 1;
-		}
-		return possiblemonths[numberOfMonth - 1];
-	}
-
-	/**
-	 * Methode die prüft ob der Wert ein valider Tag sein kann.
-	 * 
-	 * @param pDay
-	 * @return
-	 */
-	private String dayMapper(String pDay)
-	{
-		for(String day : possibledays)
-		{
-			if(day.equals(pDay))
-			{
-				return day;
-			}
-		}
-		return "1";
-
-	}
-
-	/**
-	 * Methode die prüft ob das Jahr in der Combobox angezeigt werden kann.
-	 * 
-	 * @param pYear
-	 * @return
-	 */
-	private String yearMapper(String pYear)
-	{
-		for(String year : possibleyears)
-		{
-			if(year.equals(pYear))
-			{
-				return year;
-			}
-		}
-		return "2000";
-	}
-
-	public void setDay(String pDay)
-	{
-		comboDayValue = dayMapper(pDay);
 		comboboxDayObject.setSelectedItem(comboDayValue);
-	}
-
-	public void setMonth(String pMonth)
-	{
-		comboMonthValue = monthMapper(pMonth);
-		comboboxMonthObject.setSelectedItem(comboMonthValue);
-	}
-
-	public void setYear(String pYear)
-	{
-		comboYearValue = yearMapper(pYear);
-		comboboxYearObject.setSelectedItem(comboYearValue);
 	}
 
 	public String getDay()
@@ -233,7 +229,55 @@ public class DatumComboBoxen extends GUIKomponente
 	@Override
 	public void reflectData()
 	{
-		// TODO Auto-generated method stub
 
+	}
+
+	public enum Month
+	{
+		JANUARY(31, "Januar"), FEBRUARY(29, "Februar"), MARCH(31, "März"), APRIL(30, "April"), MAY(31, "Mai"), JUNE(30, "Juni"), JULY(31, "Juli"), AUGUST(31, "August"), SEPTEMBER(30, "September"), OCTOBER(31, "Oktober"), NOVEMBER(30, "November"), DECEMBER(31, "Dezember");
+		private int days;
+
+		private String name;
+
+		Month(int pDays, String pName)
+		{
+			days = pDays;
+			name = pName;
+		}
+
+		public int getNumberOfDays()
+		{
+			return this.days;
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public static Month valueOfIgnoreCase(String name)
+		{
+
+			for(Month enumValue : Month.values())
+			{
+				if(enumValue.getName().equalsIgnoreCase(name))
+				{
+					return enumValue;
+				}
+			}
+
+			throw new IllegalArgumentException(String.format("There is no value with name '%s' in Enum Month", name));
+		}
+	}
+
+	public static List<String> range(int min, int max)
+	{
+		List<String> list = new LinkedList<>();
+		for(int i = min; i <= max; i++)
+		{
+			list.add(Integer.toString(i));
+		}
+
+		return list;
 	}
 }

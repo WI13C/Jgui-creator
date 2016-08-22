@@ -2,8 +2,6 @@ package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -49,7 +47,6 @@ public class DatumComboBoxen extends GUIKomponente
 
 	private String[] possibledays;
 
-	//	private String[] possiblemonths = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
 	private String[] possiblemonths;
 
 	private String[] possibleyears;
@@ -76,6 +73,7 @@ public class DatumComboBoxen extends GUIKomponente
 
 		initYears();
 		initMonths();
+		
 		comboboxMonthObject = new JComboBox<>(possiblemonths);
 		comboboxMonthObject.setSelectedItem(comboMonthValue);
 		comboboxMonthObject.addActionListener(e -> updateDateComboBox());
@@ -93,6 +91,7 @@ public class DatumComboBoxen extends GUIKomponente
 
 		comboboxYearObject = new JComboBox<>(possibleyears);
 		comboboxYearObject.addActionListener(e -> updateDateComboBox());
+		
 		comboboxDayObject.setFont(textfont);
 		comboboxMonthObject.setFont(textfont);
 		comboboxYearObject.setFont(textfont);
@@ -204,21 +203,6 @@ public class DatumComboBoxen extends GUIKomponente
 	public void setDate(Calendar pCalendar)
 	{
 		comboboxDayObject.setSelectedItem(comboDayValue);
-	}
-
-	public String getDay()
-	{
-		return (String) comboboxDayObject.getSelectedItem();
-	}
-
-	public String getMonth()
-	{
-		return (String) comboboxMonthObject.getSelectedItem();
-	}
-
-	public String getYear()
-	{
-		return (String) comboboxYearObject.getSelectedItem();
 	}
 
 	public Calendar getCalendarItem()

@@ -122,7 +122,7 @@ public abstract class ChartPanel extends GUIKomponente
 		super();
 		
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.6));
+		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.6));
 		setPanelSize(size);
 
 		initFont(15);

@@ -68,7 +68,7 @@ public class RootGui extends Gui implements IsGui
 		elements = new ArrayList<>();
 
 		innerScrollPane = new JPanel();
-		innerScrollPane.setLayout(new WrapLayout());
+		innerScrollPane.setLayout(new WrapLayout(FlowLayout.LEFT));
 
 		scrollPane = new JScrollPane(innerScrollPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(null);

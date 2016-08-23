@@ -50,30 +50,30 @@ public class ListCombo extends GUIKomponente
 		this.labelValue = pValueLabel;
 
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
+		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.1));
 		setPanelSize(size);
 
 		this.setLayout(new BorderLayout());
 		checkLabelValue();
 		labelObject = new JLabel(labelValue);
 		labelObject.setFont(textfont);
-		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
+		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0), (int) (size.getWidth() * 0)));
 		this.add(labelObject, BorderLayout.WEST);
 
 		String[] keys = new String[pListKeys.size()];
 		keys = pListKeys.toArray(keys);
 		comboBoxObject = new JComboBox<>(keys);
+		initFont(17);
 		comboBoxObject.setFont(textfont);
 
-		comboBoxObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.04), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
+//		comboBoxObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 
 		this.add(comboBoxObject, BorderLayout.CENTER);
 
 		JPanel pnlAdd = new JPanel();
 		btnAddObject = new JButton("add");
-		btnAddObject.addActionListener(e -> pAddEditRemoveListener.add()
-
-		);
+		btnAddObject.addActionListener(e -> pAddEditRemoveListener.add());
+		initFont(17);
 		btnAddObject.setFont(textfont);
 		pnlAdd.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlAdd.add(btnAddObject);
@@ -82,6 +82,7 @@ public class ListCombo extends GUIKomponente
 		JPanel pnlEdit = new JPanel();
 		btnEditObject = new JButton("edit");
 		btnEditObject.addActionListener(e -> pAddEditRemoveListener.edit((String) comboBoxObject.getSelectedItem()));
+		initFont(17);
 		btnEditObject.setFont(textfont);
 		pnlEdit.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlEdit.add(btnEditObject);
@@ -90,6 +91,7 @@ public class ListCombo extends GUIKomponente
 		JPanel pnlRemove = new JPanel();
 		btnRemoveObject = new JButton("remove");
 		btnRemoveObject.addActionListener(e -> pAddEditRemoveListener.remove((String) comboBoxObject.getSelectedItem()));
+		initFont(17);
 		btnRemoveObject.setFont(textfont);
 		pnlRemove.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.0001)));
 		pnlRemove.add(btnRemoveObject);

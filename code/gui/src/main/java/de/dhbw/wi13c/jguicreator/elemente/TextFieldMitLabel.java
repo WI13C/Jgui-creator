@@ -1,6 +1,7 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class TextFieldMitLabel extends GUIKomponente
 		this.settings = pSettings;
 		this.textfieldData = textfieldData;
 		Dimension size = new Dimension(Integer.parseInt(settings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(settings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
+		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.1));
 		setPanelSize(size);
 
 		this.labelValue = pLabelValue;

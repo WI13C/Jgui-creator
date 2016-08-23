@@ -1,6 +1,7 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
@@ -34,7 +35,7 @@ public class SingleButton extends GUIKomponente
 	{
 		super();
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
+		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.09));
 		setPanelSize(size);
 
 		this.setLayout(new BorderLayout());
@@ -42,7 +43,9 @@ public class SingleButton extends GUIKomponente
 		JPanel pnlAccept = new JPanel();
 		btnObject = new JButton(pButtonText);
 		btnObject.addActionListener(eventListener);
+		initFont(20);
 		btnObject.setFont(textfont);
+		btnObject.setContentAreaFilled(false);
 		pnlAccept.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		pnlAccept.add(btnObject);
 		pnlAccept.setOpaque(false);

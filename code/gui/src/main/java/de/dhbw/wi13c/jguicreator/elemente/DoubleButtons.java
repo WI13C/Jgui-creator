@@ -1,9 +1,8 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -37,23 +36,14 @@ public class DoubleButtons extends GUIKomponente
 	{
 		super();
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
-		size.setSize((int) (size.getWidth() * 0.95), (int) (size.getHeight() * 0.08));
+		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.09));
 		setPanelSize(size);
 
 		this.setLayout(new BorderLayout());
 		JPanel pnlAbort = new JPanel();
 		btnAbortObject = new JButton("Abbrechen");
-		btnAbortObject.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(e.getActionCommand().equalsIgnoreCase("Abbrechen"))
-					pActionListener.canceled();
-
-			}
-		});
+		btnAbortObject.addActionListener(e -> pActionListener.canceled());
+		initFont(20);
 		btnAbortObject.setFont(textfont);
 		pnlAbort.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2)));
 		pnlAbort.add(btnAbortObject);
@@ -61,17 +51,7 @@ public class DoubleButtons extends GUIKomponente
 
 		JPanel pnlAccept = new JPanel();
 		btnAcceptObject = new JButton("Speichern");
-		btnAcceptObject.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(e.getActionCommand().equalsIgnoreCase("Speichern"))
-					pActionListener.saved();
-
-			}
-		});
+		btnAcceptObject.addActionListener(e -> pActionListener.saved());
 		btnAcceptObject.setFont(textfont);
 		pnlAccept.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.2), (int) (size.getHeight() * 0.01), (int) (size.getWidth() * 0.05)));
 		pnlAccept.add(btnAcceptObject);
@@ -94,7 +74,5 @@ public class DoubleButtons extends GUIKomponente
 	@Override
 	public void reflectData()
 	{
-		// TODO Auto-generated method stub
-		
 	}
 }

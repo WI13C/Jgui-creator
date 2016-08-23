@@ -28,7 +28,7 @@ public abstract class GUIKomponente extends JPanel
 		this.setOpaque(true);
 		this.setVisible(true);
 
-		initFont(15);
+		initFont(19);
 	}
 	
 	public abstract void reflectData();
@@ -40,7 +40,7 @@ public abstract class GUIKomponente extends JPanel
 	 */
 	protected void initFont(int pFontSize)
 	{
-		textfont = new Font("Monaco", Font.PLAIN, pFontSize);
+		textfont = new Font("Tahoma", Font.PLAIN, pFontSize);
 		this.repaint();
 	}
 

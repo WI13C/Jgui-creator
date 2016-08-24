@@ -145,7 +145,9 @@ public class PieChartPanel extends ChartPanel
 	private void drawSlice(Graphics g, double startAngle, double drawAngle)
 	{
 		// Negative Gradzahl --> Mit dem Uhrzeigersinn
-		g.fillArc((int) this.getChartLeftX(), (int) this.getChartTopY(), (int) this.diameter, (int) this.diameter, (int) Math.round(startAngle), (int) -Math.round(drawAngle));
+		double startX = (this.getWidth() - this.diameter) * 0.5;
+		double startY = (this.getHeight() - this.diameter) * 0.5;
+		g.fillArc((int) startX, (int) startY, (int) this.diameter, (int) this.diameter, (int) Math.round(startAngle), (int) -Math.round(drawAngle));
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 # Jgui-creator
 
-
+![GUI-Screenshot](screenshot.png?raw=true "Screenshot")
 
 # How to use
 

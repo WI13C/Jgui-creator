@@ -59,10 +59,11 @@ public class ListCombo extends GUIKomponente
 		labelObject.setFont(textfont);
 		labelObject.setBorder(BorderFactory.createEmptyBorder((int) (size.getHeight() * 0), (int) (size.getWidth() * 0.05), (int) (size.getHeight() * 0), (int) (size.getWidth() * 0)));
 		this.add(labelObject, BorderLayout.WEST);
-
+		
 		String[] keys = new String[pListKeys.size()];
 		keys = pListKeys.toArray(keys);
 		comboBoxObject = new JComboBox<>(keys);
+		
 		initFont(17);
 		comboBoxObject.setFont(textfont);
 
@@ -126,6 +127,14 @@ public class ListCombo extends GUIKomponente
 		return btnAddObject;
 	}
 
+	public void updateListValue(List<String> pListKeys){
+		comboBoxObject.removeAllItems();
+		for(String item : pListKeys)
+		{
+			comboBoxObject.addItem(item);
+		}
+	}
+	
 	/**
 	 * Methode die den Text des Labels um ":" erweitert.
 	 */

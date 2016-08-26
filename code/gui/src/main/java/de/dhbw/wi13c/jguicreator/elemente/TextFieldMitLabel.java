@@ -18,6 +18,7 @@ import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
+import de.dhbw.wi13c.jguicreator.data.validator.Validator;
 
 /**
  * Klasse für die GUIKomponente Textfeld mit beschreibendem Label. 
@@ -26,7 +27,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
  *
  */
 @SuppressWarnings("serial")
-public class TextFieldMitLabel extends GUIKomponente
+public class TextFieldMitLabel extends InputGuiKomponente
 {
 	private String labelValue;
 
@@ -139,5 +140,16 @@ public class TextFieldMitLabel extends GUIKomponente
 		//Copy that.
 		textfieldData.setValue(this.textfieldObject.getText());
 		System.out.println("F:" + this.textfieldObject.getText());
+	}
+
+	@Override
+	public boolean validateContent()
+	{
+		System.out.println("STOP");
+		for(Validator<?> v : textfieldData.getDatafield().getValidators()){
+			if(!v.validate())
+				System.out.println(v.getClass().getName()+ ": " + v.getMessage());
+		}
+		return false;
 	}
 }

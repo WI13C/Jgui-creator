@@ -27,7 +27,7 @@ import de.dhbw.wi13c.jguicreator.listener.AddEditRemoveListener;
  *
  */
 @SuppressWarnings("serial")
-public class ListCombo extends GUIKomponente
+public class ListCombo extends InputGuiKomponente
 {
 	private String labelValue;
 
@@ -204,6 +204,13 @@ public class ListCombo extends GUIKomponente
 	public void AddAddEditRemoveListener(AddEditRemoveListener listener)
 	{
 		this.listener.add(listener);
+	}
+
+	@Override
+	public boolean validateContent()
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

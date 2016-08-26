@@ -58,11 +58,4 @@ public class SingleButton extends GUIKomponente
 		return btnObject;
 	}
 
-	@Override
-	public void reflectData()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }

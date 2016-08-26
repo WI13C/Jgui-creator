@@ -27,10 +27,5 @@ public class ErrorPanel extends GUIKomponente
 		
 		this.setBackground(new Color(0xD14F42));
 	}
-	
-	@Override
-	public void reflectData()
-	{
-	}
 
 }

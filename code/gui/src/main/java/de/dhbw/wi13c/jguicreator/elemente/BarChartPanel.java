@@ -101,11 +101,4 @@ public class BarChartPanel extends ChartPanel
 		g.setColor(Color.lightGray);
 		drawYAxisSteps(g, (int) this.getChartLeftX(), (int) this.getChartTopY(), (int) this.getChartHeight());
 	}
-
-	@Override
-	public void reflectData()
-	{
-		// TODO Auto-generated method stub
-
-	}
 }

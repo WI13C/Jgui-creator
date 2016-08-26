@@ -37,6 +37,10 @@ public class Showcase
 
 		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte, einkommensZusammensetzung, einkommensEntwicklung);
 
+		System.out.println(aPerson.getGeburtsdatum().getTime());
+		aPerson.setGeburtsdatum(new Date(80, 3, 24));
+		System.out.println(aPerson.getGeburtsdatum().getTime());
+		System.out.println(new Date(-99999999999L));
 		// Dear students,
 		// this shut work in your Framework, while the class "GuiGenerator" is a
 		// class of you

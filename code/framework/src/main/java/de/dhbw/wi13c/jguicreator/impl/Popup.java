@@ -16,6 +16,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
+import de.dhbw.wi13c.jguicreator.elemente.InputGuiKomponente;
 import de.dhbw.wi13c.jguicreator.listener.ObjectSavedListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
@@ -32,6 +33,7 @@ public class Popup extends JDialog implements IsGui
 	private static final long serialVersionUID = 1L;
 
 	private Settings settings;
+
 	private List<ObjectSavedListener> listener;
 
 	private SwingVisitor swingVisitor;
@@ -132,16 +134,31 @@ public class Popup extends JDialog implements IsGui
 	@Override
 	public void save()
 	{
+		boolean valide = false;
 		for(GUIKomponente guiKomponente : elements)
 		{
-			guiKomponente.reflectData();
+			if(guiKomponente instanceof InputGuiKomponente){
+				((InputGuiKomponente) guiKomponente).validateContent();
+			}
 		}
-		for(ObjectSavedListener listener: listener){
-			listener.saved(domainObject);
+
+		if(valide)
+		{
+			for(GUIKomponente guiKomponente : elements)
+			{
+				if(guiKomponente instanceof InputGuiKomponente){
+					((InputGuiKomponente) guiKomponente).reflectData();
+				}
+			}
+			for(ObjectSavedListener listener : listener)
+			{
+				listener.saved(domainObject);
+			}
 		}
 	}
-	
-	public void addObjectSavedListener(ObjectSavedListener listener){
+
+	public void addObjectSavedListener(ObjectSavedListener listener)
+	{
 		this.listener.add(listener);
 	}
 }

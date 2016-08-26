@@ -25,7 +25,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
  *
  */
 @SuppressWarnings("serial")
-public class DatumComboBoxen extends GUIKomponente
+public class DatumComboBoxen extends InputGuiKomponente
 {
 	private String labelValue;
 
@@ -263,5 +263,12 @@ public class DatumComboBoxen extends GUIKomponente
 		}
 
 		return list;
+	}
+
+	@Override
+	public boolean validateContent()
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

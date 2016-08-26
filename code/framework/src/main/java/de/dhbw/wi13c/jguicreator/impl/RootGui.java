@@ -17,6 +17,8 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
+import de.dhbw.wi13c.jguicreator.elemente.InputGuiKomponente;
+import de.dhbw.wi13c.jguicreator.listener.ObjectSavedListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
@@ -172,9 +174,21 @@ public class RootGui extends Gui implements IsGui
 	@Override
 	public void save()
 	{
+
 		for(GUIKomponente guiKomponente : elements)
 		{
-			guiKomponente.reflectData();
+			if(guiKomponente instanceof InputGuiKomponente)
+			{
+				((InputGuiKomponente) guiKomponente).reflectData();
+			}
+		}
+		boolean valide = false;
+		for(GUIKomponente guiKomponente : elements)
+		{
+			if(guiKomponente instanceof InputGuiKomponente)
+			{
+				((InputGuiKomponente) guiKomponente).validateContent();
+			}
 		}
 
 		System.out.println("saved");

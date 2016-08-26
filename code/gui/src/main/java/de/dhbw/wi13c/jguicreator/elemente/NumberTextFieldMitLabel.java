@@ -30,7 +30,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
  *
  */
 @SuppressWarnings("serial")
-public class NumberTextFieldMitLabel extends GUIKomponente
+public class NumberTextFieldMitLabel extends InputGuiKomponente
 {
 	private String labelValue;
 
@@ -155,5 +155,12 @@ public class NumberTextFieldMitLabel extends GUIKomponente
 		}
 //		textfieldData.setValue((t. num);
 		System.out.println("F:" + this.textfieldObject.getText());
+	}
+
+	@Override
+	public boolean validateContent()
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -149,11 +149,4 @@ public class PieChartPanel extends ChartPanel
 		double startY = (this.getHeight() - this.diameter) * 0.5;
 		g.fillArc((int) startX, (int) startY, (int) this.diameter, (int) this.diameter, (int) Math.round(startAngle), (int) -Math.round(drawAngle));
 	}
-
-	@Override
-	public void reflectData()
-	{
-		// TODO Auto-generated method stub
-		// hm..., naja...		
-	}
 }

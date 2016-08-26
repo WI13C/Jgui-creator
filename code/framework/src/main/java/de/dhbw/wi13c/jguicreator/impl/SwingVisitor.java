@@ -5,15 +5,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
+import de.dhbw.wi13c.jguicreator.data.annotation.Id;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
 import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
@@ -42,16 +46,10 @@ public class SwingVisitor extends GuiVisitor
 {
 
 	private IsGui myGui;
-	
-	/**
-	 * Temp storage for keys belonging to the shown keys and the domain-object-dataset ...
-	 */
-	private Map<String, String> tempKeys;
 
 	public SwingVisitor(IsGui myGui)
 	{
 		this.myGui = myGui;
-		tempKeys = new HashMap<>();
 	}
 
 	@Override
@@ -144,13 +142,8 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(Dataset dataset)
 	{
-		System.out.println("Dataset: " + dataset.getName());
-
-		for(String key : dataset.getElements().keySet())
-		{
-			tempKeys.put(key, key);
-		}
-		ListCombo lc = new ListCombo(dataset.getName(), tempKeys.keySet(), dataset, myGui.getSettings());
+		System.out.println("Dataset: " + dataset.getName());dataset.getElements().keySet();
+		ListCombo lc = new ListCombo(dataset.getName(), dataset.getElements().keySet(), dataset, myGui.getSettings());
 		lc.AddAddEditRemoveListener(new AddEditRemoveListener()
 		{
 
@@ -159,9 +152,7 @@ public class SwingVisitor extends GuiVisitor
 			{
 				System.out.println("remove: " + key);
 				dataset.getElements().remove(key);
-				tempKeys.remove(key);
-				lc.updateListValue(tempKeys.keySet());
-				lc.reflectData(dataset);
+				lc.updateListValue(dataset.getElements().keySet());
 			}
 
 			@Override
@@ -169,10 +160,18 @@ public class SwingVisitor extends GuiVisitor
 			{
 				System.out.println("edit: " + key);
 				Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key));
-				
+
 				p.setVisible(true);
-				System.out.println("popup shown");
-				lc.updateListValue(tempKeys.keySet());
+
+				//Scanning for @Id Annotations to recreate the temp-datastructure
+				DomainObject dom = dataset.getElements().get(key);
+
+				Object o = dom.getDatafield().getInstance();
+				String parsedKey = getParsedKey(o);
+
+				DomainObject tmpDom = dataset.getElements().remove(key);
+				dataset.getElements().put(parsedKey, tmpDom);
+				lc.updateListValue(dataset.getElements().keySet());
 			}
 
 			@Override
@@ -220,15 +219,22 @@ public class SwingVisitor extends GuiVisitor
 					Popup p = new Popup(dom.getName(), myGui.getFrame(), dom);
 					p.addObjectSavedListener(new ObjectSavedListener()
 					{
-						
+
 						@Override
-						public void saved(DomainObject o)
+						public void saved(DomainObject dom)
 						{
-							//dirty, but works....
-							dataset.getElements().put("new", o);
+							//Scanning for @Id Annotations to recreate the temp-datastructure
+							Object o = dom.getDatafield().getInstance();
+							String parsedKey = getParsedKey(o);
+
+							dataset.getDatafield().getValue().add(dom);
+							dataset.getElements().put(parsedKey, dom);
+							lc.reflectData(dataset);
+							lc.updateListValue(dataset.getElements().keySet());
 						}
 					});
 					p.setVisible(true);
+
 				}
 			}
 		});
@@ -240,6 +246,35 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(NumberTextFieldData numberTextFieldData)
 	{
 		// TODO Auto-generated method stub
+
+	}
+
+	private String getParsedKey(Object o)
+	{
+
+		Object value = new Object();
+
+		for(Field subField : o.getClass().getDeclaredFields())
+		{
+			Id declaredIdAnnotation = subField.getDeclaredAnnotation(Id.class);
+			if(declaredIdAnnotation != null)
+			{
+				subField.setAccessible(true);
+
+				try
+				{
+					value = subField.get(o);
+
+				}
+				catch(IllegalArgumentException | IllegalAccessException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}
+		return value.toString();
 
 	}
 

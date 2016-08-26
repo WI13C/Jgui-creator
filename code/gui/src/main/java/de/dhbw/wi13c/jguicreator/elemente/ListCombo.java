@@ -45,6 +45,10 @@ public class ListCombo extends GUIKomponente
 
 	private Dataset dataset;
 
+	private Collection<String> s;
+
+	private Collection<String> listKeys;
+
 	/**
 	 * Konstruktor zur Erstellung der ListCombo-GUIKomponente. Größe wird anhand der Settings gesetzt.
 	 * 
@@ -56,6 +60,7 @@ public class ListCombo extends GUIKomponente
 	public ListCombo(String pValueLabel, Collection<String> pListKeys, Dataset dataset, Settings pSettings)
 	{
 		super();
+		this.listKeys = pListKeys;
 		this.dataset = dataset;
 		this.listener = new ArrayList<>();
 		this.labelValue = pValueLabel;
@@ -177,26 +182,23 @@ public class ListCombo extends GUIKomponente
 	public void reflectData()
 	{
 		List l = new ArrayList();
-		for(DomainObject d : dataset.getElements().values()){
-			for(UiElementData uid : d.getUiElementContainer().getElements()){
-				System.out.println("Attribut-Name: " + uid.getName() + " | " + uid.getValue());
-//				uid.setValue(uid.getValue());
-				
-			}
+		for(DomainObject d : dataset.getElements().values())
+		{
 			l.add(d.getUiElementContainer().getElements().get(0).getDatafield().getInstance());
 		}
 		dataset.setValue(l);
 		System.out.println(l);
 	}
-	
-	public void reflectData(Dataset dataset){
-		dataset.getDatafield().setValue(new ArrayList());
-		for(DomainObject d : dataset.getElements().values()){
-			for(UiElementData uid : d.getUiElementContainer().getElements()){
-				System.out.println("Attribut-Name: " + uid.getName() + " | " + uid.getValue());
-				uid.setValue(uid.getValue());
-			}
+
+	public void reflectData(Dataset dataset)
+	{
+		List l = new ArrayList();
+		for(DomainObject d : dataset.getElements().values())
+		{
+			l.add(d.getUiElementContainer().getElements().get(0).getDatafield().getInstance());
 		}
+		dataset.setValue(l);
+		System.out.println(l);
 	}
 
 	public void AddAddEditRemoveListener(AddEditRemoveListener listener)

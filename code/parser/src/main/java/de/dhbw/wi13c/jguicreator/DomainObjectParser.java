@@ -26,6 +26,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.NumberTextFieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.PieChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
+import de.dhbw.wi13c.jguicreator.data.uielements.Datafield.DatafieldType;
 import de.dhbw.wi13c.jguicreator.data.validator.NotNullValidator;
 import de.dhbw.wi13c.jguicreator.data.validator.PatternValidator;
 import de.dhbw.wi13c.jguicreator.data.validator.SizeValidator;
@@ -341,6 +342,7 @@ public class DomainObjectParser implements Parser
 		// + object.getClass().getSimpleName());
 
 		TextfieldData textfieldData = new TextfieldData();
+		textfieldData.getDatafield().setType(DatafieldType.TEXT);
 		return textfieldData;
 	}
 
@@ -348,7 +350,18 @@ public class DomainObjectParser implements Parser
 	{
 		// System.out.println("numbertextfield: " + field.getName() + " class: "
 		// + object.getClass().getSimpleName());
+		
 		NumberTextFieldData textfieldData = new NumberTextFieldData();
+		if(field.getType().equals(Integer.class))
+		{
+			textfieldData.getDatafield().setType(DatafieldType.INTEGER);
+		}
+		
+		if(field.getType().equals(Double.class))
+		{
+			textfieldData.getDatafield().setType(DatafieldType.DOUBLE);
+		}
+		
 		return textfieldData;
 	}
 

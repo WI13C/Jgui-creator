@@ -1,7 +1,6 @@
 package de.dhbw.wi13c.jguicreator;
 
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
-import de.dhbw.wi13c.jguicreator.listener.SaveListener;
 
 /**
  * 

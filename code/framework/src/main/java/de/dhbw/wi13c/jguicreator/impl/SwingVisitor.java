@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.dhbw.wi13c.jguicreator.DomainObjectParser;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
@@ -29,6 +30,7 @@ import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
 import de.dhbw.wi13c.jguicreator.listener.AddEditRemoveListener;
+import de.dhbw.wi13c.jguicreator.listener.ObjectSavedListener;
 
 /**
  * SwingVisitor is part of the visitor-pattern and decides which gui-element should get added to the gui.
@@ -213,8 +215,20 @@ public class SwingVisitor extends GuiVisitor
 
 				if(createdObject != null)
 				{
-					System.out.println("created object: " + createdObject.toString());
-					//TODO add object to collection, create new window etc.
+					DomainObjectParser dop = new DomainObjectParser();
+					DomainObject dom = dop.parseObject(createdObject);
+					Popup p = new Popup(dom.getName(), myGui.getFrame(), dom);
+					p.addObjectSavedListener(new ObjectSavedListener()
+					{
+						
+						@Override
+						public void saved(DomainObject o)
+						{
+							//dirty, but works....
+							dataset.getElements().put("new", o);
+						}
+					});
+					p.setVisible(true);
 				}
 			}
 		});

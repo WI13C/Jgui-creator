@@ -54,7 +54,7 @@ public class Showcase
 			public void saved(Person object)
 			{
 				System.out.println(object.toString());
-				
+
 			}
 		}, new DomainObjectParser());
 

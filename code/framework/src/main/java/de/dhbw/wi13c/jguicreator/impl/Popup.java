@@ -16,7 +16,9 @@ import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
+import de.dhbw.wi13c.jguicreator.listener.ObjectSavedListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
+import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
 /**
@@ -30,26 +32,31 @@ public class Popup extends JDialog implements IsGui
 	private static final long serialVersionUID = 1L;
 
 	private Settings settings;
+	private List<ObjectSavedListener> listener;
 
 	private SwingVisitor swingVisitor;
 
 	private List<GUIKomponente> elements;
 
+	private DomainObject domainObject;
+
 	public Popup(String title, JFrame parent, DomainObject domainObject)
 	{
 		super(parent, title, true);
-		init(domainObject);
+		this.domainObject = domainObject;
+		init();
 	}
 
 	/**
 	 * Init the gui layout.
 	 * @param domainObject
 	 */
-	private void init(DomainObject domainObject)
+	private void init()
 	{
 		settings = new Settings();
 		swingVisitor = new SwingVisitor(this);
 		elements = new ArrayList<>();
+		listener = new ArrayList<>();
 
 		setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
 
@@ -129,5 +136,12 @@ public class Popup extends JDialog implements IsGui
 		{
 			guiKomponente.reflectData();
 		}
+		for(ObjectSavedListener listener: listener){
+			listener.saved(domainObject);
+		}
+	}
+	
+	public void addObjectSavedListener(ObjectSavedListener listener){
+		this.listener.add(listener);
 	}
 }

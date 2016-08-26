@@ -2,18 +2,11 @@ package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
@@ -142,7 +135,8 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(Dataset dataset)
 	{
-		System.out.println("Dataset: " + dataset.getName());dataset.getElements().keySet();
+		System.out.println("Dataset: " + dataset.getName());
+		dataset.getElements().keySet();
 		ListCombo lc = new ListCombo(dataset.getName(), dataset.getElements().keySet(), dataset, myGui.getSettings());
 		lc.AddAddEditRemoveListener(new AddEditRemoveListener()
 		{

@@ -10,9 +10,11 @@ import de.dhbw.wi13c.jguicreator.DomainObjectParser;
 import de.dhbw.wi13c.jguicreator.impl.GuiCreator;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 
-public class Showcase {
+public class Showcase
+{
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 		Adresse adresse = new Adresse("Hauptstra�e", 30);
 		Kontakt privat = new Kontakt("privat", "0160123456", "ferdi@prov.de");
@@ -33,8 +35,7 @@ public class Showcase {
 		einkommensEntwicklung.put("2012", 33131.64);
 		einkommensEntwicklung.put("2013", 34123.12);
 
-		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte,
-				einkommensZusammensetzung, einkommensEntwicklung);
+		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte, einkommensZusammensetzung, einkommensEntwicklung);
 
 		// Dear students,
 		// this shut work in your Framework, while the class "GuiGenerator" is a
@@ -48,10 +49,12 @@ public class Showcase {
 
 		System.out.println(aPerson.toString());
 
-		GuiCreator.createView(aPerson, new SavedListener<Person>() {
-			public void saved(Person object) {
+		GuiCreator.createView(aPerson, new SavedListener<Person>()
+		{
+			public void saved(Person object)
+			{
 				System.out.println(object.toString());
-
+				
 			}
 		}, new DomainObjectParser());
 

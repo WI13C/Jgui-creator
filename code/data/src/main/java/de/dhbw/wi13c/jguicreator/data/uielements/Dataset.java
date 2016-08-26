@@ -3,6 +3,7 @@ package de.dhbw.wi13c.jguicreator.data.uielements;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
@@ -12,12 +13,12 @@ import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
  * @author Eric Schuh
  *
  */
-public class Dataset extends UiElementData<Map<String, DomainObject>>
+public class Dataset extends UiElementData<List<DomainObject>>
 {
 	private Map<String, DomainObject> elements;
-	
+
 	private Class<?> parameterizedType;
-	
+
 	public Dataset()
 	{
 		super();
@@ -41,8 +42,9 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 	{
 		this.elements = elements;
 	}
-	
-	public void addElement(String key, DomainObject element){
+
+	public void addElement(String key, DomainObject element)
+	{
 		this.elements.put(key, element);
 	}
 
@@ -52,24 +54,38 @@ public class Dataset extends UiElementData<Map<String, DomainObject>>
 		setDatafield(new Datafield<Map<String, DomainObject>>());
 	}
 
+	//	@Override
+	//	public Map<String, DomainObject> getValue()
+	//	{
+	//		return getDatafield().getValue();
+	//	}
+	//
+	//	@Override
+	//	public void setValue(Map<String, DomainObject> value)
+	//	{
+	//		getDatafield().setValue(value);
+	//	}
+
+	public Class<?> getParameterizedType()
+	{
+		return parameterizedType;
+	}
+
+	public void setParameterizedType(Class<?> parameterizedType)
+	{
+		this.parameterizedType = parameterizedType;
+	}
+
 	@Override
-	public Map<String, DomainObject> getValue()
+	public List<DomainObject> getValue()
 	{
 		return getDatafield().getValue();
 	}
 
 	@Override
-	public void setValue(Map<String, DomainObject> value)
+	public void setValue(List<DomainObject> value)
 	{
 		getDatafield().setValue(value);
-	}
-
-	public Class<?> getParameterizedType() {
-		return parameterizedType;
-	}
-
-	public void setParameterizedType(Class<?> parameterizedType) {
-		this.parameterizedType = parameterizedType;
 	}
 
 }

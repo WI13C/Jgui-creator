@@ -2,10 +2,13 @@ package de.dhbw.wi13c.jguicreator.impl;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +40,16 @@ public class SwingVisitor extends GuiVisitor
 {
 
 	private IsGui myGui;
+	
+	/**
+	 * Temp storage for keys belonging to the shown keys and the domain-object-dataset ...
+	 */
+	private Map<String, String> tempKeys;
 
 	public SwingVisitor(IsGui myGui)
 	{
 		this.myGui = myGui;
+		tempKeys = new HashMap<>();
 	}
 
 	@Override
@@ -135,18 +144,22 @@ public class SwingVisitor extends GuiVisitor
 	{
 		System.out.println("Dataset: " + dataset.getName());
 
-		List<String> keys = new ArrayList<>();
 		for(String key : dataset.getElements().keySet())
 		{
-			keys.add(key);
+			tempKeys.put(key, key);
 		}
-		ListCombo lc = new ListCombo(dataset.getName(), keys, new AddEditRemoveListener()
+		ListCombo lc = new ListCombo(dataset.getName(), tempKeys.keySet(), dataset, myGui.getSettings());
+		lc.AddAddEditRemoveListener(new AddEditRemoveListener()
 		{
 
 			@Override
 			public void remove(String key)
 			{
 				System.out.println("remove: " + key);
+				dataset.getElements().remove(key);
+				tempKeys.remove(key);
+				lc.updateListValue(tempKeys.keySet());
+				lc.reflectData(dataset);
 			}
 
 			@Override
@@ -154,7 +167,10 @@ public class SwingVisitor extends GuiVisitor
 			{
 				System.out.println("edit: " + key);
 				Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key));
+				
 				p.setVisible(true);
+				System.out.println("popup shown");
+				lc.updateListValue(tempKeys.keySet());
 			}
 
 			@Override
@@ -178,7 +194,7 @@ public class SwingVisitor extends GuiVisitor
 					Constructor constructor = dataset.getParameterizedType().getConstructors()[k];
 					int tries = 100;
 					int i = 0;
-					while(!foundOne && i<tries)
+					while(!foundOne && i < tries)
 					{
 						Object[] objects = new Object[i];
 						try
@@ -194,14 +210,14 @@ public class SwingVisitor extends GuiVisitor
 					}
 					k++;
 				}
-				
+
 				if(createdObject != null)
 				{
-					System.out.println("created object: "+createdObject.toString());
+					System.out.println("created object: " + createdObject.toString());
 					//TODO add object to collection, create new window etc.
 				}
 			}
-		}, myGui.getSettings());
+		});
 		myGui.addElement(lc);
 
 	}

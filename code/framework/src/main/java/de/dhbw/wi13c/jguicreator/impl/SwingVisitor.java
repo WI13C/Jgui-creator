@@ -23,6 +23,7 @@ import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
 import de.dhbw.wi13c.jguicreator.elemente.ListCombo;
+import de.dhbw.wi13c.jguicreator.elemente.NumberTextFieldMitLabel;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.SingleButton;
 import de.dhbw.wi13c.jguicreator.elemente.TextFieldMitLabel;
@@ -49,19 +50,11 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(TextfieldData textfield)
 	{
 
-		if(textfield.getDatafield() != null)
-		{
+		GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield);
 
-			GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield);
-
-			myGui.addElement(elem);
-			//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
-			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getValue());
-		}
-		else
-		{
-			//TODO nullpointer behandeln
-		}
+		myGui.addElement(elem);
+		//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
+		System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getValue());
 
 	}
 
@@ -239,10 +232,21 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(NumberTextFieldData numberTextFieldData)
 	{
-		// TODO Auto-generated method stub
+		GUIKomponente elem = new NumberTextFieldMitLabel(numberTextFieldData.getName(), numberTextFieldData.getValue(), numberTextFieldData.getDatafield().isReadOnly(), myGui.getSettings(), numberTextFieldData);
+
+		
+		myGui.addElement(elem);
+		//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
+		System.out.println("Textfield: " + numberTextFieldData.getName() + " | Value: " + numberTextFieldData.getValue());
 
 	}
 
+	/**
+	 * Returns the value of the {@link Id} annotated Object
+	 * @param o the Object wich should be annotated with {@link Id}
+	 * @return the parsed value of the {@link Id} annotated field
+	 * Credits to erix parser
+	 */
 	private String getParsedKey(Object o)
 	{
 

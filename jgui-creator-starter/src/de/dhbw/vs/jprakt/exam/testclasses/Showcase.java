@@ -16,7 +16,7 @@ public class Showcase
 	public static void main(String[] args)
 	{
 
-		Adresse adresse = new Adresse("Hauptstra�e", 30);
+		Adresse adresse = new Adresse("Hauptstrasse", 30);
 		Kontakt privat = new Kontakt("privat", "0160123456", "ferdi@prov.de");
 		Kontakt business = new Kontakt("business", "0173555666", "ferdi@busy.com");
 

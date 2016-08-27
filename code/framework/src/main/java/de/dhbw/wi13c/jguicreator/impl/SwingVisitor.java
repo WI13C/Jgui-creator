@@ -103,12 +103,13 @@ public class SwingVisitor extends GuiVisitor
 	{
 		System.out.println("ComboBox: " + comboBox.getName());
 
+		//Unsafe, typsicherheit wird im parser festgestellt
 		List<String> enums = new ArrayList<>();
-		for(Enum s : comboBox.getValue().getClass().getEnumConstants()){
+		for(Enum s : comboBox.getValue().getClass().getEnumConstants())
+		{
 			enums.add(s.toString());
 		}
 
-		//		List<T> list = Collections.list(comboBox.getDatafield().getInstance().getClass());
 		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), enums, comboBox.getDatafield().isReadOnly(), myGui.getSettings());
 		myGui.addElement(ecb);
 	}

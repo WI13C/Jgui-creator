@@ -77,11 +77,21 @@ public class TextFieldMitLabel extends InputGuiKomponente
 		BufferedImage myPicture;
 		try
 		{
-			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-			InputStream input = classLoader.getResourceAsStream("error_Icon.png");
-			myPicture = ImageIO.read(input);
-			ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
-			errorLabel = new JLabel(errorImg);
+//			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//			InputStream input = classLoader.getResourceAsStream("error_Icon.png");
+			InputStream input = getClass().getClassLoader().getResourceAsStream("error_Icon.png");
+			if(input != null)
+			{
+				myPicture = ImageIO.read(input);
+				ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
+			
+				errorLabel = new JLabel(errorImg);
+			}
+			else
+			{
+				errorLabel = new JLabel();
+			}
+			
 		}
 		catch(IOException e)
 		{

@@ -64,7 +64,7 @@ public class Showcase {
 3. navigate with your terminal into the project-folder
 4. run this command:
 ```
-java -jar sample.jar
+java -jar Showcase.jar
 ```
 
 # How to develope

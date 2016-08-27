@@ -182,14 +182,14 @@ public class RootGui extends Gui implements IsGui
 				((InputGuiKomponente) guiKomponente).reflectData();
 			}
 		}
-		boolean valide = false;
-		for(GUIKomponente guiKomponente : elements)
-		{
-			if(guiKomponente instanceof InputGuiKomponente)
-			{
-				((InputGuiKomponente) guiKomponente).validateContent();
-			}
-		}
+//		boolean valide = false;
+//		for(GUIKomponente guiKomponente : elements)
+//		{
+//			if(guiKomponente instanceof InputGuiKomponente)
+//			{
+//				((InputGuiKomponente) guiKomponente).validateContent();
+//			}
+//		}
 
 		System.out.println("saved");
 	}

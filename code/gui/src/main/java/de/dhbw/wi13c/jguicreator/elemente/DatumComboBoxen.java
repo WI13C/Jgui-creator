@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
+import de.dhbw.wi13c.jguicreator.data.uielements.DatepickerData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
 /**
@@ -51,6 +52,8 @@ public class DatumComboBoxen extends InputGuiKomponente
 
 	private String[] possibleyears;
 
+	private DatepickerData datepicker;
+
 	/**
 	 * Konstruktor zur Erstellung der DatumComboBoxen-GUIKomponente. Größe wird anhand der Settings gesetzt.
 	 * 
@@ -59,10 +62,11 @@ public class DatumComboBoxen extends InputGuiKomponente
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, Settings pSettings)
+	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, DatepickerData datepickerdata, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
+		this.datepicker = datepickerdata;
 		this.comboDayValue = Integer.toString(pDate.get(Calendar.DAY_OF_MONTH));
 		this.comboMonthValue = Integer.toString(pDate.get(Calendar.MONTH) + 1);
 		this.comboYearValue = Integer.toString(pDate.get(Calendar.YEAR));
@@ -207,13 +211,13 @@ public class DatumComboBoxen extends InputGuiKomponente
 
 	public Calendar getCalendarItem()
 	{
-		return new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), Integer.parseInt((String) comboboxMonthObject.getSelectedItem()), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
+		return new GregorianCalendar(Integer.parseInt((String) comboboxYearObject.getSelectedItem()), comboboxMonthObject.getSelectedIndex(), Integer.parseInt((String) comboboxDayObject.getSelectedItem()));
 	}
 
 	@Override
 	public void reflectData()
 	{
-
+		datepicker.setValue(getCalendarItem().getTime());
 	}
 
 	public enum Month

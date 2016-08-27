@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
 
@@ -82,7 +83,9 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(DatepickerData datepicker)
 	{
 		System.out.println("Date: " + datepicker.getName());
-		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), new GregorianCalendar(1994, 5, 5), false, myGui.getSettings());
+		Calendar tempCal = new GregorianCalendar();
+		tempCal.setTime(datepicker.getValue());
+		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), tempCal, false, datepicker, myGui.getSettings());
 		myGui.addElement(dcb);
 
 	}
@@ -234,7 +237,6 @@ public class SwingVisitor extends GuiVisitor
 	{
 		GUIKomponente elem = new NumberTextFieldMitLabel(numberTextFieldData.getName(), numberTextFieldData.getValue(), numberTextFieldData.getDatafield().isReadOnly(), myGui.getSettings(), numberTextFieldData);
 
-		
 		myGui.addElement(elem);
 		//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
 		System.out.println("Textfield: " + numberTextFieldData.getName() + " | Value: " + numberTextFieldData.getValue());

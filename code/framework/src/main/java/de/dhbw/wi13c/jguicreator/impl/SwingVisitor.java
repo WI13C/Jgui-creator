@@ -5,9 +5,16 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Map;
+
+import javax.jws.WebParam.Mode;
 
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
@@ -23,6 +30,7 @@ import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.BarChartPanel;
 import de.dhbw.wi13c.jguicreator.elemente.DatumComboBoxen;
+import de.dhbw.wi13c.jguicreator.elemente.EnumComboBoxen;
 import de.dhbw.wi13c.jguicreator.elemente.ListCombo;
 import de.dhbw.wi13c.jguicreator.elemente.NumberTextFieldMitLabel;
 import de.dhbw.wi13c.jguicreator.elemente.PieChartPanel;
@@ -94,37 +102,40 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(ComboBoxData comboBox)
 	{
 		System.out.println("ComboBox: " + comboBox.getName());
-		//		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), comboBox.getDatafield().getType(), false, myGui.getSettings());
+		Field f;
+		try
+		{
+			f = comboBox.getDatafield().getInstance().getClass().getField(comboBox.getName().toLowerCase());
+			
+		}
+		catch(NoSuchFieldException | SecurityException e)
+		{
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		//		List<T> list = Collections.list(comboBox.getDatafield().getInstance().getClass());
+		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), Arrays.asList("String A", "String B", "String C"), comboBox.getDatafield().isReadOnly(), myGui.getSettings());
+		myGui.addElement(ecb);
 	}
 
 	@Override
 	public void visit(BarChartData chart)
 	{
-		if(chart.getDatafield() != null)
-		{
-			BarChartPanel elem = new BarChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
-			myGui.addElement(elem);
-			System.out.println("Barchart: " + chart.getName());
-		}
-		else
-		{
-			//TODO nullpointer behandeln
-		}
+
+		BarChartPanel elem = new BarChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
+		myGui.addElement(elem);
+		System.out.println("Barchart: " + chart.getName());
+
 	}
 
 	@Override
 	public void visit(PieChartData chart)
 	{
-		if(chart.getDatafield() != null)
-		{
-			PieChartPanel elem = new PieChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
-			myGui.addElement(elem);
-			System.out.println("Piechart: " + chart.getName());
-		}
-		else
-		{
-			//TODO nullpointer behandeln
-		}
+
+		PieChartPanel elem = new PieChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
+		myGui.addElement(elem);
+		System.out.println("Piechart: " + chart.getName());
 
 	}
 
@@ -238,7 +249,6 @@ public class SwingVisitor extends GuiVisitor
 		GUIKomponente elem = new NumberTextFieldMitLabel(numberTextFieldData.getName(), numberTextFieldData.getValue(), numberTextFieldData.getDatafield().isReadOnly(), myGui.getSettings(), numberTextFieldData);
 		System.out.println("Type: " + numberTextFieldData.getDatafield().getType());
 		myGui.addElement(elem);
-		//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
 		System.out.println("NumberTextfield: " + numberTextFieldData.getName() + " | Value: " + numberTextFieldData.getValue());
 
 	}

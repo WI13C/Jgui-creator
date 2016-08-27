@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 import de.dhbw.wi13c.jguicreator.data.annotation.BarChart;
 import de.dhbw.wi13c.jguicreator.data.annotation.PieChart;
+import de.dhbw.wi13c.jguicreator.test.Person.Geschlecht;
 
 public class Person
 {
@@ -20,6 +21,8 @@ public class Person
 	@NotNull
 	@Size(min = 2)
 	private final String nachname;
+	
+	private Geschlecht geschlecht;
 
 	private Double durchschnittlichePromille;
 
@@ -126,6 +129,16 @@ public class Person
 	public String toString()
 	{
 		return "Person [vorname=" + vorname + ", nachname=" + nachname + ", anzahlKinder=" + anzahlKinder + ", Geburtsdatum=" + Geburtsdatum + ", adresse=" + adresse + ", kontaktDaten=" + kontaktDaten + ", einkommensZusammensetzung=" + einkommensZusammensetzung + ", einkommensEntwicklung=" + einkommensEntwicklung + " durchschnittliche promille: " + durchschnittlichePromille+"]";
+	}
+
+	public Geschlecht getGeschlecht()
+	{
+		return geschlecht;
+	}
+
+	public void setGeschlecht(Geschlecht geschlecht)
+	{
+		this.geschlecht = geschlecht;
 	}
 
 	// ..

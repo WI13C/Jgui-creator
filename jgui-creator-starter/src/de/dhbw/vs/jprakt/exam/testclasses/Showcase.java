@@ -9,6 +9,7 @@ import java.util.Map;
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
 import de.dhbw.wi13c.jguicreator.impl.GuiCreator;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
+import de.dhbw.wi13c.jguicreator.test.Person.Geschlecht;
 
 public class Showcase
 {
@@ -36,11 +37,8 @@ public class Showcase
 		einkommensEntwicklung.put("2013", 34123.12);
 
 		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte, einkommensZusammensetzung, einkommensEntwicklung, 1.23);
-
-		System.out.println(aPerson.getGeburtsdatum().getTime());
 		aPerson.setGeburtsdatum(new Date(80, 3, 24));
-		System.out.println(aPerson.getGeburtsdatum().getTime());
-		System.out.println(new Date(-99999999999L));
+		aPerson.setGeschlecht(Geschlecht.MANN);
 		// Dear students,
 		// this shut work in your Framework, while the class "GuiGenerator" is a
 		// class of you

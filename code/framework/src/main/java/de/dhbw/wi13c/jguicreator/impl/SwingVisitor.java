@@ -236,10 +236,10 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(NumberTextFieldData numberTextFieldData)
 	{
 		GUIKomponente elem = new NumberTextFieldMitLabel(numberTextFieldData.getName(), numberTextFieldData.getValue(), numberTextFieldData.getDatafield().isReadOnly(), myGui.getSettings(), numberTextFieldData);
-
+		System.out.println("Type: " + numberTextFieldData.getDatafield().getType());
 		myGui.addElement(elem);
 		//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
-		System.out.println("Textfield: " + numberTextFieldData.getName() + " | Value: " + numberTextFieldData.getValue());
+		System.out.println("NumberTextfield: " + numberTextFieldData.getName() + " | Value: " + numberTextFieldData.getValue());
 
 	}
 

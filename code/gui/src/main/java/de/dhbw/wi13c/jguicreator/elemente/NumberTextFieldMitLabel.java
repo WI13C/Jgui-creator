@@ -39,15 +39,14 @@ public class NumberTextFieldMitLabel extends InputGuiKomponente
 	private JTextField textfieldObject;
 
 	private JLabel labelObject;
-	
+
 	private JLabel errorLabel;
-	
+
 	private JPanel errorPanel;
 
 	private Settings settings;
 
 	private NumberTextFieldData textfieldData;
-
 
 	/**
 	 * Konstruktor zur Erstellung der TextFieldMitLabel-GUIKomponente. Größe wird anhand der Settings gesetzt.
@@ -86,7 +85,7 @@ public class NumberTextFieldMitLabel extends InputGuiKomponente
 			{
 				myPicture = ImageIO.read(input);
 				ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
-			
+
 				errorLabel = new JLabel(errorImg);
 			}
 			else
@@ -98,7 +97,7 @@ public class NumberTextFieldMitLabel extends InputGuiKomponente
 		{
 			errorLabel = new JLabel();
 		}
-		
+
 		errorLabel.setToolTipText("ERROR! Der Inhalt kann so nicht gespeichert werden!");
 		errorPanel.add(errorLabel);
 		errorPanel.setOpaque(false);
@@ -132,35 +131,34 @@ public class NumberTextFieldMitLabel extends InputGuiKomponente
 		textfieldObject.setText(pValue);
 	}
 
-	public void showError(String pErrorMsg){
+	public void showError(String pErrorMsg)
+	{
 		errorLabel.setToolTipText(pErrorMsg);
 		errorPanel.setVisible(true);
 	}
-	
-	public void hideError(){
+
+	public void hideError()
+	{
 		errorPanel.setVisible(false);
 	}
-	
+
 	@Override
 	public void reflectData()
 	{
-		//TODO FIXME Diese Klasse repräsentiert momentan die UiElementData Klasse namens TextfieldData.
-		//Diese repräsentiert Strings jedoch werden hier (TextFieldMitLabel) auch Number Typen verwendet.
-		//Diese Number Typen werden von NumberTextfieldData repräsentiert.
-		//=> anstatt nur TextFieldMitLabel zusätzlich noch NumberTextFieldMitLabel erstellen?
-		//Copy that.
-		
 		Number num = null;
-		try
+		switch(textfieldData.getDatafield().getType())
 		{
-			num = NumberFormat.getInstance().parse(textfieldObject.getText());
+			case INTEGER:
+				num = Integer.parseInt(textfieldObject.getText());
+				break;
+			case DOUBLE:
+				num = Double.parseDouble(textfieldObject.getText());
+				break;
+			default:
+				break;
 		}
-		catch(ParseException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		textfieldData.setValue((t. num);
+
+		textfieldData.setValue(num);
 		System.out.println("F:" + this.textfieldObject.getText());
 	}
 

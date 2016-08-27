@@ -35,7 +35,7 @@ public class Showcase
 		einkommensEntwicklung.put("2012", 33131.64);
 		einkommensEntwicklung.put("2013", 34123.12);
 
-		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte, einkommensZusammensetzung, einkommensEntwicklung);
+		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte, einkommensZusammensetzung, einkommensEntwicklung, 1.23);
 
 		System.out.println(aPerson.getGeburtsdatum().getTime());
 		aPerson.setGeburtsdatum(new Date(80, 3, 24));

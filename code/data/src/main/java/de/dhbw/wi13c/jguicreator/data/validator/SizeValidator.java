@@ -2,16 +2,21 @@ package de.dhbw.wi13c.jguicreator.data.validator;
 
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 
+/**
+ * SizeVlidator checks the given element for its size.
+ * @author Tobias Lang
+ *
+ */
 public class SizeValidator extends Validator<Object>
 {
 
-	UiElementData element;
+	UiElementData<?> element;
 
 	int min;
 
 	int max;
 
-	public SizeValidator(UiElementData element, int min, int max)
+	public SizeValidator(UiElementData<?> element, int min, int max)
 	{
 		this.element = element;
 		this.min = min;

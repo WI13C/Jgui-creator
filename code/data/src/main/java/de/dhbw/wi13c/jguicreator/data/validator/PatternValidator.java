@@ -1,19 +1,22 @@
 package de.dhbw.wi13c.jguicreator.data.validator;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.dhbw.wi13c.jguicreator.data.annotation.AnnotationMessage;
 import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
-
+/**
+ * PatternValidator checks the element against a given pattern (regex)
+ * @author Tobias Lang
+ *
+ */
 public class PatternValidator extends Validator<Pattern>
 {
 
-	UiElementData element;
+	UiElementData<?> element;
 
 	String pattern;
 
-	public PatternValidator(UiElementData element, String comparisonPattern)
+	public PatternValidator(UiElementData<?> element, String comparisonPattern)
 	{
 		this.element = element;
 		this.pattern = comparisonPattern;

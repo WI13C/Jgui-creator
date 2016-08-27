@@ -102,20 +102,14 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(ComboBoxData comboBox)
 	{
 		System.out.println("ComboBox: " + comboBox.getName());
-		Field f;
-		try
-		{
-			f = comboBox.getDatafield().getInstance().getClass().getField(comboBox.getName().toLowerCase());
-			
+
+		List<String> enums = new ArrayList<>();
+		for(Enum s : comboBox.getValue().getClass().getEnumConstants()){
+			enums.add(s.toString());
 		}
-		catch(NoSuchFieldException | SecurityException e)
-		{
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-		
+
 		//		List<T> list = Collections.list(comboBox.getDatafield().getInstance().getClass());
-		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), Arrays.asList("String A", "String B", "String C"), comboBox.getDatafield().isReadOnly(), myGui.getSettings());
+		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), enums, comboBox.getDatafield().isReadOnly(), myGui.getSettings());
 		myGui.addElement(ecb);
 	}
 

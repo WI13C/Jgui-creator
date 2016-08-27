@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
+import de.dhbw.wi13c.jguicreator.data.annotation.AnnotationMessage;
 import de.dhbw.wi13c.jguicreator.data.uielements.NumberTextFieldData;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
@@ -159,13 +160,43 @@ public class NumberTextFieldMitLabel extends InputGuiKomponente
 		}
 
 		textfieldData.setValue(num);
-		System.out.println("F:" + this.textfieldObject.getText());
 	}
 
 	@Override
 	public boolean validateContent()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		boolean validate = true;
+		String toCheck = this.textfieldObject.getText();
+		switch(textfieldData.getDatafield().getType())
+		{
+			case INTEGER:
+				try
+				{
+					Integer.parseInt(toCheck);
+				}
+				catch(NumberFormatException e)
+				{
+					validate = false;
+					showError(AnnotationMessage.INTEGER_VALIDATOR_MESSAGE);
+				}
+				break;
+			case DOUBLE:
+				try
+				{
+					Double d = Double.parseDouble(toCheck);
+					this.textfieldObject.setText(String.valueOf(d.doubleValue()));
+				}
+				catch(NumberFormatException e)
+				{
+					validate = false;
+					showError(AnnotationMessage.DOUBLE_VALIDATOR_MESSAGE);
+				}
+				break;
+			default:
+				break;
+		}
+		if(validate)
+			hideError();
+		return validate;
 	}
 }

@@ -272,7 +272,7 @@ public class DatumComboBoxen extends InputGuiKomponente
 	@Override
 	public boolean validateContent()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		// ich wuesste nicht was hier schief gehen kann bei comboboxen...
+		return true;
 	}
 }

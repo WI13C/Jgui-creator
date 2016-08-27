@@ -144,7 +144,6 @@ public class TextFieldMitLabel extends InputGuiKomponente
 	public void reflectData()
 	{
 		textfieldData.setValue(this.textfieldObject.getText());
-		System.out.println("F:" + this.textfieldObject.getText());
 	}
 
 	@Override

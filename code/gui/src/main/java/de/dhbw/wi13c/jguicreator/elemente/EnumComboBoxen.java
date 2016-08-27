@@ -93,6 +93,6 @@ public class EnumComboBoxen extends InputGuiKomponente
 	public boolean validateContent()
 	{
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }

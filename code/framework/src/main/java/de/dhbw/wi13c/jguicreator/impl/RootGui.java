@@ -106,8 +106,12 @@ public class RootGui extends Gui implements IsGui
 			@Override
 			public void saved()
 			{
-				save();
-				domainObjectSavedListener.saved(domainObject);
+				if(validate())
+				{
+					save();
+					domainObjectSavedListener.saved(domainObject);
+				}
+
 			}
 
 			@Override
@@ -175,6 +179,19 @@ public class RootGui extends Gui implements IsGui
 	public void save()
 	{
 
+		for(GUIKomponente guiKomponente : elements)
+		{
+			if(guiKomponente instanceof InputGuiKomponente)
+			{
+				((InputGuiKomponente) guiKomponente).reflectData();
+			}
+		}
+
+		System.out.println("saved");
+	}
+
+	private boolean validate()
+	{
 		boolean valide = true;
 		for(GUIKomponente guiKomponente : elements)
 		{
@@ -182,23 +199,12 @@ public class RootGui extends Gui implements IsGui
 			{
 				if(!((InputGuiKomponente) guiKomponente).validateContent())
 				{
+					System.out.println("not valide: " + guiKomponente.getClass());
 					valide = false;
 				}
 			}
 		}
-
-		if(valide)
-		{
-			for(GUIKomponente guiKomponente : elements)
-			{
-				if(guiKomponente instanceof InputGuiKomponente)
-				{
-					((InputGuiKomponente) guiKomponente).reflectData();
-				}
-			}
-		}
-
-		System.out.println("saved");
+		return valide;
 	}
 
 }

@@ -156,19 +156,22 @@ public class TextFieldMitLabel extends InputGuiKomponente
 		
 		//check
 		boolean val = true;
+		String msg = "";
 		for(Validator<?> v : textfieldData.getDatafield().getValidators())
 		{
 			v.setUiElementData(textfieldData);
 			if(!v.validate())
 			{
-				showError(v.getMessage());
-				System.out.println(v.getClass().getName() + ": " + v.getMessage());
+				
+				msg += v.getMessage() + "\n";
 				val = false;
 			}
 		}
 		
 		if(val){
 			hideError();
+		}else{
+			showError(msg);
 		}
 		
 		//rollback

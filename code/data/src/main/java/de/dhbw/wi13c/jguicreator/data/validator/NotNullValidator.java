@@ -10,12 +10,8 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
  */
 public class NotNullValidator extends Validator<Object>
 {
-
-	UiElementData<?> element;
-
 	public NotNullValidator(UiElementData<?> element)
 	{
-
 		this.element = element;
 	}
 

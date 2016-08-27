@@ -134,24 +134,31 @@ public class Popup extends JDialog implements IsGui
 	@Override
 	public void save()
 	{
-		//		boolean valide = false;
-		//		for(GUIKomponente guiKomponente : elements)
-		//		{
-		//			if(guiKomponente instanceof InputGuiKomponente){
-		//				((InputGuiKomponente) guiKomponente).validateContent();
-		//			}
-		//		}
-
+		boolean valide = true;
 		for(GUIKomponente guiKomponente : elements)
 		{
 			if(guiKomponente instanceof InputGuiKomponente)
 			{
-				((InputGuiKomponente) guiKomponente).reflectData();
+				if(!((InputGuiKomponente) guiKomponente).validateContent())
+				{
+					valide = false;
+				}
 			}
 		}
-		for(ObjectSavedListener listener : listener)
+
+		if(valide)
 		{
-			listener.saved(domainObject);
+			for(GUIKomponente guiKomponente : elements)
+			{
+				if(guiKomponente instanceof InputGuiKomponente)
+				{
+					((InputGuiKomponente) guiKomponente).reflectData();
+				}
+			}
+			for(ObjectSavedListener listener : listener)
+			{
+				listener.saved(domainObject);
+			}
 		}
 
 	}

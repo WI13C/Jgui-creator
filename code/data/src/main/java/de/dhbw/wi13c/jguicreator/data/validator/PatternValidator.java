@@ -11,9 +11,6 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
  */
 public class PatternValidator extends Validator<Pattern>
 {
-
-	UiElementData<?> element;
-
 	String pattern;
 
 	public PatternValidator(UiElementData<?> element, String comparisonPattern)

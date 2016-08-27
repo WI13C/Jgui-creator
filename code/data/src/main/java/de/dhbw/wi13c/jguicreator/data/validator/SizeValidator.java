@@ -9,9 +9,6 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
  */
 public class SizeValidator extends Validator<Object>
 {
-
-	UiElementData<?> element;
-
 	int min;
 
 	int max;

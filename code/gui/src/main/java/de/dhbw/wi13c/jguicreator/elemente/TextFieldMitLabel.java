@@ -1,7 +1,6 @@
 package de.dhbw.wi13c.jguicreator.elemente;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,7 +16,6 @@ import javax.swing.JTextField;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.uielements.TextfieldData;
-import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.data.validator.Validator;
 
 /**
@@ -36,9 +34,9 @@ public class TextFieldMitLabel extends InputGuiKomponente
 	private JTextField textfieldObject;
 
 	private JLabel labelObject;
-	
+
 	private JLabel errorLabel;
-	
+
 	private JPanel errorPanel;
 
 	private Settings settings;
@@ -77,27 +75,27 @@ public class TextFieldMitLabel extends InputGuiKomponente
 		BufferedImage myPicture;
 		try
 		{
-//			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-//			InputStream input = classLoader.getResourceAsStream("error_Icon.png");
+			//			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			//			InputStream input = classLoader.getResourceAsStream("error_Icon.png");
 			InputStream input = getClass().getClassLoader().getResourceAsStream("error_Icon.png");
 			if(input != null)
 			{
 				myPicture = ImageIO.read(input);
 				ImageIcon errorImg = new ImageIcon(myPicture.getScaledInstance((int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7), (int) (size.getHeight() * 0.7)));
-			
+
 				errorLabel = new JLabel(errorImg);
 			}
 			else
 			{
 				errorLabel = new JLabel();
 			}
-			
+
 		}
 		catch(IOException e)
 		{
 			errorLabel = new JLabel();
 		}
-		
+
 		errorLabel.setToolTipText("ERROR! Der Inhalt kann so nicht gespeichert werden!");
 		errorPanel.add(errorLabel);
 		errorPanel.setOpaque(false);
@@ -131,23 +129,20 @@ public class TextFieldMitLabel extends InputGuiKomponente
 		textfieldObject.setText(pValue);
 	}
 
-	public void showError(String pErrorMsg){
+	public void showError(String pErrorMsg)
+	{
 		errorLabel.setToolTipText(pErrorMsg);
 		errorPanel.setVisible(true);
 	}
-	
-	public void hideError(){
+
+	public void hideError()
+	{
 		errorPanel.setVisible(false);
 	}
-	
+
 	@Override
 	public void reflectData()
 	{
-		//TODO FIXME Diese Klasse repräsentiert momentan die UiElementData Klasse namens TextfieldData.
-		//Diese repräsentiert Strings jedoch werden hier (TextFieldMitLabel) auch Number Typen verwendet.
-		//Diese Number Typen werden von NumberTextfieldData repräsentiert.
-		//=> anstatt nur TextFieldMitLabel zusätzlich noch NumberTextFieldMitLabel erstellen?
-		//Copy that.
 		textfieldData.setValue(this.textfieldObject.getText());
 		System.out.println("F:" + this.textfieldObject.getText());
 	}
@@ -155,11 +150,30 @@ public class TextFieldMitLabel extends InputGuiKomponente
 	@Override
 	public boolean validateContent()
 	{
-		System.out.println("STOP");
-		for(Validator<?> v : textfieldData.getDatafield().getValidators()){
+		
+		//pre reflect
+		String oldValue = this.textfieldObject.getText();
+		reflectData();
+		
+		//check
+		boolean val = true;
+		for(Validator<?> v : textfieldData.getDatafield().getValidators())
+		{
+			v.setUiElementData(textfieldData);
 			if(!v.validate())
-				System.out.println(v.getClass().getName()+ ": " + v.getMessage());
+			{
+				showError(v.getMessage());
+				System.out.println(v.getClass().getName() + ": " + v.getMessage());
+				val = false;
+			}
 		}
-		return false;
+		
+		if(val){
+			hideError();
+		}
+		
+		//rollback
+		textfieldData.setValue(oldValue);
+		return val;
 	}
 }

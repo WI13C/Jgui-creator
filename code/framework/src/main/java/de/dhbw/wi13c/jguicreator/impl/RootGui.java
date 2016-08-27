@@ -175,21 +175,28 @@ public class RootGui extends Gui implements IsGui
 	public void save()
 	{
 
+		boolean valide = true;
 		for(GUIKomponente guiKomponente : elements)
 		{
 			if(guiKomponente instanceof InputGuiKomponente)
 			{
-				((InputGuiKomponente) guiKomponente).reflectData();
+				if(!((InputGuiKomponente) guiKomponente).validateContent())
+				{
+					valide = false;
+				}
 			}
 		}
-//		boolean valide = false;
-//		for(GUIKomponente guiKomponente : elements)
-//		{
-//			if(guiKomponente instanceof InputGuiKomponente)
-//			{
-//				((InputGuiKomponente) guiKomponente).validateContent();
-//			}
-//		}
+
+		if(valide)
+		{
+			for(GUIKomponente guiKomponente : elements)
+			{
+				if(guiKomponente instanceof InputGuiKomponente)
+				{
+					((InputGuiKomponente) guiKomponente).reflectData();
+				}
+			}
+		}
 
 		System.out.println("saved");
 	}

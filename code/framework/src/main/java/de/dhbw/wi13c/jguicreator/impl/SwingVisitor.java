@@ -99,18 +99,18 @@ public class SwingVisitor extends GuiVisitor
 	}
 
 	@Override
-	public void visit(ComboBoxData comboBox)
+	public void visit(ComboBoxData comboBoxData)
 	{
-		System.out.println("ComboBox: " + comboBox.getName());
+		System.out.println("ComboBox: " + comboBoxData.getName());
 
 		//Unsafe, typsicherheit wird im parser festgestellt
 		List<String> enums = new ArrayList<>();
-		for(Enum s : comboBox.getValue().getClass().getEnumConstants())
+		for(Enum s : comboBoxData.getValue().getClass().getEnumConstants())
 		{
 			enums.add(s.toString());
 		}
 
-		EnumComboBoxen ecb = new EnumComboBoxen(comboBox.getName(), enums, comboBox.getDatafield().isReadOnly(), myGui.getSettings());
+		EnumComboBoxen ecb = new EnumComboBoxen(comboBoxData.getName(), enums, comboBoxData.getValue().toString(), comboBoxData.getDatafield().isReadOnly(), comboBoxData, myGui.getSettings());
 		myGui.addElement(ecb);
 	}
 

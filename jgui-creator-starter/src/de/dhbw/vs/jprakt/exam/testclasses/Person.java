@@ -128,7 +128,7 @@ public class Person
 	@Override
 	public String toString()
 	{
-		return "Person [vorname=" + vorname + ", nachname=" + nachname + ", anzahlKinder=" + anzahlKinder + ", Geburtsdatum=" + Geburtsdatum + ", adresse=" + adresse + ", kontaktDaten=" + kontaktDaten + ", einkommensZusammensetzung=" + einkommensZusammensetzung + ", einkommensEntwicklung=" + einkommensEntwicklung + " durchschnittliche promille: " + durchschnittlichePromille+"]";
+		return "Person [vorname=" + vorname + ", nachname=" + nachname + ", anzahlKinder=" + anzahlKinder + ", Geburtsdatum=" + Geburtsdatum + ", adresse=" + adresse + ", kontaktDaten=" + kontaktDaten + ", einkommensZusammensetzung=" + einkommensZusammensetzung + ", einkommensEntwicklung=" + einkommensEntwicklung + " durchschnittliche promille: " + durchschnittlichePromille+" Geschlecht: " + geschlecht + "]";
 	}
 
 	public Geschlecht getGeschlecht()

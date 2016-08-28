@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
+import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
 /**
@@ -28,6 +29,8 @@ public class EnumComboBoxen extends InputGuiKomponente
 
 	private JLabel labelObject;
 
+	private ComboBoxData comboBoxData;
+
 	/**
 	 *  Konstruktor zur Erstellung der EnumComboBoxen-GUIKomponente. Größe wird anhand der Settings gesetzt.
 	 * 
@@ -36,10 +39,11 @@ public class EnumComboBoxen extends InputGuiKomponente
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public EnumComboBoxen(String pValueLabel, List<String> pListKeys, String pSelecetedKey, boolean pFinal, Settings pSettings)
+	public EnumComboBoxen(String pValueLabel, List<String> pListKeys, String pSelecetedKey, boolean pFinal, ComboBoxData comboBoxData, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
+		this.comboBoxData = comboBoxData;
 
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.1));
@@ -86,14 +90,16 @@ public class EnumComboBoxen extends InputGuiKomponente
 	@Override
 	public void reflectData()
 	{
-		// TODO Auto-generated method stub
-		
+		//Dirty workaround ....
+		Class<? extends Enum>e = comboBoxData.getValue().getClass().getEnumConstants()[0].getClass();
+		System.out.println(e.isEnum());
+		comboBoxData.setValue(Enum.valueOf(e, (String) comboboxObject.getSelectedItem()));
 	}
 
 	@Override
 	public boolean validateContent()
 	{
-		// TODO Auto-generated method stub
+		// Cannot be wrong, because only enum-items are choosable.
 		return true;
 	}
 }

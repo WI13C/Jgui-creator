@@ -38,7 +38,7 @@ public class Showcase
 
 		Person aPerson = new Person("Hans", "Maier", new Integer(3), new Date(1980, 3, 24), adresse, kontakte, einkommensZusammensetzung, einkommensEntwicklung, 1.23);
 		aPerson.setGeburtsdatum(new Date(80, 3, 24));
-		aPerson.setGeschlecht(Geschlecht.MANN);
+		aPerson.setGeschlecht(Geschlecht.FRAU);
 		// Dear students,
 		// this shut work in your Framework, while the class "GuiGenerator" is a
 		// class of you

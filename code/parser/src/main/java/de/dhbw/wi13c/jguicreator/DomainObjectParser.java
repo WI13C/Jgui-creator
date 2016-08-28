@@ -122,6 +122,10 @@ public class DomainObjectParser implements Parser
 			{
 				setupUiElementData(object, domainObject, field, uiElementData);
 			}
+			else
+			{
+				System.out.println("Warning: field "+field.getName()+" in class "+object.getClass().getName()+" was not parsed.");
+			}
 
 		}
 	}
@@ -433,9 +437,10 @@ public class DomainObjectParser implements Parser
 	private boolean isDomainObject(Field field)
 	{
 		// System.out.println("------- " +field.getType().getName());
+		boolean isArray = field.getType().isArray();
 		boolean isJavaStandard = field.getType().getName().startsWith("java") || field.getType().getName().startsWith("sun") || field.getType().getName().startsWith("[B");
 		boolean isPrimitive = field.getType().isPrimitive();
-		return !isJavaStandard && !isPrimitive;
+		return !isJavaStandard && !isPrimitive && !isArray;
 	}
 
 	private boolean isPieChart(Annotation annotation)

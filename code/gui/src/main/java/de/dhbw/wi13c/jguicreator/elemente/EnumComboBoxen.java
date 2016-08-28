@@ -36,7 +36,7 @@ public class EnumComboBoxen extends InputGuiKomponente
 	 * @param pFinal
 	 * @param pSettings
 	 */
-	public EnumComboBoxen(String pValueLabel, List<String> pListKeys, boolean pFinal, Settings pSettings)
+	public EnumComboBoxen(String pValueLabel, List<String> pListKeys, String pSelecetedKey, boolean pFinal, Settings pSettings)
 	{
 		super();
 		this.labelValue = pValueLabel;
@@ -63,6 +63,7 @@ public class EnumComboBoxen extends InputGuiKomponente
 		{
 			comboboxObject.setEnabled(false);
 		}
+		comboboxObject.setSelectedItem(pSelecetedKey);
 		this.add(comboboxObject, BorderLayout.EAST);
 	}
 

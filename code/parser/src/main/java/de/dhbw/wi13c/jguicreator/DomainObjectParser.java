@@ -399,12 +399,12 @@ public class DomainObjectParser implements Parser
 		// + object.getClass().getSimpleName());
 		
 		NumberTextFieldData textfieldData = new NumberTextFieldData();
-		if(field.getType().equals(Integer.class))
+		if(field.getType().equals(Integer.class) || field.getType().equals(int.class))
 		{
 			textfieldData.getDatafield().setType(DatafieldType.INTEGER);
 		}
 		
-		if(field.getType().equals(Double.class))
+		if(field.getType().equals(Double.class) || field.getType().equals(double.class))
 		{
 			textfieldData.getDatafield().setType(DatafieldType.DOUBLE);
 		}
@@ -510,9 +510,12 @@ public class DomainObjectParser implements Parser
 		// boolean instance = c.isInstance(Number.class);
 		Class<?> classNumber = Number.class;
 		Class<?> classField = field.getType();
-		boolean instance = classNumber.isAssignableFrom(classField);
+		boolean assignablePrimitiveInt = int.class.isAssignableFrom(classField);
+		boolean assignablePrimitiveDouble = double.class.isAssignableFrom(classField);
+		boolean assignableNumber = classNumber.isAssignableFrom(classField);
+		boolean isAssignable = assignableNumber || assignablePrimitiveInt || assignablePrimitiveDouble;
 		boolean isClass = field.getName().equals("clazz");
-		return instance && !isClass;
+		return isAssignable && !isClass;
 	}
 
 }

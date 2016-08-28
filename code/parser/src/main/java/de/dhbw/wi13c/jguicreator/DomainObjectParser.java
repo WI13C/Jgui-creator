@@ -61,72 +61,92 @@ public class DomainObjectParser implements Parser
 		{
 			boolean foundOne = false;
 			UiElementData uiElementData = null;
-
-			if(!foundOne && isStringTextField(field))
+			
+			boolean fieldAccessible = true;
+			
+			try
 			{
-				uiElementData = createStringTextfield(field, object);
-				foundOne = true;
-			}
-
-			if(!foundOne && isNumberTextField(field))
-			{
-				uiElementData = createNumberTextfield(field, object);
-				foundOne = true;
-			}
-
-			if(!foundOne && isDate(field))
-			{
-				uiElementData = createDatePickerData(field, object);
-				foundOne = true;
-			}
-
-			if(!foundOne && isComboBox(field))
-			{
-				uiElementData = createComboBox(field, object);
-				foundOne = true;
-
-			}
-
-			if(!foundOne && !isDataset(field) && !isDomainObject(field))
-			{
-				for(Annotation annotation : field.getAnnotations())
+				if(object != null && field != null)
 				{
-					if(isBarChart(annotation))
-					{
-						uiElementData = createBarChartData(field, object);
-						foundOne = true;
-					}
-
-					if(isPieChart(annotation))
-					{
-						uiElementData = createPieChartData(field, object);
-						foundOne = true;
-					}
+					field.setAccessible(true);
+					Object o = field.get(object);
 				}
-
-			}
-
-			if(!foundOne && isDataset(field))
+				
+			} catch (IllegalArgumentException | IllegalAccessException e)
 			{
-				uiElementData = createDataset(field, object);
-				foundOne = true;
+				System.out.println("Error: field "+field.getName()+" is not accessible."
+						+ "The code 'field.get(object)' failed");
+				fieldAccessible = false;
 			}
-
-			if(!foundOne && isDomainObject(field))
+			
+			if(fieldAccessible)
 			{
-				uiElementData = createDomainObject(field, object);
-				foundOne = true;
+	
+				if(!foundOne && isStringTextField(field))
+				{
+					uiElementData = createStringTextfield(field, object);
+					foundOne = true;
+				}
+	
+				if(!foundOne && isNumberTextField(field))
+				{
+					uiElementData = createNumberTextfield(field, object);
+					foundOne = true;
+				}
+	
+				if(!foundOne && isDate(field))
+				{
+					uiElementData = createDatePickerData(field, object);
+					foundOne = true;
+				}
+	
+				if(!foundOne && isComboBox(field))
+				{
+					uiElementData = createComboBox(field, object);
+					foundOne = true;
+	
+				}
+	
+				if(!foundOne && !isDataset(field) && !isDomainObject(field))
+				{
+					for(Annotation annotation : field.getAnnotations())
+					{
+						if(isBarChart(annotation))
+						{
+							uiElementData = createBarChartData(field, object);
+							foundOne = true;
+						}
+	
+						if(isPieChart(annotation))
+						{
+							uiElementData = createPieChartData(field, object);
+							foundOne = true;
+						}
+					}
+	
+				}
+	
+				if(!foundOne && isDataset(field))
+				{
+					uiElementData = createDataset(field, object);
+					foundOne = true;
+				}
+	
+				if(!foundOne && isDomainObject(field))
+				{
+					uiElementData = createDomainObject(field, object);
+					foundOne = true;
+				}
+	
+				if(uiElementData != null)
+				{
+					setupUiElementData(object, domainObject, field, uiElementData);
+				}
+				else
+				{
+					System.out.println("Warning: field "+field.getName()+" in class "+object.getClass().getName()+" was not parsed.");
+				}
 			}
-
-			if(uiElementData != null)
-			{
-				setupUiElementData(object, domainObject, field, uiElementData);
-			}
-			else
-			{
-				System.out.println("Warning: field "+field.getName()+" in class "+object.getClass().getName()+" was not parsed.");
-			}
-
 		}
 	}
 
@@ -167,7 +187,12 @@ public class DomainObjectParser implements Parser
 			// }
 			// else
 			// {
-			uiElementData.getDatafield().setValue(field.get(object));
+			
+			if(object != null)
+			{
+				uiElementData.getDatafield().setValue(field.get(object));	
+			}
+			
 			// }
 
 		}
@@ -262,52 +287,60 @@ public class DomainObjectParser implements Parser
 			//If this is not the case, an error of some sort has to be created to avoid instantiation exceptions
 	        ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
 	        Class<?> collectionClass = (Class<?>) collectionType.getActualTypeArguments()[0];
-	        dataset.setParameterizedType(collectionClass); 
-
-			int i = 0;
-			for(Object colObj : collection)
-			{
-				i++;
-				try
+	        dataset.setParameterizedType(collectionClass);
+	        
+	        if(collection == null)
+	        {
+	        	System.out.println("Error: collection "+field.getName()+" was not initialized.");
+	        	return null;
+	        }
+	        else
+	        {
+				int i = 0;
+				for(Object colObj : collection)
 				{
-					Object obj = colObj;
-					// System.out.println("------------ " +
-					// obj.getClass().getTypeName());
-					DomainObject domainobject = new DomainObject();
-					
-					
-					parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
-
-					String key = "";
-					for(Field subField : obj.getClass().getDeclaredFields())
+					i++;
+					try
 					{
-						Id declaredIdAnnotation = subField.getDeclaredAnnotation(Id.class);
-						if(declaredIdAnnotation != null)
+						Object obj = colObj;
+						// System.out.println("------------ " +
+						// obj.getClass().getTypeName());
+						DomainObject domainobject = new DomainObject();
+						
+						
+						parseFields(obj.getClass().getDeclaredFields(), obj, domainobject);
+	
+						String key = "";
+						for(Field subField : obj.getClass().getDeclaredFields())
 						{
-							subField.setAccessible(true);
-							Object value = subField.get(colObj);
-							key = value.toString();
+							Id declaredIdAnnotation = subField.getDeclaredAnnotation(Id.class);
+							if(declaredIdAnnotation != null)
+							{
+								subField.setAccessible(true);
+								Object value = subField.get(colObj);
+								key = value.toString();
+							}
 						}
+	
+						if(key.equals(""))
+						{
+							dataset.getElements().put(i + "", domainobject);
+						}
+						else
+						{
+							dataset.getElements().put(key, domainobject);
+						}
+	
 					}
-
-					if(key.equals(""))
+					catch(SecurityException | IllegalArgumentException e)
 					{
-						dataset.getElements().put(i + "", domainobject);
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					else
-					{
-						dataset.getElements().put(key, domainobject);
-					}
-
 				}
-				catch(SecurityException | IllegalArgumentException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 
-			field.setAccessible(isAccessible);
+				field.setAccessible(isAccessible);
+	        }
 		}
 		catch(IllegalArgumentException | IllegalAccessException e)
 		{
@@ -322,14 +355,24 @@ public class DomainObjectParser implements Parser
 	{
 		// System.out.println("domainObj: " + field.getName());
 		DomainObject domainObject = new DomainObject();
+		
+
 
 		try
 		{
 			field.setAccessible(true);
 			Object obj = field.get(object);
-			// System.out.println("------------ " +
-			// obj.getClass().getTypeName());
-			parseFields(field.getType().getDeclaredFields(), obj, domainObject);
+			
+			if(obj == null)
+			{
+				System.out.println("Error: domain object in field "+field.getName()+" was not initialized.");
+				return null;
+			}
+			else
+			{
+				parseFields(field.getType().getDeclaredFields(), obj, domainObject);
+			}
+			
 		}
 		catch(SecurityException | IllegalArgumentException | IllegalAccessException e)
 		{

@@ -87,13 +87,17 @@ public class EnumComboBoxen extends InputGuiKomponente
 		return (String) comboboxObject.getSelectedItem();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void reflectData()
 	{
 		//Dirty workaround ....
-		Class<? extends Enum>e = comboBoxData.getValue().getClass().getEnumConstants()[0].getClass();
-		System.out.println(e.isEnum());
-		comboBoxData.setValue(Enum.valueOf(e, (String) comboboxObject.getSelectedItem()));
+		if(comboBoxData.getValue().getClass().getEnumConstants().length > 0)
+		{
+			Class<? extends Enum> e = comboBoxData.getValue().getClass().getEnumConstants()[0].getClass();
+			System.out.println(e.isEnum());
+			comboBoxData.setValue(Enum.valueOf(e, (String) comboboxObject.getSelectedItem()));
+		}
 	}
 
 	@Override

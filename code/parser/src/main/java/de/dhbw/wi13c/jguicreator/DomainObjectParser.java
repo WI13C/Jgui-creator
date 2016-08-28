@@ -37,7 +37,6 @@ public class DomainObjectParser implements Parser
 {
 
 	/**
-	 * @return incomplete {@link DomainObject} for now
 	 * @author Eric
 	 */
 	@Override
@@ -56,6 +55,12 @@ public class DomainObjectParser implements Parser
 		return rootObject;
 	}
 
+	/**
+	 * Parses the fields of the class of the object parameter. 
+	 * @param fields the fields which are parsed 
+	 * @param object the instance which is parsed
+	 * @param domainObject the DomainObject which the parsed data is added to
+	 */
 	private void parseFields(Field[] fields, Object object, DomainObject domainObject)
 	{
 		for(Field field : fields)
@@ -172,6 +177,23 @@ public class DomainObjectParser implements Parser
 		}
 	}
 
+	/**
+	 * Initializes a UiElementData instance by:
+	 * <ol>
+	 * <li>Adding it to its DomainObject</li>
+	 * <li>Setting its name</li>
+	 * <li>Setting the read only flag</li>
+	 * <li>Setting the 'field', 'value' and 'instance' values to its Datafield</li>
+	 * <li>Parsing and setting the validators</li>
+	 * </ol>
+	 * 
+	 * @param object
+	 * @param domainObject
+	 * @param field
+	 * @param uiElementData
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
 	private void setupUiElementData(Object object, DomainObject domainObject, Field field, UiElementData uiElementData) throws IllegalArgumentException, IllegalAccessException
 	{
 		domainObject.getUiElementContainer().addElement(uiElementData);
@@ -221,6 +243,13 @@ public class DomainObjectParser implements Parser
 		uiElementData.getDatafield().setValidators(validators);
 	}
 
+	/**
+	 * If a FieldLabel annotation was set to the field, 
+	 * the name of that annotation is set as name for the UiElement instance.
+	 * If that annotation was not set, a name is made up from the name of the field.   
+	 * @param field
+	 * @param uiElementData
+	 */
 	private void setUiElementName(Field field, UiElementData uiElementData)
 	{
 		FieldLabel declaredAnnotation = field.getDeclaredAnnotation(FieldLabel.class);
@@ -453,8 +482,6 @@ public class DomainObjectParser implements Parser
 
 	private boolean isNumberTextField(Field field)
 	{
-		// Class<?> c = field.getType();
-		// boolean instance = c.isInstance(Number.class);
 		Class<?> classNumber = Number.class;
 		Class<?> classField = field.getType();
 		boolean assignablePrimitiveInt = int.class.isAssignableFrom(classField);

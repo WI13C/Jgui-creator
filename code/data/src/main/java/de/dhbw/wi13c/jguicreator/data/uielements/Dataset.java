@@ -22,8 +22,6 @@ public class Dataset extends UiElementData<List<DomainObject>>
 	public Dataset()
 	{
 		super();
-		//TODO muss hier statt einer ArrayList der Typ einer Collection erzeugt werden,
-		//der im geparsten Objekt für den Datensatz verwendet wird?
 		elements = new HashMap<String, DomainObject>();
 	}
 

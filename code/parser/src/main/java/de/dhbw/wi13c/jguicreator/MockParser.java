@@ -23,6 +23,7 @@ import de.dhbw.wi13c.jguicreator.test.Person;
 /**
  * Is used to generate mock data
  * @author Eric Schuh
+ * @deprecated mock data is incomplete, use DomainObjectParser instead
  *
  */
 public class MockParser implements Parser

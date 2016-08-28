@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.dhbw.wi13c.jguicreator.data.ErrorHandler;
 import de.dhbw.wi13c.jguicreator.data.validator.Validator;
 
 public class Datafield<T>
@@ -90,13 +91,13 @@ public class Datafield<T>
 		}
 		catch(IllegalArgumentException e)
 		{
-			//			 TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorHandler.showError("illegal argument provided for field "+field.getName()
+					+ "Unable to transfer value from GUI to provided model.");
 		}
 		catch(IllegalAccessException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorHandler.showError("field "+field.getName()+" is not accessible."
+					+ "Unable to transfer value from GUI to provided model.");
 		}
 	}
 

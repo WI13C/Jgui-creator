@@ -155,19 +155,25 @@ public class SwingVisitor extends GuiVisitor
 			public void edit(String key)
 			{
 				System.out.println("edit: " + key);
-				Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key));
+				try
+				{
+					Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key));
+					p.setVisible(true);
+					//Scanning for @Id Annotations to recreate the temp-datastructure
+					DomainObject dom = dataset.getElements().get(key);
 
-				p.setVisible(true);
+					Object o = dom.getDatafield().getInstance();
+					String parsedKey = getParsedKey(o);
 
-				//Scanning for @Id Annotations to recreate the temp-datastructure
-				DomainObject dom = dataset.getElements().get(key);
+					DomainObject tmpDom = dataset.getElements().remove(key);
+					dataset.getElements().put(parsedKey, tmpDom);
+					lc.updateListValue(dataset.getElements().keySet());
+				}
+				catch(Exception e)
+				{
 
-				Object o = dom.getDatafield().getInstance();
-				String parsedKey = getParsedKey(o);
+				}
 
-				DomainObject tmpDom = dataset.getElements().remove(key);
-				dataset.getElements().put(parsedKey, tmpDom);
-				lc.updateListValue(dataset.getElements().keySet());
 			}
 
 			@Override

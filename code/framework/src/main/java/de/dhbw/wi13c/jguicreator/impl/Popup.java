@@ -91,8 +91,6 @@ public class Popup extends JDialog implements IsGui
 			public void saved()
 			{
 				save();
-				System.out.println("saved");
-
 			}
 
 			@Override

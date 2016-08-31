@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+
 import de.dhbw.wi13c.jguicreator.Gui;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
@@ -62,7 +64,7 @@ public class RootGui extends Gui implements IsGui
 	 * 
 	 * @param domainObject
 	 */
-	public void init(DomainObject domainObject)
+	private void init(DomainObject domainObject)
 	{
 		settings = new Settings();
 		swingVisitor = new SwingVisitor(this);
@@ -108,7 +110,7 @@ public class RootGui extends Gui implements IsGui
 				{
 					save();
 					domainObjectSavedListener.saved(domainObject);
-					System.exit(0);
+					mainFrame.dispose();
 				}
 
 			}
@@ -118,7 +120,7 @@ public class RootGui extends Gui implements IsGui
 			{
 				if(JOptionPane.showConfirmDialog(mainFrame, "Das Schließen des Fensters führt zum Datenverlust!\nTrotzdem schließen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
 				{
-					System.exit(0);
+					mainFrame.dispose();
 				}
 
 			}
@@ -139,7 +141,7 @@ public class RootGui extends Gui implements IsGui
 			{
 				if(JOptionPane.showConfirmDialog(mainFrame, "Das Schließen des Fensters führt zum Datenverlust!\nTrotzdem schließen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
 				{
-					System.exit(0);
+					mainFrame.dispose();
 				}
 			}
 		});
@@ -162,11 +164,6 @@ public class RootGui extends Gui implements IsGui
 	public Settings getSettings()
 	{
 		return settings;
-	}
-
-	public void setSettings(Settings settings)
-	{
-		this.settings = settings;
 	}
 
 	public JFrame getFrame()
@@ -197,7 +194,6 @@ public class RootGui extends Gui implements IsGui
 			{
 				if(!((InputGuiKomponente) guiKomponente).validateContent())
 				{
-					System.out.println("not valide: " + guiKomponente.getClass());
 					valide = false;
 				}
 			}

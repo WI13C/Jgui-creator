@@ -35,11 +35,4 @@ public class PatternValidator extends Validator<Pattern>
 
 	}
 
-	@Override
-	public int compareTo(Validator<Pattern> o)
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

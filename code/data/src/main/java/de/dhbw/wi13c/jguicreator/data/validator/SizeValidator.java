@@ -61,11 +61,4 @@ public class SizeValidator extends Validator<Object>
 		return returnString;
 	}
 
-	@Override
-	public int compareTo(Validator<Object> o)
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

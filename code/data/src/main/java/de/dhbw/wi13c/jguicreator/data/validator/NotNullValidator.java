@@ -31,11 +31,4 @@ public class NotNullValidator extends Validator<Object>
 		return AnnotationMessage.NOTNULL_VALIDATOR_MESSAGE;
 	}
 
-	@Override
-	public int compareTo(Validator<Object> o)
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

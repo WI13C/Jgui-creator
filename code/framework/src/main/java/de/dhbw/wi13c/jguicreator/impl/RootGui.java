@@ -110,7 +110,10 @@ public class RootGui extends Gui implements IsGui
 				{
 					save();
 					domainObjectSavedListener.saved(domainObject);
-					mainFrame.dispose();
+					if(JOptionPane.showConfirmDialog(mainFrame, "Die Daten wurden erfolgreich gespeichert. Fenster jetzt schließen?", "Schließen!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+					{
+						mainFrame.dispose();
+					}
 				}
 
 			}

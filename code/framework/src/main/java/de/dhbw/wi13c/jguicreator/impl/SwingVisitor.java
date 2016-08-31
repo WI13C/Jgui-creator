@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
-import de.dhbw.wi13c.jguicreator.data.ErrorHandler;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.annotation.Id;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
@@ -156,7 +155,6 @@ public class SwingVisitor extends GuiVisitor
 				}
 				catch(Exception e)
 				{
-					ErrorHandler.showError("An empty Object cannot be edited.");
 				}
 
 			}

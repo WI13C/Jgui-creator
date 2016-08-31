@@ -97,7 +97,6 @@ public class Popup extends JDialog implements IsGui
 			public void canceled()
 			{
 				dispose();
-
 			}
 		}, getSettings());
 		add(scrollPane);

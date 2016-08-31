@@ -16,8 +16,6 @@ import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.uielements.Dataset;
 import de.dhbw.wi13c.jguicreator.data.uielements.DomainObject;
-import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
-import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.listener.AddEditRemoveListener;
 
 /**
@@ -187,7 +185,6 @@ public class ListCombo extends InputGuiKomponente
 			l.add(d.getUiElementContainer().getElements().get(0).getDatafield().getInstance());
 		}
 		dataset.setValue(l);
-		System.out.println(l);
 	}
 
 	public void reflectData(Dataset dataset)
@@ -198,7 +195,6 @@ public class ListCombo extends InputGuiKomponente
 			l.add(d.getUiElementContainer().getElements().get(0).getDatafield().getInstance());
 		}
 		dataset.setValue(l);
-		System.out.println(l);
 	}
 
 	public void AddAddEditRemoveListener(AddEditRemoveListener listener)

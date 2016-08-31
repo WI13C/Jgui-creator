@@ -19,7 +19,6 @@ import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.elemente.InputGuiKomponente;
 import de.dhbw.wi13c.jguicreator.listener.ObjectSavedListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
-import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
 
 /**
@@ -63,12 +62,13 @@ public class Popup extends JDialog implements IsGui
 		setSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)), Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT))));
 
 		JPanel innerScrollPane = new JPanel();
-		innerScrollPane.setLayout(new WrapLayout());
+		innerScrollPane.setLayout(new WrapLayout(FlowLayout.LEFT));
 
 		JScrollPane scrollPane = new JScrollPane(innerScrollPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(null);
 		scrollPane.setPreferredSize(new Dimension(Integer.valueOf(settings.getSetting(Setting.WINDOWWIDTH)) - 30, Integer.valueOf(settings.getSetting(Setting.WINDOWHEIGHT)) - 30));
 
+		setResizable(false);
 		setLayout(new FlowLayout());
 		for(UiElementData<?> elementData : domainObject.getUiElementContainer().getElements())
 		{

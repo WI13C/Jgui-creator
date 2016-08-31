@@ -1,5 +1,10 @@
 package de.dhbw.wi13c.jguicreator.util;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
@@ -8,7 +13,11 @@ import javax.swing.SwingUtilities;
  */
 public class WrapLayout extends FlowLayout
 {
-	private Dimension preferredLayoutSize;
+
+	/**
+	 * svuid
+	 */
+	private static final long serialVersionUID = 2519288830308395963L;
 
 	/**
 	* Constructs a new <code>WrapLayout</code> with a left

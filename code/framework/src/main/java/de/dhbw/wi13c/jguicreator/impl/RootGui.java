@@ -18,7 +18,6 @@ import de.dhbw.wi13c.jguicreator.data.uielements.UiElementData;
 import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 import de.dhbw.wi13c.jguicreator.elemente.DoubleButtons;
 import de.dhbw.wi13c.jguicreator.elemente.InputGuiKomponente;
-import de.dhbw.wi13c.jguicreator.listener.ObjectSavedListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedCanceledListener;
 import de.dhbw.wi13c.jguicreator.listener.SavedListener;
 import de.dhbw.wi13c.jguicreator.util.WrapLayout;
@@ -81,7 +80,6 @@ public class RootGui extends Gui implements IsGui
 		for(UiElementData<?> elementData : domainObject.getUiElementContainer().getElements())
 		{
 			elementData.accept(swingVisitor);
-			// System.out.println(elementData.getDatafield().getValue());
 		}
 
 		show();
@@ -110,6 +108,7 @@ public class RootGui extends Gui implements IsGui
 				{
 					save();
 					domainObjectSavedListener.saved(domainObject);
+					System.exit(0);
 				}
 
 			}
@@ -187,7 +186,6 @@ public class RootGui extends Gui implements IsGui
 			}
 		}
 
-		System.out.println("saved");
 	}
 
 	private boolean validate()

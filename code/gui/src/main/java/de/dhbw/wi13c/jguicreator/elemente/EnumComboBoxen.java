@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import de.dhbw.wi13c.jguicreator.Settings;
 import de.dhbw.wi13c.jguicreator.Settings.Setting;
 import de.dhbw.wi13c.jguicreator.data.uielements.ComboBoxData;
-import de.dhbw.wi13c.jguicreator.data.util.GUIKomponente;
 
 /**
  * Klasse für die GUIKomponente ComboBox zur Darstellung von Enumerationen mit beschreibendem Label.
@@ -95,7 +94,6 @@ public class EnumComboBoxen extends InputGuiKomponente
 		if(comboBoxData.getValue().getClass().getEnumConstants().length > 0)
 		{
 			Class<? extends Enum> e = comboBoxData.getValue().getClass().getEnumConstants()[0].getClass();
-			System.out.println(e.isEnum());
 			comboBoxData.setValue(Enum.valueOf(e, (String) comboboxObject.getSelectedItem()));
 		}
 	}

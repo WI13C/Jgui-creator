@@ -6,17 +6,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
-import javax.jws.WebParam.Mode;
-
 import de.dhbw.wi13c.jguicreator.DomainObjectParser;
+import de.dhbw.wi13c.jguicreator.data.ErrorHandler;
 import de.dhbw.wi13c.jguicreator.data.GuiVisitor;
 import de.dhbw.wi13c.jguicreator.data.annotation.Id;
 import de.dhbw.wi13c.jguicreator.data.uielements.BarChartData;
@@ -60,10 +56,7 @@ public class SwingVisitor extends GuiVisitor
 	{
 
 		GUIKomponente elem = new TextFieldMitLabel(textfield.getName(), (String) textfield.getValue(), textfield.getDatafield().isReadOnly(), myGui.getSettings(), textfield);
-
 		myGui.addElement(elem);
-		//			System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getDatafield().getValue().toString());
-		System.out.println("Textfield: " + textfield.getName() + " | Value: " + textfield.getValue());
 
 	}
 
@@ -83,14 +76,12 @@ public class SwingVisitor extends GuiVisitor
 			}
 		}, myGui.getSettings());
 		myGui.addElement(sb);
-		System.out.println("Abhängiges Object: " + dependentObject.getName());
 
 	}
 
 	@Override
 	public void visit(DatepickerData datepicker)
 	{
-		System.out.println("Date: " + datepicker.getName());
 		Calendar tempCal = new GregorianCalendar();
 		tempCal.setTime(datepicker.getValue());
 		DatumComboBoxen dcb = new DatumComboBoxen(datepicker.getName(), tempCal, false, datepicker, myGui.getSettings());
@@ -101,11 +92,9 @@ public class SwingVisitor extends GuiVisitor
 	@Override
 	public void visit(ComboBoxData comboBoxData)
 	{
-		System.out.println("ComboBox: " + comboBoxData.getName());
-
 		//Unsafe, typsicherheit wird im parser festgestellt
 		List<String> enums = new ArrayList<>();
-		for(Enum s : comboBoxData.getValue().getClass().getEnumConstants())
+		for(Enum<?> s : comboBoxData.getValue().getClass().getEnumConstants())
 		{
 			enums.add(s.toString());
 		}
@@ -120,7 +109,6 @@ public class SwingVisitor extends GuiVisitor
 
 		BarChartPanel elem = new BarChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 		myGui.addElement(elem);
-		System.out.println("Barchart: " + chart.getName());
 
 	}
 
@@ -130,14 +118,12 @@ public class SwingVisitor extends GuiVisitor
 
 		PieChartPanel elem = new PieChartPanel(chart.getName(), (Map<String, ? extends Number>) chart.getDatafield().getValue(), myGui.getSettings());
 		myGui.addElement(elem);
-		System.out.println("Piechart: " + chart.getName());
 
 	}
 
 	@Override
 	public void visit(Dataset dataset)
 	{
-		System.out.println("Dataset: " + dataset.getName());
 		dataset.getElements().keySet();
 		ListCombo lc = new ListCombo(dataset.getName(), dataset.getElements().keySet(), dataset, myGui.getSettings());
 		lc.AddAddEditRemoveListener(new AddEditRemoveListener()
@@ -154,7 +140,6 @@ public class SwingVisitor extends GuiVisitor
 			@Override
 			public void edit(String key)
 			{
-				System.out.println("edit: " + key);
 				try
 				{
 					Popup p = new Popup(key, myGui.getFrame(), dataset.getElements().get(key));
@@ -171,7 +156,7 @@ public class SwingVisitor extends GuiVisitor
 				}
 				catch(Exception e)
 				{
-
+					ErrorHandler.showError("An empty Object cannot be edited.");
 				}
 
 			}
@@ -179,8 +164,6 @@ public class SwingVisitor extends GuiVisitor
 			@Override
 			public void add()
 			{
-				System.out.println("add");
-
 				/*
 				 * I have yet to write a piece of code that i am more proud of than the following one.
 				 * This code uses the first constructor which has the matching number of arguments
@@ -194,7 +177,7 @@ public class SwingVisitor extends GuiVisitor
 				Object createdObject = null;
 				while(!foundOne && k < dataset.getParameterizedType().getConstructors().length)
 				{
-					Constructor constructor = dataset.getParameterizedType().getConstructors()[k];
+					Constructor<?> constructor = dataset.getParameterizedType().getConstructors()[k];
 					int tries = 100;
 					int i = 0;
 					while(!foundOne && i < tries)
@@ -248,9 +231,7 @@ public class SwingVisitor extends GuiVisitor
 	public void visit(NumberTextFieldData numberTextFieldData)
 	{
 		GUIKomponente elem = new NumberTextFieldMitLabel(numberTextFieldData.getName(), numberTextFieldData.getValue(), numberTextFieldData.getDatafield().isReadOnly(), myGui.getSettings(), numberTextFieldData);
-		System.out.println("Type: " + numberTextFieldData.getDatafield().getType());
 		myGui.addElement(elem);
-		System.out.println("NumberTextfield: " + numberTextFieldData.getName() + " | Value: " + numberTextFieldData.getValue());
 
 	}
 

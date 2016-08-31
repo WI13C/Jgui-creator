@@ -65,18 +65,19 @@ public class DatumComboBoxen extends InputGuiKomponente
 	public DatumComboBoxen(String pValueLabel, Calendar pDate, boolean pFinal, DatepickerData datepickerdata, Settings pSettings)
 	{
 		super();
+		initYears();
+		initMonths();
 		this.labelValue = pValueLabel;
 		this.datepicker = datepickerdata;
 		this.comboDayValue = Integer.toString(pDate.get(Calendar.DAY_OF_MONTH));
-		this.comboMonthValue = Integer.toString(pDate.get(Calendar.MONTH) + 1);
+		this.comboMonthValue = possiblemonths[pDate.get(Calendar.MONTH)];
 		this.comboYearValue = Integer.toString(pDate.get(Calendar.YEAR));
 
 		Dimension size = new Dimension(Integer.parseInt(pSettings.getSetting(Setting.WINDOWWIDTH)), Integer.parseInt(pSettings.getSetting(Setting.WINDOWHEIGHT)));
 		size.setSize((int) (size.getWidth() * 0.92), (int) (size.getHeight() * 0.1));
 		setPanelSize(size);
 
-		initYears();
-		initMonths();
+		
 		
 		comboboxMonthObject = new JComboBox<>(possiblemonths);
 		comboboxMonthObject.setSelectedItem(comboMonthValue);
